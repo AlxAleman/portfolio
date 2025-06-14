@@ -1,0 +1,44 @@
+{
+  "role": "FULLSTACK DEVELOPER",
+  "typewriter": ["I'm ALEX", "ENGINEER", "GAMER", "MUSICIAN", "WEB DEVELOPER", "TECH LOVER"],
+  "about": "ABOUT",
+  "experience": "EXPERIENCE",
+  "skills": "SKILLS",
+  "projects": "PROJECTS",
+  "resume": "Resume",
+  "download_cv": "Download Resume",
+  "resume_en": "Resume (EN)",
+  "resume_es": "Resume (ES)",
+    "about_title": "About Me",
+  "about_text": "Passionate Fullstack Developer with strong experience in building scalable web applications, a love for problem-solving, and a knack for creative solutions. Always eager to learn new technologies and work on challenging projects.",
+  "experience_title": "Experience",
+  "experience_items": [
+    {
+      "role": "Web Developer",
+      "company": "Awesome Company",
+      "period": "2022 - Present",
+      "desc": "Working on React and Node.js projects, building dashboards and integrating APIs."
+    }
+  ],
+  "skills_title": "Skills",
+  "skills_list": [
+    "JavaScript",
+    "React",
+    "Node.js",
+    "HTML5",
+    "CSS3",
+    "Git",
+    "SQL"
+  ],
+  "projects_title": "Projects",
+  "projects_list": [
+    {
+      "name": "My Portfolio",
+      "desc": "A modern, animated, responsive developer portfolio built with React and Tailwind CSS."
+    }
+  ],
+  "professional": "Professional",
+  "skillset": "Skillset",
+  "tools": "Tools",
+  "iuse": "I use"  
+}

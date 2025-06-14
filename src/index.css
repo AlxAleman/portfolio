@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: #f4f4f4;  /* Fondo claro por defecto */
+  color: #232323;        /* Texto oscuro por defecto */
+}
+
+/* Dark mode: usa .dark body para Tailwind 3+ */
+.dark body {
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+/* Títulos y textos importantes usan JetBrains Mono */
+h1, h2, h3, h4, h5, h6, .font-mono, code, pre {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Menlo', 'monospace';
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.animate-fade-in {
+  animation: fadeIn 0.18s cubic-bezier(.4,0,.2,1);
+}
+
+html {
+  scroll-behavior: smooth;
+}

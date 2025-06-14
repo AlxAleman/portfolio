@@ -1,0 +1,44 @@
+{
+  "role": "DESARROLLADOR FULLSTACK",
+  "typewriter": ["Soy Alex", "INGENIERO", "GAMER", "MÚSICO", "DESARROLLADOR WEB", "AMANTE DE LA TECNOLOGIA"],
+  "about": "SOBRE MÍ",
+  "experience": "EXPERIENCIA",
+  "skills": "HABILIDADES",
+  "projects": "PROYECTOS",
+  "resume": "Currículum",
+  "download_cv": "Descargar Currículum",
+  "resume_en": "CV (EN)",
+  "resume_es": "CV (ES)",
+  "about_title": "Sobre Mí",
+  "about_text": "Desarrollador Fullstack apasionado con sólida experiencia en la creación de aplicaciones web escalables, amante de la resolución de problemas y con facilidad para soluciones creativas. Siempre dispuesto a aprender nuevas tecnologías y trabajar en proyectos desafiantes.",
+  "experience_title": "Experiencia",
+  "experience_items": [
+    {
+      "role": "Desarrollador Web",
+      "company": "Empresa Genial",
+      "period": "2022 - Actualidad",
+      "desc": "Trabajando en proyectos con React y Node.js, construyendo dashboards e integrando APIs."
+    }
+  ],
+  "skills_title": "Habilidades",
+  "skills_list": [
+    "JavaScript",
+    "React",
+    "Node.js",
+    "HTML5",
+    "CSS3",
+    "Git",
+    "SQL"
+  ],
+  "projects_title": "Proyectos",
+  "projects_list": [
+    {
+      "name": "Mi Portafolio",
+      "desc": "Portafolio de desarrollador moderno, animado y responsivo, construido con React y Tailwind CSS."
+    }
+  ],
+  "professional": "Profesional",
+  "skillset": "Habilidades",
+  "tools": "Herramientas",
+  "iuse": "que uso"
+}
