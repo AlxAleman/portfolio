@@ -1,26 +1,49 @@
 import { useEffect, useState } from "react";
 import { FaGithub, FaLinkedin, FaShareAlt } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdMenu, MdClose } from "react-icons/md";
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
 import ResumeDropdown from "./ResumeDropdown";
+import LanguageSelector from "./LanguageSelector";
+import ContactModal from "./ContactModal";
 import useScrollSpy from "../hooks/useScrollSpy";
 
-// Define las secciones y su color (usa los nombres de tailwind.config.js)
+// Define las secciones y su color (coinciden con los títulos de las secciones)
 const sectionMenu = [
-  { id: "about", label: "about", color: "text-vscodeblue border-vscodeblue" },
-  { id: "experience", label: "experience", color: "text-vscodegreen border-vscodegreen" },
-  { id: "skills", label: "skills", color: "text-vscodemagenta border-vscodemagenta" },
-  { id: "projects", label: "projects", color: "text-vscodeyellow border-vscodeyellow" },
-  { id: "resume", label: "resume", color: "text-vscodeyellow border-vscodeyellow" }, // Resume igual que projects, puedes cambiar
+  { id: "about", label: "navigation.about", color: "text-cyan-600 dark:text-cyan-400 border-cyan-600 dark:border-cyan-400" },
+  { id: "experience", label: "navigation.experience", color: "text-green-600 dark:text-green-400 border-green-600 dark:border-green-400" },
+  { id: "skills", label: "navigation.skills", color: "text-purple-600 dark:text-purple-400 border-purple-600 dark:border-purple-400" },
+  { id: "projects", label: "navigation.projects", color: "text-yellow-600 dark:text-yellow-400 border-yellow-600 dark:border-yellow-400" },
+  { id: "resume", label: "navigation.resume", color: "text-gray-600 dark:text-gray-400 border-gray-600 dark:border-gray-400" },
 ];
 
 export default function Navbar({ dark, setDark }) {
   const { t } = useTranslation();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Función para obtener las clases de hover específicas (colores más oscuros en light mode)
+  const getHoverClasses = (id) => {
+    switch(id) {
+      case 'about':
+        return 'hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-cyan-600 dark:hover:border-cyan-400';
+      case 'experience':
+        return 'hover:text-green-600 dark:hover:text-green-400 hover:border-green-600 dark:hover:border-green-400';
+      case 'skills':
+        return 'hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-600 dark:hover:border-purple-400';
+      case 'projects':
+        return 'hover:text-yellow-600 dark:hover:text-yellow-400 hover:border-yellow-600 dark:hover:border-yellow-400';
+      case 'resume':
+        return 'hover:text-gray-600 dark:hover:text-gray-400 hover:border-gray-600 dark:hover:border-gray-400';
+      default:
+        return 'hover:text-gray-600 dark:hover:text-gray-400 hover:border-gray-600 dark:hover:border-gray-400';
+    }
+  };
 
   // Scrollspy: cuál sección está activa
   const sectionIds = sectionMenu.map((item) => item.id);
-  const activeId = useScrollSpy(sectionIds, 120); // Ajusta offset si tu hero es alto
+  const activeId = useScrollSpy(sectionIds, 120);
 
   // Blur al hacer scroll
   const [scrolled, setScrolled] = useState(false);
@@ -30,34 +53,52 @@ export default function Navbar({ dark, setDark }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Cerrar menú móvil cuando se hace click en un enlace
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Cerrar menú móvil cuando cambia el tamaño de pantalla
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
         ${scrolled
-          ? "backdrop-blur-md bg-white/80 dark:bg-neutral-900/80 border-b border-neutral-200 dark:border-neutral-800 shadow-lg"
+          ? "navbar-glass shadow-light-lg"
           : "bg-transparent border-b border-transparent"}
       `}
     >
-      <div className="flex justify-between items-center px-6 sm:px-12 py-3 relative">
-        {/* Izquierda: iconos redes */}
-        <div className="flex gap-5 items-center">
+      <div className="flex justify-between items-center px-4 sm:px-6 lg:px-12 py-3 relative">
+        {/* Izquierda: iconos redes - Ocultos en móvil */}
+        <div className="hidden sm:flex gap-3 lg:gap-5 items-center">
           <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer">
-            <FaGithub size={26} className="text-neutral-900 dark:text-white" />
+            <FaGithub size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
           </a>
           <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin size={26} className="text-neutral-900 dark:text-white" />
+            <FaLinkedin size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
           </a>
-          <FaShareAlt size={26} className="text-neutral-900 dark:text-white" />
+          <FaShareAlt size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200 cursor-pointer" />
         </div>
 
-        {/* Menú central */}
-        <div className="hidden md:flex gap-8 text-lg font-medium absolute left-1/2 -translate-x-1/2">
+        {/* Logo/Nombre en móvil */}
+        <div className="flex sm:hidden items-center">
+          <span className="text-lg font-bold text-gray-800 dark:text-white">Alex</span>
+        </div>
+
+        {/* Menú central - Desktop */}
+        <div className="hidden md:flex gap-6 lg:gap-8 text-base lg:text-lg font-medium absolute left-1/2 -translate-x-1/2">
           {activeId && sectionMenu.map((item) =>
-            item.label === "resume" ? (
-              // ResumeDropdown solo en navbar
-              <ResumeDropdown key={item.id}
-                active={activeId === item.id}
-              />
+            item.label === "navigation.resume" ? (
+              <ResumeDropdown key={item.id} active={activeId === item.id} />
             ) : (
               <a
                 key={item.id}
@@ -68,8 +109,7 @@ export default function Navbar({ dark, setDark }) {
                   ${
                     activeId === item.id
                       ? `${item.color} border-current font-bold`
-                      : "text-vstextsoft dark:text-gray-400 hover:" +
-                        item.color.split(" ")[0] + " hover:border-current"
+                      : `text-gray-600 dark:text-gray-400 ${getHoverClasses(item.id)}`
                   }
                 `}
               >
@@ -79,31 +119,140 @@ export default function Navbar({ dark, setDark }) {
           )}
         </div>
 
-        {/* Derecha: contacto, idioma, dark/light */}
-        <div className="flex gap-3 items-center">
-          <a
-            href="mailto:tu@email.com"
-            className="flex items-center gap-2 font-medium text-neutral-900 dark:text-white hover:underline"
+        {/* Derecha: contacto, idioma, dark/light - Desktop */}
+        <div className="hidden sm:flex gap-2 lg:gap-3 items-center">
+          <button
+            onClick={() => setIsContactModalOpen(true)}
+            className="btn-ghost flex items-center gap-2 font-medium px-3 py-1.5 rounded-lg transition-all duration-200"
           >
-            <MdEmail />{t("contact")}
-          </a>
-          {/* Cambia esto por tu selector de idioma si lo tienes */}
-          <span className="text-neutral-900 dark:text-white">
-            🌐
-          </span>
+            <MdEmail className="text-lg" />
+            <span className="hidden lg:inline">{t('contactButton')}</span>
+          </button>
+          
+          <LanguageSelector />
+          
           <button
             onClick={() => setDark(!dark)}
-            className="p-2 rounded-full border border-current transition-colors"
+            className="p-2.5 rounded-lg border border-light hover:border-light-medium hover-soft transition-all duration-200"
             aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
           >
             {dark ? (
-              <FiSun size={22} className="text-white" />
+              <FiSun size={20} className="text-yellow-400" />
             ) : (
-              <FiMoon size={22} className="text-black" />
+              <FiMoon size={20} className="text-gray-600" />
+            )}
+          </button>
+        </div>
+
+        {/* Controles móviles - derecha */}
+        <div className="flex sm:hidden gap-2 items-center">
+          <button
+            onClick={() => setDark(!dark)}
+            className="p-2 rounded-lg border border-light hover-soft transition-colors"
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {dark ? (
+              <FiSun size={18} className="text-yellow-400" />
+            ) : (
+              <FiMoon size={18} className="text-gray-600" />
+            )}
+          </button>
+          
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-lg text-gray-700 dark:text-white hover-soft transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <MdClose size={24} />
+            ) : (
+              <MdMenu size={24} />
             )}
           </button>
         </div>
       </div>
+
+      {/* Menú móvil */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden bg-white/95 dark:bg-neutral-900 backdrop-blur-md border-t border-light shadow-light-lg overflow-hidden"
+          >
+            <div className="px-4 py-6 space-y-4">
+              {/* Enlaces de navegación */}
+              <div className="space-y-3">
+                {sectionMenu.map((item) =>
+                  item.label === "navigation.resume" ? (
+                    <div key={item.id} className="px-4">
+                      <ResumeDropdown mobile />
+                    </div>
+                  ) : (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      onClick={handleLinkClick}
+                      className={`
+                        block px-4 py-2 text-lg font-medium uppercase rounded-lg transition-all duration-200
+                        ${
+                          activeId === item.id
+                            ? `${item.color} bg-gray-100 dark:bg-gray-800`
+                            : "text-gray-600 dark:text-gray-300 hover-soft"
+                        }
+                      `}
+                    >
+                      {t(item.label)}
+                    </a>
+                  )
+                )}
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-light my-4"></div>
+
+              {/* Acciones */}
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    setIsContactModalOpen(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full px-4 py-2 text-left text-gray-600 dark:text-gray-300 hover-soft rounded-lg transition-colors"
+                >
+                  <MdEmail className="text-xl" />
+                  <span className="font-medium">{t('contactButton')}</span>
+                </button>
+
+                <div className="px-4">
+                  <LanguageSelector />
+                </div>
+              </div>
+
+              {/* Redes sociales en móvil */}
+              <div className="border-t border-light pt-4">
+                <div className="flex justify-center gap-6">
+                  <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer">
+                    <FaGithub size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
+                  </a>
+                  <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener noreferrer">
+                    <FaLinkedin size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
+                  </a>
+                  <FaShareAlt size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal de contacto */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </nav>
   );
 }

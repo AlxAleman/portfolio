@@ -4,8 +4,10 @@
 
 body {
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  background: #f4f4f4;  /* Fondo claro por defecto */
-  color: #232323;        /* Texto oscuro por defecto */
+  /* LIGHT MODE MEJORADO: Fondo más suave, menos blanco puro */
+  background: #fafbfc;  /* Gris muy claro en lugar de #f4f4f4 */
+  color: #202124;       /* Negro más suave en lugar de #232323 */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Dark mode: usa .dark body para Tailwind 3+ */
@@ -29,4 +31,913 @@ h1, h2, h3, h4, h5, h6, .font-mono, code, pre {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ===== MEJORAS PARA LIGHT MODE ===== */
+
+/* Variables CSS para colores consistentes */
+:root {
+  /* Light mode colors - más suaves */
+  --bg-primary: #fafbfc;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f3f4;
+  --bg-card: #ffffff;
+  
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  
+  --border-light: #e8eaed;
+  --border-medium: #dadce0;
+  
+  /* Sombras más suaves */
+  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.1), 0 1px 3px 1px rgba(60, 64, 67, 0.08);
+  --shadow-md: 0 2px 6px 2px rgba(60, 64, 67, 0.08), 0 1px 2px 0 rgba(60, 64, 67, 0.1);
+  --shadow-lg: 0 4px 8px 3px rgba(60, 64, 67, 0.08), 0 1px 3px 0 rgba(60, 64, 67, 0.1);
+}
+
+.dark {
+  /* Dark mode colors - mantener los existentes */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3d3d3d;
+  --bg-card: #2a2a2a;
+  
+  --text-primary: #d4d4d4;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #707070;
+  
+  --border-light: #404040;
+  --border-medium: #505050;
+  
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Clases utility personalizadas para light mode mejorado */
+@layer utilities {
+  /* Fondos */
+  .bg-light-primary { background-color: var(--bg-primary); }
+  .bg-light-secondary { background-color: var(--bg-secondary); }
+  .bg-light-tertiary { background-color: var(--bg-tertiary); }
+  .bg-light-card { background-color: var(--bg-card); }
+  
+  /* Textos */
+  .text-light-primary { color: var(--text-primary); }
+  .text-light-secondary { color: var(--text-secondary); }
+  .text-light-tertiary { color: var(--text-tertiary); }
+  
+  /* Bordes */
+  .border-light { border-color: var(--border-light); }
+  .border-light-medium { border-color: var(--border-medium); }
+  
+  /* Sombras */
+  .shadow-light-sm { box-shadow: var(--shadow-sm); }
+  .shadow-light-md { box-shadow: var(--shadow-md); }
+  .shadow-light-lg { box-shadow: var(--shadow-lg); }
+}
+
+/* Componentes específicos con light mode mejorado */
+@layer components {
+  /* Cards más suaves */
+  .card-improved {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  
+  .card-improved:hover {
+    @apply border-gray-300 dark:border-gray-600;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  /* Navbar con glassmorphism mejorado */
+  .navbar-glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232, 234, 237, 0.8);
+  }
+  
+  .dark .navbar-glass {
+    background: rgba(30, 30, 30, 0.85);
+    border-bottom: 1px solid rgba(64, 64, 64, 0.8);
+  }
+  
+  /* Inputs con mejor contraste */
+  .input-improved {
+    @apply bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white;
+    transition: all 0.2s ease;
+  }
+  
+  .input-improved:focus {
+    @apply border-cyan-500 dark:border-cyan-400;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  }
+  
+  /* Botones con estados mejorados */
+  .btn-ghost {
+    @apply text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white;
+    @apply hover:bg-gray-100 dark:hover:bg-gray-800;
+    transition: all 0.2s ease;
+  }
+  
+  /* Gradientes suaves para light mode */
+  .gradient-light {
+    background: linear-gradient(135deg, #fafbfc 0%, #f8f9fa 50%, #f1f3f4 100%);
+  }
+  
+  .gradient-card-light {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+  }
+  
+  /* Estados de hover más suaves */
+  .hover-soft {
+    transition: all 0.2s ease;
+  }
+  
+  .hover-soft:hover {
+    @apply bg-gray-50 dark:bg-gray-800;
+  }
+}
+
+/* Scrollbar personalizada para light mode */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Selección de texto mejorada */
+::selection {
+  background: rgba(6, 182, 212, 0.2);
+  color: var(--text-primary);
+}
+
+.dark ::selection {
+  background: rgba(6, 182, 212, 0.3);
+  color: var(--text-primary);
+}
+
+/* ===== About Section ===== */
+:root:not(.dark) #about {
+  background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+}
+
+/* Título principal en light mode */
+:root:not(.dark) #about h2 span {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Textos descriptivos en light mode */
+:root:not(.dark) #about p {
+  color: #374151 !important; /* gray-700 */
+}
+
+/* Cards de estadísticas en light mode */
+:root:not(.dark) #about .grid.grid-cols-2 > div {
+  background: white !important;
+  border: 1px solid #e5e7eb !important; /* gray-200 */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+}
+
+:root:not(.dark) #about .grid.grid-cols-2 > div:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  border-color: #d1d5db !important; /* gray-300 */
+}
+
+/* Números en las cards (light mode) */
+:root:not(.dark) #about .grid.grid-cols-2 > div > div:first-child {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Textos pequeños en cards (light mode) */
+:root:not(.dark) #about .grid.grid-cols-2 > div > div:last-child {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+/* Título de especialidades en light mode */
+:root:not(.dark) #about h3 {
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Textos de especialidades en light mode */
+:root:not(.dark) #about .space-y-3 span {
+  color: #374151 !important; /* gray-700 */
+}
+
+/* Puntos de colores en especialidades (light mode) */
+:root:not(.dark) #about .bg-cyan-400 {
+  background-color: #0891b2 !important; /* cyan-600 */
+}
+
+:root:not(.dark) #about .bg-green-400 {
+  background-color: #059669 !important; /* green-600 */
+}
+
+:root:not(.dark) #about .bg-purple-400 {
+  background-color: #7c3aed !important; /* purple-600 */
+}
+
+:root:not(.dark) #about .bg-yellow-400 {
+  background-color: #d97706 !important; /* yellow-600 */
+}
+
+/* Card de ubicación en light mode */
+:root:not(.dark) #about .border-cyan-400\/20 {
+  background: linear-gradient(to bottom right, #ecfeff, #e0f2fe) !important;
+  border: 1px solid #a5b4fc !important; /* blue-300 */
+}
+
+/* Iconos y textos en card de ubicación (light mode) */
+:root:not(.dark) #about .border-cyan-400\/20 svg {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+:root:not(.dark) #about .border-cyan-400\/20 span {
+  color: #0e7490 !important; /* cyan-700 */
+}
+
+:root:not(.dark) #about .border-cyan-400\/20 p:first-of-type {
+  color: #374151 !important; /* gray-700 */
+}
+
+:root:not(.dark) #about .border-cyan-400\/20 p:last-of-type {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+/* ===== Experience Section ===== */
+
+/* Fondo principal de la sección Experience en light mode */
+:root:not(.dark) #experience {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+}
+
+/* Título principal en light mode */
+:root:not(.dark) #experience h2 span {
+  color: #059669 !important; /* green-600 - más oscuro para mejor contraste */
+}
+
+/* Subtítulo en light mode */
+:root:not(.dark) #experience p.text-gray-400 {
+  color: #6b7280 !important; /* gray-500 - más legible */
+}
+
+/* Timeline line en light mode - gradiente más sutil */
+:root:not(.dark) #experience .bg-gradient-to-b {
+  background: linear-gradient(to bottom, #0891b2, #059669, #7c3aed) !important; /* cyan-600, green-600, purple-600 */
+}
+
+/* Timeline dots en light mode */
+:root:not(.dark) #experience .bg-cyan-400 {
+  background-color: #0891b2 !important; /* cyan-600 */
+  border-color: #f8fafc !important; /* Borde blanco suave */
+}
+
+/* Cards de experiencia en light mode */
+:root:not(.dark) #experience .bg-gray-800\/50 {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e5e7eb !important; /* gray-200 */
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Hover state de las cards en light mode */
+:root:not(.dark) #experience .bg-gray-800\/50:hover {
+  border-color: #0891b2 !important; /* cyan-600 */
+  box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.1), 0 4px 6px -2px rgba(8, 145, 178, 0.05) !important;
+}
+
+/* Títulos de trabajos en light mode */
+:root:not(.dark) #experience .text-white {
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Nombres de empresas en light mode */
+:root:not(.dark) #experience .text-cyan-400 {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Badge "Current" en light mode - mantener verde */
+:root:not(.dark) #experience .bg-green-500\/20 {
+  background: rgba(34, 197, 94, 0.15) !important; /* green-500 con más opacidad */
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Iconos y textos de metadata en light mode */
+:root:not(.dark) #experience .text-gray-400 {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+/* Badge Remote en light mode */
+:root:not(.dark) #experience .bg-blue-500\/20 {
+  background: rgba(59, 130, 246, 0.15) !important; /* blue-500 */
+  color: #1d4ed8 !important; /* blue-700 */
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Badge On-site en light mode */
+:root:not(.dark) #experience .bg-orange-500\/20 {
+  background: rgba(249, 115, 22, 0.15) !important; /* orange-500 */
+  color: #c2410c !important; /* orange-700 */
+  border-color: rgba(249, 115, 22, 0.3) !important;
+}
+
+/* Descripciones en light mode */
+:root:not(.dark) #experience .text-gray-300 {
+  color: #4b5563 !important; /* gray-600 */
+}
+
+/* Títulos de secciones (Key Responsibilities, Technologies) en light mode */
+:root:not(.dark) #experience h4.text-white {
+  color: #374151 !important; /* gray-700 */
+}
+
+/* Puntos de las listas en light mode */
+:root:not(.dark) #experience .bg-cyan-400.w-1\.5 {
+  background-color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Tags de tecnologías en light mode */
+:root:not(.dark) #experience .bg-gray-700\/50 {
+  background: rgba(243, 244, 246, 0.8) !important; /* gray-100 */
+  color: #374151 !important; /* gray-700 */
+  border: 1px solid #d1d5db !important; /* gray-300 */
+}
+
+/* Hover en tags de tecnologías en light mode */
+:root:not(.dark) #experience .bg-gray-700\/50:hover {
+  border-color: #0891b2 !important; /* cyan-600 */
+  background: rgba(236, 254, 255, 0.8) !important; /* cyan-50 */
+}
+
+/* Separador de sección de educación en light mode */
+:root:not(.dark) #experience .border-gray-700\/50 {
+  border-color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Título de Education en light mode */
+:root:not(.dark) #experience h3.text-cyan-400 {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Card de educación en light mode */
+:root:not(.dark) #experience .border-t + * .bg-gray-800\/50 {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #e5e7eb !important; /* gray-200 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Título de educación en light mode */
+:root:not(.dark) #experience h4.text-white {
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Institución en light mode */
+:root:not(.dark) #experience .text-cyan-400 {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Checkmarks de certificaciones en light mode */
+:root:not(.dark) #experience .text-green-400 {
+  color: #059669 !important; /* green-600 */
+}
+
+/* =====  Skills Section ===== */
+
+/* Definir variable para vscode magenta si no existe */
+:root {
+  --vscode-magenta: #c586c0;
+  --vscode-magenta-light: #8b5a8c; /* Versión más oscura para light mode */
+}
+
+/* Fondo principal de la sección Skills en light mode */
+:root:not(.dark) #skills {
+  background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 25%, #e2e8f0 50%, #f8fafc 75%, #ffffff 100%);
+}
+
+/* Título principal en light mode - usando selectores más específicos */
+:root:not(.dark) #skills h2 span:first-child {
+  color: rgba(31, 41, 55, 0.9) !important; /* gray-800 más fuerte */
+}
+
+/* "Technical Stack" en light mode */
+:root:not(.dark) #skills h2 span:last-child {
+  color: var(--vscode-magenta-light) !important; /* Magenta más oscuro */
+}
+
+/* Línea divisoria en light mode */
+:root:not(.dark) #skills .w-24.h-1 {
+  background-color: var(--vscode-magenta-light) !important;
+}
+
+/* Contenedores de categorías en light mode */
+:root:not(.dark) #skills .group .rounded-xl {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(139, 90, 140, 0.2) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Hover state de contenedores en light mode */
+:root:not(.dark) #skills .group:hover .rounded-xl {
+  border-color: rgba(139, 90, 140, 0.4) !important;
+  box-shadow: 0 10px 15px -3px rgba(139, 90, 140, 0.1), 0 4px 6px -2px rgba(139, 90, 140, 0.05) !important;
+}
+
+/* Efecto de brillo en light mode */
+:root:not(.dark) #skills .absolute.inset-0 {
+  background: linear-gradient(to right, transparent, rgba(139, 90, 140, 0.08), transparent) !important;
+}
+
+/* Iconos de categorías en light mode */
+:root:not(.dark) #skills .text-xl.font-mono {
+  color: var(--vscode-magenta-light) !important;
+}
+
+/* Títulos de categorías en light mode */
+:root:not(.dark) #skills h3 {
+  color: rgb(31, 41, 55) !important; /* gray-800 */
+}
+
+/* Cards individuales de skills en light mode */
+:root:not(.dark) #skills .rounded-lg.p-2 {
+  background: rgba(248, 250, 252, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(229, 231, 235, 0.6) !important;
+}
+
+/* Hover state de cards individuales en light mode */
+:root:not(.dark) #skills .rounded-lg.p-2:hover {
+  border-color: rgba(139, 90, 140, 0.5) !important;
+  background: rgba(236, 254, 255, 0.9) !important;
+  box-shadow: 0 4px 6px -1px rgba(139, 90, 140, 0.1), 0 2px 4px -1px rgba(139, 90, 140, 0.06) !important;
+}
+
+/* Nombres de tecnologías en light mode */
+:root:not(.dark) #skills .flex.flex-col.items-center span {
+  color: rgb(55, 65, 81) !important; /* gray-700 */
+  font-weight: 500 !important;
+}
+
+/* Iconos de tecnologías - mejor contraste en light mode */
+:root:not(.dark) #skills img {
+  filter: brightness(0.9) contrast(1.1) !important;
+}
+
+:root:not(.dark) #skills img:hover {
+  filter: brightness(1) contrast(1.2) saturate(1.1) !important;
+}
+
+/* Responsive: ajustar opacidades en móvil para light mode */
+@media (max-width: 768px) {
+  :root:not(.dark) #skills .group .rounded-xl {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  :root:not(.dark) #skills .rounded-lg.p-2 {
+    background: rgba(248, 250, 252, 0.9) !important;
+  }
+}
+
+/* ===== Projects Section ===== */
+
+/* Definir variables para colores VS Code en light mode */
+:root {
+  --vscode-yellow-light: #b8860b; /* Amarillo más oscuro para light mode */
+  --vscode-blue-light: #0969da; /* Azul más oscuro para light mode */
+  --vscode-green-light: #1a7f37; /* Verde más oscuro para light mode */
+  --vscode-magenta-light: #8b5a8c; /* Magenta más oscuro para light mode */
+  --vs-text-soft-light: #57606a; /* Texto suave para light mode */
+}
+
+/* Fondo principal de la sección Projects en light mode */
+:root:not(.dark) #projects {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #f1f5f9 50%, #ffffff 75%, #f8fafc 100%);
+}
+
+/* Contenedor principal en light mode */
+:root:not(.dark) #projects .rounded-3xl {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid rgba(184, 134, 11, 0.3) !important; /* vscode-yellow-light */
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Título principal en light mode */
+:root:not(.dark) #projects h2 {
+  color: var(--vscode-yellow-light) !important;
+  text-shadow: 0 2px 4px rgba(184, 134, 11, 0.1) !important;
+}
+
+/* Botones de filtro - estado normal en light mode */
+:root:not(.dark) #projects button:not(.w-3) {
+  border-color: var(--vscode-green-light) !important;
+  color: var(--vscode-green-light) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Botones de filtro - estado activo en light mode */
+:root:not(.dark) #projects button:not(.w-3).bg-vscodegreen,
+:root:not(.dark) #projects button:not(.w-3)[class*="bg-vscodegreen"] {
+  background: var(--vscode-green-light) !important;
+  border-color: var(--vscode-green-light) !important;
+  color: white !important;
+}
+
+/* Botones de filtro - hover en light mode */
+:root:not(.dark) #projects button:not(.w-3):hover:not([class*="bg-vscodegreen"]) {
+  background: rgba(26, 127, 55, 0.1) !important; /* vscode-green-light suave */
+  border-color: var(--vscode-green-light) !important;
+}
+
+/* Cards de proyectos en light mode */
+:root:not(.dark) #projects .grid > div {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(184, 134, 11, 0.2) !important; /* vscode-yellow-light */
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Hover state de cards en light mode */
+:root:not(.dark) #projects .grid > div:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(184, 134, 11, 0.4) !important;
+  box-shadow: 0 10px 15px -3px rgba(184, 134, 11, 0.1), 0 4px 6px -2px rgba(184, 134, 11, 0.05) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Contenedor de imagen en light mode */
+:root:not(.dark) #projects .bg-black\/10 {
+  background: rgba(248, 250, 252, 0.8) !important; /* gray-50 */
+  border: 1px solid rgba(229, 231, 235, 0.5) !important; /* gray-200 */
+}
+
+/* Imágenes de proyectos en light mode */
+:root:not(.dark) #projects img {
+  opacity: 0.9 !important;
+  filter: contrast(1.1) brightness(0.95) !important;
+}
+
+:root:not(.dark) #projects img:hover {
+  opacity: 1 !important;
+  filter: contrast(1.2) brightness(1) !important;
+}
+
+/* Títulos de proyectos en light mode */
+:root:not(.dark) #projects h3 {
+  color: var(--vscode-blue-light) !important;
+}
+
+/* Descripciones de proyectos en light mode */
+:root:not(.dark) #projects .text-vstextsoft {
+  color: var(--vs-text-soft-light) !important;
+}
+
+/* Tags de tecnologías en light mode */
+:root:not(.dark) #projects .border-vscodegreen\/40 {
+  border-color: rgba(26, 127, 55, 0.3) !important; /* vscode-green-light */
+  background: rgba(248, 250, 252, 0.8) !important; /* gray-50 */
+  color: var(--vscode-green-light) !important;
+}
+
+/* Iconos de tecnologías en light mode - ajustar colores */
+:root:not(.dark) #projects .text-vscodeblue {
+  color: var(--vscode-blue-light) !important;
+}
+
+:root:not(.dark) #projects .text-cyan-400 {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+:root:not(.dark) #projects .text-vscodeyellow {
+  color: var(--vscode-yellow-light) !important;
+}
+
+:root:not(.dark) #projects .text-vscodegreen {
+  color: var(--vscode-green-light) !important;
+}
+
+:root:not(.dark) #projects .text-green-500 {
+  color: #059669 !important; /* green-600 */
+}
+
+:root:not(.dark) #projects .text-vscodemagenta {
+  color: var(--vscode-magenta-light) !important;
+}
+
+/* Botones Demo y Repo en light mode */
+:root:not(.dark) #projects a {
+  border-color: var(--vscode-blue-light) !important;
+  color: var(--vscode-blue-light) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+:root:not(.dark) #projects a:hover {
+  background: var(--vscode-blue-light) !important;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(9, 105, 218, 0.2) !important;
+}
+
+/* Paginación dots en light mode */
+:root:not(.dark) #projects .w-3.h-3 {
+  border-color: var(--vscode-green-light) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Paginación dots - estado activo en light mode */
+:root:not(.dark) #projects .w-3.h-3.bg-vscodegreen,
+:root:not(.dark) #projects .w-3.h-3[class*="bg-vscodegreen"] {
+  background: var(--vscode-green-light) !important;
+  border-color: var(--vscode-green-light) !important;
+}
+
+/* Paginación dots - hover en light mode */
+:root:not(.dark) #projects .w-3.h-3:hover:not([class*="bg-vscodegreen"]) {
+  background: rgba(26, 127, 55, 0.3) !important;
+}
+
+/* Ajustes responsive para light mode */
+@media (max-width: 768px) {
+  :root:not(.dark) #projects .rounded-3xl {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+  
+  :root:not(.dark) #projects .grid > div {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+}
+
+/* Mejorar legibilidad de texto pequeño en light mode */
+:root:not(.dark) #projects .text-xs {
+  color: var(--vs-text-soft-light) !important;
+  font-weight: 500 !important;
+}
+
+/* Asegurar contraste en tags pequeñas */
+:root:not(.dark) #projects .text-\[10px\] {
+  color: var(--vscode-green-light) !important;
+  font-weight: 600 !important;
+}
+
+/* ===== Light Mode y Responsive ===== */
+
+/* Navbar glassmorphism mejorado para light mode */
+:root:not(.dark) nav.navbar-glass {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8) !important; /* gray-200 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Iconos de redes sociales en light mode */
+:root:not(.dark) nav a svg,
+:root:not(.dark) nav .cursor-pointer svg {
+  color: #374151 !important; /* gray-700 */
+}
+
+:root:not(.dark) nav a:hover svg,
+:root:not(.dark) nav .cursor-pointer:hover svg {
+  color: #0891b2 !important; /* cyan-600 */
+}
+
+/* Logo/nombre en móvil - light mode */
+:root:not(.dark) nav .text-gray-800 {
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Enlaces de navegación en light mode */
+:root:not(.dark) nav .text-gray-600 {
+  color: #6b7280 !important; /* gray-500 más legible */
+}
+
+/* Botón de contacto en light mode */
+:root:not(.dark) nav .btn-ghost {
+  color: #374151 !important; /* gray-700 */
+  background: rgba(249, 250, 251, 0.8) !important; /* gray-50 */
+  border: 1px solid rgba(229, 231, 235, 0.6) !important; /* gray-200 */
+}
+
+:root:not(.dark) nav .btn-ghost:hover {
+  background: rgba(243, 244, 246, 0.9) !important; /* gray-100 */
+  color: #1f2937 !important; /* gray-800 */
+}
+
+/* Botón dark/light mode en light mode */
+:root:not(.dark) nav .border-light {
+  border-color: #d1d5db !important; /* gray-300 */
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+:root:not(.dark) nav .border-light:hover {
+  border-color: #9ca3af !important; /* gray-400 */
+  background: rgba(249, 250, 251, 0.9) !important; /* gray-50 */
+}
+
+/* Icono de luna en light mode */
+:root:not(.dark) nav .text-gray-600 svg {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+/* Menú móvil en light mode */
+:root:not(.dark) nav .bg-white\/95 {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  border-top: 1px solid rgba(229, 231, 235, 0.8) !important; /* gray-200 */
+}
+
+/* Enlaces en menú móvil - light mode */
+:root:not(.dark) nav .text-gray-600.dark\\:text-gray-300 {
+  color: #4b5563 !important; /* gray-600 */
+}
+
+:root:not(.dark) nav .bg-gray-100 {
+  background: rgba(243, 244, 246, 0.8) !important; /* gray-100 */
+}
+
+/* Dividers en menú móvil - light mode */
+:root:not(.dark) nav .border-light {
+  border-color: #e5e7eb !important; /* gray-200 */
+}
+
+/* ===== MEJORAS RESPONSIVE ===== */
+
+/* Móvil pequeño (320px - 480px) */
+@media (max-width: 480px) {
+  /* Reducir padding del navbar en móviles muy pequeños */
+  nav .px-4 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  /* Ajustar tamaño del logo en móvil */
+  nav .text-lg {
+    font-size: 1rem !important;
+  }
+  
+  /* Iconos más pequeños en móvil */
+  nav .sm\:hidden svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  /* Reducir gap entre elementos */
+  nav .gap-2 {
+    gap: 0.375rem !important;
+  }
+  
+  /* Menú móvil - reducir padding */
+  nav .px-4.py-6 {
+    padding: 1rem !important;
+  }
+  
+  /* Enlaces en menú móvil más compactos */
+  nav .py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  nav .text-lg {
+    font-size: 1rem !important;
+  }
+}
+
+/* Tablet pequeña (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Mostrar iconos sociales en tablet */
+  nav .hidden.sm\:flex {
+    display: flex !important;
+  }
+  
+  /* Ajustar gaps para tablet */
+  nav .gap-3 {
+    gap: 0.5rem !important;
+  }
+  
+  /* Iconos ligeramente más pequeños */
+  nav .sm\:flex svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+/* Desktop mediano (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Reducir gap en menú central */
+  nav .gap-6 {
+    gap: 1rem !important;
+  }
+  
+  nav .gap-8 {
+    gap: 1.25rem !important;
+  }
+  
+  /* Ajustar tamaño de texto en menú */
+  nav .text-base {
+    font-size: 0.875rem !important;
+  }
+  
+  nav .lg\:text-lg {
+    font-size: 1rem !important;
+  }
+  
+  /* Reducir padding horizontal */
+  nav .lg\:px-12 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+}
+
+/* Desktop grande (1025px+) */
+@media (min-width: 1025px) {
+  /* Asegurar que todo se vea bien en pantallas grandes */
+  nav .max-w-none {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Mejoras específicas para el menú de navegación */
+@media (max-width: 1200px) {
+  /* Hacer el menú central más compacto */
+  nav .absolute.left-1\/2 {
+    position: static !important;
+    transform: none !important;
+  }
+  
+  /* En pantallas medianas, centrar mejor */
+  nav .md\:flex {
+    justify-content: center !important;
+    flex: 1 !important;
+    margin: 0 1rem !important;
+  }
+}
+
+/* Ajustes para landscape en móvil */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Reducir altura del menú móvil */
+  nav .py-6 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  /* Hacer el menú móvil scrolleable si es necesario */
+  nav .md\:hidden > div {
+    max-height: calc(100vh - 60px) !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Mejoras para accesibilidad y touch targets */
+@media (max-width: 768px) {
+  /* Asegurar que los botones tengan tamaño mínimo de 44px */
+  nav button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+  
+  /* Mejorar área de toque para enlaces */
+  nav a {
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+/* Optimización para Very Small Screens (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  /* Ultra compacto para pantallas muy pequeñas */
+  nav .px-4 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Ocultar texto en botón de contacto, solo mostrar icono */
+  nav .lg\:inline {
+    display: none !important;
+  }
+  
+  /* Hacer botones más pequeños */
+  nav .p-2\.5 {
+    padding: 0.5rem !important;
+  }
+  
+  nav .p-2 {
+    padding: 0.375rem !important;
+  }
 }

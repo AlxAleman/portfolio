@@ -26,12 +26,12 @@ export default function ResumeDropdown() {
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2 uppercase px-3 pb-1 border-b-2 border-transparent
           text-vstextsoft dark:text-gray-300
-          hover:text-vscodeblue hover:border-vscodeblue
+          hover:text-gray-400 hover:border-gray-400
           transition-all duration-200"
-        title={t("download_cv") || "Download Resume"}
+        title={t("resume.download_cv") || "Download Resume"}
       >
         <FiDownload className="w-5 h-5" />
-        {t("resume") || "Resume"}
+        {t("navigation.resume") || "Resume"}
       </button>
       <AnimatePresence>
         {open && (
@@ -52,7 +52,7 @@ export default function ResumeDropdown() {
                 hover:bg-vscodeblue hover:text-white transition-colors rounded-t-lg"
               onClick={() => setOpen(false)}
             >
-              🇺🇸 {t("resume_en") || "Resume (EN)"}
+              🇺🇸 {t("resume.resume_en") || "Resume (EN)"}
             </a>
             <a
               href="/Alex-Aleman-Resume_es.pdf"
@@ -62,7 +62,7 @@ export default function ResumeDropdown() {
                 hover:bg-vscodemagenta hover:text-white transition-colors rounded-b-lg"
               onClick={() => setOpen(false)}
             >
-              🇪🇸 {t("resume_es") || "CV (ES)"}
+              🇪🇸 {t("resume.resume_es") || "CV (ES)"}
             </a>
           </motion.div>
         )}

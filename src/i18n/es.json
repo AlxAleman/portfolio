@@ -1,44 +1,134 @@
 {
   "role": "DESARROLLADOR FULLSTACK",
-  "typewriter": ["Soy Alex", "INGENIERO", "GAMER", "MÚSICO", "DESARROLLADOR WEB", "AMANTE DE LA TECNOLOGIA"],
-  "about": "SOBRE MÍ",
-  "experience": "EXPERIENCIA",
-  "skills": "HABILIDADES",
-  "projects": "PROYECTOS",
-  "resume": "Currículum",
-  "download_cv": "Descargar Currículum",
-  "resume_en": "CV (EN)",
-  "resume_es": "CV (ES)",
-  "about_title": "Sobre Mí",
-  "about_text": "Desarrollador Fullstack apasionado con sólida experiencia en la creación de aplicaciones web escalables, amante de la resolución de problemas y con facilidad para soluciones creativas. Siempre dispuesto a aprender nuevas tecnologías y trabajar en proyectos desafiantes.",
-  "experience_title": "Experiencia",
-  "experience_items": [
-    {
-      "role": "Desarrollador Web",
-      "company": "Empresa Genial",
-      "period": "2022 - Actualidad",
-      "desc": "Trabajando en proyectos con React y Node.js, construyendo dashboards e integrando APIs."
+  "typewriter": ["Soy ALEX", "INGENIERO", "GAMER", "MÚSICO", "DESARROLLADOR WEB", "AMANTE TECH"],
+  "navigation": {
+    "about": "ACERCA",
+    "experience": "EXPERIENCIA",
+    "skills": "HABILIDADES", 
+    "projects": "PROYECTOS",
+    "resume": "Currículum"
+  },
+  "resume": {
+    "download_cv": "Descargar Currículum",
+    "resume_en": "Currículum (EN)",
+    "resume_es": "Currículum (ES)"
+  },
+  "about": {
+    "title": "Acerca de Mí",
+    "description1": "Desarrollador Full-Stack apasionado e Ingeniero de Aseguramiento de Calidad con más de una década de experiencia construyendo aplicaciones web escalables, garantizando la calidad del software e impulsando decisiones empresariales basadas en datos.",
+    "description2": "Mi experiencia abarca tecnologías web modernas, frameworks de testing automatizado, inteligencia de negocios y gestión de CRM. Me apasiona resolver problemas complejos y crear soluciones innovadoras que generen valor empresarial real.",
+    "description3": "Cuando no estoy programando o probando software, me encontrarás explorando nuevas tecnologías, jugando videojuegos o contribuyendo a proyectos de código abierto. Creo en el aprendizaje continuo y en mantenerme a la vanguardia de la tecnología.",
+    "stats": {
+      "experience": "Años de Experiencia",
+      "projects": "Proyectos Completados",
+      "certifications": "Certificaciones",
+      "countries": "Países Trabajados"
+    },
+    "specialties": {
+      "title": "Especialidades Clave",
+      "fullstack": "Desarrollo Full-Stack (React, Vue.js, Node.js)",
+      "qa": "Aseguramiento de Calidad y Automatización de Pruebas",
+      "bi": "Inteligencia de Negocios y Análisis de Datos",
+      "automation": "Automatización de Procesos e Integración CRM"
+    },
+    "location": {
+      "title": "Ubicación y Disponibilidad",
+      "current": "El Salvador",
+      "remote": "Disponible para trabajo remoto a nivel mundial"
     }
-  ],
-  "skills_title": "Habilidades",
-  "skills_list": [
-    "JavaScript",
-    "React",
-    "Node.js",
-    "HTML5",
-    "CSS3",
-    "Git",
-    "SQL"
-  ],
-  "projects_title": "Proyectos",
-  "projects_list": [
-    {
-      "name": "Mi Portafolio",
-      "desc": "Portafolio de desarrollador moderno, animado y responsivo, construido con React y Tailwind CSS."
+  },
+  "experience": {
+    "title": "Experiencia",
+    "subtitle": "Un recorrido a través de diversos roles y tecnologías, construyendo experiencia en todo el ciclo de vida del desarrollo de software.",
+    "current": "Actual",
+    "keyResponsibilities": "Responsabilidades Clave",
+    "technologies": "Tecnologías",
+    "jobs": {
+      "crm": {
+        "title": "Consultor CRM - Desarrollador de Reportes MSQL",
+        "period": "2024 - Presente",
+        "description": "Liderando iniciativas de gestión CRM e inteligencia de negocios, especializándome en automatización de flujos de trabajo y soluciones de reporting basadas en datos.",
+        "responsibilities": [
+          "Gestionar y optimizar la plataforma CRM ClientSpace para mejorar operaciones empresariales",
+          "Diseñar y configurar flujos de trabajo complejos para optimizar procesos de negocio",
+          "Desarrollar sistemas de reportes automatizados usando MSQL para toma de decisiones ejecutivas",
+          "Proporcionar soporte técnico y capacitación a miembros del equipo y clientes",
+          "Construir integraciones API personalizadas y soluciones adaptadas a necesidades del cliente"
+        ]
+      },
+      "webdev": {
+        "title": "Desarrollador Web Junior y Tester de Calidad",
+        "period": "Enero 2022 - Enero 2023",
+        "description": "Desarrollé aplicaciones web responsivas e implementé estrategias integrales de testing para clientes belgas, enfocándome en tecnologías front-end y aseguramiento de calidad.",
+        "responsibilities": [
+          "Construí aplicaciones web interactivas usando React, Vue.js y JavaScript vanilla",
+          "Implementé manipulación del DOM y características dinámicas de interfaz de usuario",
+          "Realicé pruebas exploratorias y automatizadas usando el framework Cypress",
+          "Ejecuté testing de APIs y validación usando Postman con suites de pruebas automatizadas",
+          "Creé páginas de aterrizaje optimizadas con funcionalidades de cuestionarios personalizados"
+        ]
+      },
+      "qa": {
+        "title": "Analista de Calidad Global y Reportero",
+        "period": "Enero 2016 - Enero 2021",
+        "description": "Especializado en metodologías de aseguramiento de calidad, automatización de pruebas y reportes de inteligencia de negocios usando herramientas y frameworks de nivel empresarial.",
+        "responsibilities": [
+          "Diseñé y ejecuté estrategias integrales de testing manual y automatizado",
+          "Creé formularios dinámicos de QA y procedimientos para procesos de testing estandarizados",
+          "Desarrollé reportes SSRS para insights gerenciales y seguimiento de métricas de calidad",
+          "Implementé procesos de validación de datos y procedimientos de despliegue",
+          "Realicé análisis avanzado de datos para identificar tendencias y oportunidades de mejora"
+        ]
+      },
+      "scheduler": {
+        "title": "Programador y Reportero",
+        "period": "Enero 2012 - Enero 2016",
+        "description": "Gestioné programación de personal, análisis de datos y planificación estratégica para operaciones de telecomunicaciones con enfoque en optimización de niveles de servicio.",
+        "responsibilities": [
+          "Analicé datos operacionales para optimizar programación de personal y asignación de recursos",
+          "Mantuve acuerdos de nivel de servicio mediante planificación estratégica y pronósticos",
+          "Creé reportes integrales para procesos de toma de decisiones gerenciales",
+          "Desarrollé modelos de pronóstico para predecir necesidades de personal y requerimientos operacionales"
+        ]
+      }
+    },
+    "education": {
+      "title": "Educación y Certificaciones",
+      "degree": "Licenciatura en Ingeniería en Computación",
+      "institution": "ITCA FEPADE",
+      "period": "2016 - 2022",
+      "description": "Programa integral de ingeniería en computación con enfoque en desarrollo de software, estructuras de datos, algoritmos y principios de diseño de sistemas.",
+      "certifications": "Certificaciones Profesionales"
     }
-  ],
-  "professional": "Profesional",
-  "skillset": "Habilidades",
-  "tools": "Herramientas",
-  "iuse": "que uso"
+  },
+  "skills": {
+    "title": "Habilidades",
+    "professional": "Profesional",
+    "skillset": "Conjunto de Habilidades",
+    "tools": "Herramientas",
+    "iuse": "Yo uso"
+  },
+  "projects": {
+    "title": "Proyectos"
+  },
+  "contactButton": "contacto",
+  "contact": {
+    "title": "Ponte en Contacto",
+    "subtitle": "¡Trabajemos juntos en algo genial!",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre completo",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "tu.email@ejemplo.com",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Colaboración en proyecto, oportunidad laboral, etc.",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre tu proyecto o cómo podemos trabajar juntos...",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "alternative": "O conéctate conmigo en:",
+    "success": {
+      "title": "¡Mensaje Enviado!",
+      "message": "¡Gracias por contactarme! Te responderé pronto."
+    }
+  }
 }

@@ -1,44 +1,134 @@
 {
   "role": "FULLSTACK DEVELOPER",
   "typewriter": ["I'm ALEX", "ENGINEER", "GAMER", "MUSICIAN", "WEB DEVELOPER", "TECH LOVER"],
-  "about": "ABOUT",
-  "experience": "EXPERIENCE",
-  "skills": "SKILLS",
-  "projects": "PROJECTS",
-  "resume": "Resume",
-  "download_cv": "Download Resume",
-  "resume_en": "Resume (EN)",
-  "resume_es": "Resume (ES)",
-    "about_title": "About Me",
-  "about_text": "Passionate Fullstack Developer with strong experience in building scalable web applications, a love for problem-solving, and a knack for creative solutions. Always eager to learn new technologies and work on challenging projects.",
-  "experience_title": "Experience",
-  "experience_items": [
-    {
-      "role": "Web Developer",
-      "company": "Awesome Company",
-      "period": "2022 - Present",
-      "desc": "Working on React and Node.js projects, building dashboards and integrating APIs."
+  "navigation": {
+    "about": "ABOUT",
+    "experience": "EXPERIENCE", 
+    "skills": "SKILLS",
+    "projects": "PROJECTS",
+    "resume": "Resume"
+  },
+  "resume": {
+    "download_cv": "Download Resume",
+    "resume_en": "Resume (EN)",
+    "resume_es": "Resume (ES)"
+  },
+  "about": {
+    "title": "About Me",
+    "description1": "Passionate Full-Stack Developer and Quality Assurance Engineer with over a decade of experience in building scalable web applications, ensuring software quality, and driving data-driven business decisions.",
+    "description2": "My expertise spans across modern web technologies, automated testing frameworks, business intelligence, and CRM management. I thrive on solving complex problems and creating innovative solutions that deliver real business value.",
+    "description3": "When I'm not coding or testing, you'll find me exploring new technologies, gaming, or contributing to open-source projects. I believe in continuous learning and staying ahead of the technology curve.",
+    "stats": {
+      "experience": "Years Experience",
+      "projects": "Projects Completed",
+      "certifications": "Certifications",
+      "countries": "Countries Worked"
+    },
+    "specialties": {
+      "title": "Key Specialties",
+      "fullstack": "Full-Stack Development (React, Vue.js, Node.js)",
+      "qa": "Quality Assurance & Test Automation",
+      "bi": "Business Intelligence & Data Analysis",
+      "automation": "Process Automation & CRM Integration"
+    },
+    "location": {
+      "title": "Location & Availability",
+      "current": "El Salvador",
+      "remote": "Available for remote work worldwide"
     }
-  ],
-  "skills_title": "Skills",
-  "skills_list": [
-    "JavaScript",
-    "React",
-    "Node.js",
-    "HTML5",
-    "CSS3",
-    "Git",
-    "SQL"
-  ],
-  "projects_title": "Projects",
-  "projects_list": [
-    {
-      "name": "My Portfolio",
-      "desc": "A modern, animated, responsive developer portfolio built with React and Tailwind CSS."
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "A journey through diverse roles and technologies, building expertise across the full software development lifecycle.",
+    "current": "Current",
+    "keyResponsibilities": "Key Responsibilities",
+    "technologies": "Technologies",
+    "jobs": {
+      "crm": {
+        "title": "CRM Consultant - MSQL Report Writer",
+        "period": "2024 - Present",
+        "description": "Leading CRM management and business intelligence initiatives, specializing in workflow automation and data-driven reporting solutions.",
+        "responsibilities": [
+          "Manage and optimize ClientSpace CRM platform for enhanced business operations",
+          "Design and configure complex workflows to streamline business processes",
+          "Develop automated reporting systems using MSQL for executive decision-making",
+          "Provide technical support and training to team members and clients",
+          "Build custom API integrations and tailored solutions for client needs"
+        ]
+      },
+      "webdev": {
+        "title": "Junior Web Developer & Quality Tester",
+        "period": "January 2022 - January 2023",
+        "description": "Developed responsive web applications and implemented comprehensive testing strategies for Belgian clients, focusing on front-end technologies and quality assurance.",
+        "responsibilities": [
+          "Built interactive web applications using React, Vue.js, and vanilla JavaScript",
+          "Implemented DOM manipulation and dynamic user interface features",
+          "Conducted exploratory and automated testing using Cypress framework",
+          "Performed API testing and validation using Postman with automated test suites",
+          "Created optimized landing pages with custom questionnaire functionalities"
+        ]
+      },
+      "qa": {
+        "title": "Global Quality Analyst & Reporter",
+        "period": "January 2016 - January 2021",
+        "description": "Specialized in quality assurance methodologies, test automation, and business intelligence reporting using enterprise-grade tools and frameworks.",
+        "responsibilities": [
+          "Designed and executed comprehensive manual and automated testing strategies",
+          "Created dynamic QA forms and procedures for standardized testing processes",
+          "Developed SSRS reports for management insights and quality metrics tracking",
+          "Implemented data validation processes and deployment procedures",
+          "Performed advanced data analysis to identify trends and improvement opportunities"
+        ]
+      },
+      "scheduler": {
+        "title": "Scheduler & Reporter",
+        "period": "January 2012 - January 2016",
+        "description": "Managed workforce scheduling, data analysis, and strategic planning for telecommunications operations with a focus on service level optimization.",
+        "responsibilities": [
+          "Analyzed operational data to optimize workforce scheduling and resource allocation",
+          "Maintained service level agreements through strategic planning and forecasting",
+          "Created comprehensive reports for management decision-making processes",
+          "Developed forecasting models to predict staffing needs and operational requirements"
+        ]
+      }
+    },
+    "education": {
+      "title": "Education & Certifications",
+      "degree": "Bachelor of Science in Computer Engineering",
+      "institution": "ITCA FEPADE",
+      "period": "2016 - 2022",
+      "description": "Comprehensive computer engineering program with focus on software development, data structures, algorithms, and system design principles.",
+      "certifications": "Professional Certifications"
     }
-  ],
-  "professional": "Professional",
-  "skillset": "Skillset",
-  "tools": "Tools",
-  "iuse": "I use"  
+  },
+  "skills": {
+    "title": "Skills",
+    "professional": "Professional",
+    "skillset": "Skillset",
+    "tools": "Tools",
+    "iuse": "I use"
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "contactButton": "contact",
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Let's work together on something great!",
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "Project collaboration, job opportunity, etc.",
+    "message": "Message",
+    "messagePlaceholder": "Tell me about your project or how we can work together...",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "alternative": "Or connect with me on:",
+    "success": {
+      "title": "Message Sent!",
+      "message": "Thanks for reaching out! I'll get back to you soon."
+    }
+  }
 }
