@@ -39,7 +39,7 @@ export default [
   {
     id: 5,
     title: "Analytics Dashboard",
-    description: "An interactive dashboard for real-time data analytics and business intelligence with D3.js visualizations.",
+    description: "interactive dashboard for real-time data analytics and business intelligence with D3.js visualizations.",
     image: "/src/assets/projects/dashboard.webp",
     tech: ["React", "JavaScript", "D3.js"],
     demo: "#",

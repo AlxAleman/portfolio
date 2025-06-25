@@ -3,6 +3,23 @@ Path
 ----                 
 G:\PROJECTS\portfolio
 ├── public
+│   ├── fonts
+│   │   ├── geist
+│   │   │   └── webfonts
+│   │   │       ├── Geist-Bold.woff2
+│   │   │       ├── Geist-Italic[wght].woff2
+│   │   │       ├── Geist-Light.woff2
+│   │   │       ├── Geist-Medium.woff2
+│   │   │       ├── Geist-Regular.woff2
+│   │   │       ├── Geist-SemiBold.woff2
+│   │   │       └── Geist[wght].woff2
+│   │   └── geistMono
+│   │       └── webfonts
+│   │           ├── GeistMono-Italic[wght].woff2
+│   │           ├── GeistMono-Medium.woff2
+│   │           ├── GeistMono-Regular.woff2
+│   │           ├── GeistMono-SemiBold.woff2
+│   │           └── GeistMono[wght].woff2
 │   ├── Alex-Aleman-Resume_en.pdf
 │   ├── Alex-Aleman-Resume_es.pdf
 │   └── vite.svg
@@ -55,7 +72,9 @@ G:\PROJECTS\portfolio
 │   │   └── react.svg
 │   ├── components
 │   │   ├── About.jsx
+│   │   ├── ContactModal.jsx
 │   │   ├── Experience.jsx
+│   │   ├── LanguageSelector.jsx
 │   │   ├── LanguageSwitcher.jsx
 │   │   ├── Navbar.jsx
 │   │   ├── ProfilePulse.jsx
@@ -78,6 +97,7 @@ G:\PROJECTS\portfolio
 │   ├── index.css
 │   └── main.jsx
 ├── .gitignore
+├── cleanup-fonts.ps1
 ├── eslint.config.js
 ├── index.html
 ├── package-lock.json
