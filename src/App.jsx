@@ -9,8 +9,10 @@ import Projects from "./components/Projects.jsx";
 
 function App() {
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
+  // Si no hay tema guardado, usa dark por defecto
+  const savedTheme = localStorage.getItem("theme");
+  return savedTheme ? savedTheme === "dark" : true; // ← true = dark por defecto
+});
 
   const heroRef = useRef(null);
   const [showMenuInNavbar, setShowMenuInNavbar] = useState(false);
