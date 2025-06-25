@@ -69,6 +69,12 @@ export default function Navbar({ dark, setDark, showMenu }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Función para hacer scroll al top cuando se hace click en el logo
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
@@ -78,20 +84,37 @@ export default function Navbar({ dark, setDark, showMenu }) {
       `}
     >
       <div className="flex justify-between items-center px-4 sm:px-6 lg:px-12 py-3 relative">
-        {/* Izquierda: iconos redes - Ocultos en móvil */}
-        <div className="hidden sm:flex gap-3 lg:gap-5 items-center">
-          <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer">
-            <FaGithub size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
-          </a>
-          <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener noreferrer">
-            <FaLinkedin size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
-          </a>
-          <FaShareAlt size={24} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200 cursor-pointer" />
-        </div>
+        {/* Izquierda: Logo + Redes (Desktop) */}
+        <div className="flex items-center gap-4 lg:gap-6">
+          {/* Logo */}
+          <motion.button
+            onClick={scrollToTop}
+            className="flex items-center gap-3 hover-soft rounded-lg px-2 py-1 transition-all duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 dark:bg-white/5 flex items-center justify-center overflow-hidden">
+              <img 
+                src="/png-mylogo.png" 
+                alt="Alex Aleman Logo" 
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+              />
+            </div>
+            <span className="hidden sm:block text-lg lg:text-xl font-bold text-gray-800 dark:text-white">
+              Alex Aleman
+            </span>
+          </motion.button>
 
-        {/* Logo/Nombre en móvil */}
-        <div className="flex sm:hidden items-center">
-          <span className="text-lg font-bold text-gray-800 dark:text-white">Alex</span>
+          {/* Redes sociales - Solo desktop */}
+          <div className="hidden lg:flex gap-3 items-center ml-4">
+            <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
+            <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer">
+              <FaGithub size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
+            </a>
+            <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
+            </a>
+          </div>
         </div>
 
         {/* Menú central - Desktop */}
@@ -183,6 +206,21 @@ export default function Navbar({ dark, setDark, showMenu }) {
             className="md:hidden bg-white/95 dark:bg-neutral-900 backdrop-blur-md border-t border-light shadow-light-lg overflow-hidden"
           >
             <div className="px-4 py-6 space-y-4">
+              {/* Header con logo en móvil */}
+              <div className="flex items-center justify-center gap-3 pb-4 border-b border-light">
+                <div className="w-12 h-12 rounded-full bg-white/10 dark:bg-white/5 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src="/png-mylogo.png" 
+                    alt="Alex Aleman Logo" 
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-white">Alex Aleman</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Full Stack Developer</p>
+                </div>
+              </div>
+
               {/* Enlaces de navegación */}
               <div className="space-y-3">
                 {sectionMenu.map((item) =>
@@ -234,13 +272,12 @@ export default function Navbar({ dark, setDark, showMenu }) {
               {/* Redes sociales en móvil */}
               <div className="border-t border-light pt-4">
                 <div className="flex justify-center gap-6">
-                  <a href="https://github.com/tuusuario" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer">
                     <FaGithub size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
                   </a>
-                  <a href="https://linkedin.com/in/tuusuario" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer">
                     <FaLinkedin size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
                   </a>
-                  <FaShareAlt size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer" />
                 </div>
               </div>
             </div>

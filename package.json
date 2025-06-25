@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@formspree/react": "^3.0.0",
     "autoprefixer": "^10.4.19",
     "framer-motion": "^12.17.3",
     "i18next": "^25.2.1",

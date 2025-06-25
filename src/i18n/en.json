@@ -116,19 +116,20 @@
     "title": "Get In Touch",
     "subtitle": "Let's work together on something great!",
     "name": "Name",
-    "namePlaceholder": "Your full name",
     "email": "Email",
-    "emailPlaceholder": "your.email@example.com",
     "subject": "Subject",
-    "subjectPlaceholder": "Project collaboration, job opportunity, etc.",
     "message": "Message",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "your.email@example.com",
+    "subjectPlaceholder": "Project collaboration, job opportunity, etc.",
     "messagePlaceholder": "Tell me about your project or how we can work together...",
     "send": "Send Message",
     "sending": "Sending...",
-    "alternative": "Or connect with me on:",
     "success": {
       "title": "Message Sent!",
       "message": "Thanks for reaching out! I'll get back to you soon."
-    }
+    },
+    "error": "Failed to send message. Please try again.",
+    "alternative": "Or connect with me on:"
   }
 }

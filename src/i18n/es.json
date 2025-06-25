@@ -113,22 +113,23 @@
   },
   "contactButton": "contacto",
   "contact": {
-    "title": "Ponte en Contacto",
-    "subtitle": "¡Trabajemos juntos en algo genial!",
+    "title": "Contacto",
+    "subtitle": "¡Trabajemos juntos en algo increíble!",
     "name": "Nombre",
-    "namePlaceholder": "Tu nombre completo",
-    "email": "Correo Electrónico",
-    "emailPlaceholder": "tu.email@ejemplo.com",
+    "email": "Email",
     "subject": "Asunto",
-    "subjectPlaceholder": "Colaboración en proyecto, oportunidad laboral, etc.",
     "message": "Mensaje",
+    "namePlaceholder": "Tu nombre completo",
+    "emailPlaceholder": "tu.email@ejemplo.com",
+    "subjectPlaceholder": "Colaboración de proyecto, oportunidad laboral, etc.",
     "messagePlaceholder": "Cuéntame sobre tu proyecto o cómo podemos trabajar juntos...",
     "send": "Enviar Mensaje",
     "sending": "Enviando...",
-    "alternative": "O conéctate conmigo en:",
     "success": {
       "title": "¡Mensaje Enviado!",
       "message": "¡Gracias por contactarme! Te responderé pronto."
-    }
+    },
+    "error": "Error al enviar mensaje. Por favor intenta de nuevo.",
+    "alternative": "O conéctate conmigo en:"
   }
 }
