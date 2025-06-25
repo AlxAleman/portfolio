@@ -93,7 +93,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 dark:bg-white/5 flex items-center justify-center overflow-hidden">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-sm">
               <img 
                 src="/png-mylogo.png" 
                 alt="Alex Aleman Logo" 
@@ -208,7 +208,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
             <div className="px-4 py-6 space-y-4">
               {/* Header con logo en móvil */}
               <div className="flex items-center justify-center gap-3 pb-4 border-b border-light">
-                <div className="w-12 h-12 rounded-full bg-white/10 dark:bg-white/5 flex items-center justify-center overflow-hidden">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-md">
                   <img 
                     src="/png-mylogo.png" 
                     alt="Alex Aleman Logo" 
