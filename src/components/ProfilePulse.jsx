@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import profileImg from "../assets/profile.jpg";
+import profileImg from "/src/assets/profile.jpg";
 import { useTranslation } from "react-i18next";
 import Typewriter from "./Typewriter";
 import SectionMenu from "./SectionMenu";

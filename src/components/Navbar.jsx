@@ -18,7 +18,7 @@ const sectionMenu = [
   { id: "resume", label: "navigation.resume", color: "text-gray-600 dark:text-gray-400 border-gray-600 dark:border-gray-400" },
 ];
 
-export default function Navbar({ dark, setDark }) {
+export default function Navbar({ dark, setDark, showMenu }) {
   const { t } = useTranslation();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

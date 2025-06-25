@@ -1,0 +1,80 @@
+﻿
+Path                     
+----                     
+G:\PROJECTS\portfolio\src
+├── assets
+│   ├── icons
+│   │   ├── astro.svg
+│   │   ├── aws.svg
+│   │   ├── bootstrap.svg
+│   │   ├── csharp.svg
+│   │   ├── css3.svg
+│   │   ├── docker.svg
+│   │   ├── git.svg
+│   │   ├── github.svg
+│   │   ├── gitlab.svg
+│   │   ├── googlescript.svg
+│   │   ├── googlesuite.svg
+│   │   ├── html5.svg
+│   │   ├── javascript.svg
+│   │   ├── jira.svg
+│   │   ├── linux.svg
+│   │   ├── macos.svg
+│   │   ├── mongodb.svg
+│   │   ├── msoffice.svg
+│   │   ├── mysql.svg
+│   │   ├── nextjs.svg
+│   │   ├── nodejs.svg
+│   │   ├── php.svg
+│   │   ├── postman.svg
+│   │   ├── python.svg
+│   │   ├── react.svg
+│   │   ├── sass.svg
+│   │   ├── shopify.svg
+│   │   ├── slack.svg
+│   │   ├── sqlite.svg
+│   │   ├── Tailwind.svg
+│   │   ├── typescript.svg
+│   │   ├── vscode.svg
+│   │   ├── vue.svg
+│   │   ├── windows.svg
+│   │   └── wordpress.svg
+│   ├── projects
+│   │   ├── blog.webp
+│   │   ├── dashboard.webp
+│   │   ├── ecommerce.webp
+│   │   ├── portfolio.webp
+│   │   ├── seo.webp
+│   │   └── taskmanager.webp
+│   ├── profile.jpg
+│   └── react.svg
+├── components
+│   ├── About.jsx
+│   ├── ContactModal.jsx
+│   ├── Experience.jsx
+│   ├── LanguageSelector.jsx
+│   ├── LanguageSwitcher.jsx
+│   ├── Navbar.jsx
+│   ├── ProfilePulse.jsx
+│   ├── Projects.jsx
+│   ├── ResumeDropdown.jsx
+│   ├── SectionMenu.jsx
+│   ├── Skills.jsx
+│   └── Typewriter.jsx
+├── data
+│   ├── icons.jsx
+│   └── projects.js
+├── hooks
+│   └── useScrollSpy.js
+├── i18n
+│   ├── en.json
+│   └── es.json
+├── shared
+├── App.css
+├── App.jsx
+├── i18n.js
+├── index.css
+├── main.jsx
+└── tree-estructura.txt
+
+
