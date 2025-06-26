@@ -20,12 +20,12 @@ export default [
   },
   {
     id: 3,
-    title: "Event Website",
-    description: "A modern and responsive website template for promoting any type of events - meetings, concerts, conferences, and more.",
+    title: "EVO Event Website",
+    description: "A modern, responsive website for Evolution Championship Series featuring dynamic event pages, interactive carousels, sticky navigation, and complete mobile optimization with React and Tailwind CSS.",
     image: "/assets/projects/event-website.webp",
-    tech: ["React", "JavaScript"],
-    demo: null,
-    repo: null
+    tech: ["React", "Tailwind CSS", "Framer Motion", "JavaScript"],
+    demo: "https://event-stage.vercel.app",
+    repo: "https://github.com/AlxAleman/event-website"
   },
   {
     id: 4,
