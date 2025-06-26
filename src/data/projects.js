@@ -13,7 +13,7 @@ export default [
     id: 2,
     title: "AdminPro Dashboard",
     description: "A comprehensive admin dashboard template featuring dark/light mode, interactive charts with Recharts, real-time data simulation, and complete user/product/order management system.",
-    image: "/assets/projects/adminpro-dashboard.webp",
+    image: "/assets/projects/dashboard.webp",
     tech: ["React", "Tailwind CSS", "Recharts", "React Router"],
     demo: "https://adminpro-dashboard-admin-silk.vercel.app",
     repo: "https://github.com/AlxAleman/dashboard-admin"
