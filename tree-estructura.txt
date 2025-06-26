@@ -2,9 +2,30 @@
 Path                 
 ----                 
 G:\PROJECTS\portfolio
-├── public
+├── .vercel
+│   ├── project.json
+│   └── README.txt
+├── apps
+│   ├── events
+│   └── portfolio
+├── dist
+│   ├── assets
+│   │   ├── projects
+│   │   │   ├── blog.webp
+│   │   │   ├── booking-system.webp
+│   │   │   ├── dashboard.webp
+│   │   │   ├── ecommerce.webp
+│   │   │   ├── event-website.webp
+│   │   │   ├── netflix-clone.webp
+│   │   │   ├── portfolio.webp
+│   │   │   ├── seo.webp
+│   │   │   └── taskmanager.webp
+│   │   ├── index-2uOSV1TX.css
+│   │   ├── index-BafwaNop.js
+│   │   ├── postman-w9vOutb2.svg
+│   │   └── profile-DQ-y_3oh.jpg
 │   ├── fonts
-│   │   ├── geist
+│   │   ├── Geist
 │   │   │   └── webfonts
 │   │   │       ├── Geist-Bold.woff2
 │   │   │       ├── Geist-Italic[wght].woff2
@@ -13,7 +34,9 @@ G:\PROJECTS\portfolio
 │   │   │       ├── Geist-Regular.woff2
 │   │   │       ├── Geist-SemiBold.woff2
 │   │   │       └── Geist[wght].woff2
-│   │   └── geistMono
+│   │   └── GeistMono
+│   │       ├── ttf
+│   │       ├── variable
 │   │       └── webfonts
 │   │           ├── GeistMono-Italic[wght].woff2
 │   │           ├── GeistMono-Medium.woff2
@@ -22,7 +45,47 @@ G:\PROJECTS\portfolio
 │   │           └── GeistMono[wght].woff2
 │   ├── Alex-Aleman-Resume_en.pdf
 │   ├── Alex-Aleman-Resume_es.pdf
+│   ├── alex-logo.ico
+│   ├── index.html
+│   ├── png-mylogo.png
 │   └── vite.svg
+├── public
+│   ├── assets
+│   │   └── projects
+│   │       ├── blog.webp
+│   │       ├── booking-system.webp
+│   │       ├── dashboard.webp
+│   │       ├── ecommerce.webp
+│   │       ├── event-stage.webp
+│   │       ├── netflix-clone.webp
+│   │       ├── portfolio.webp
+│   │       ├── seo.webp
+│   │       └── taskmanager.webp
+│   ├── fonts
+│   │   ├── Geist
+│   │   │   └── webfonts
+│   │   │       ├── Geist-Bold.woff2
+│   │   │       ├── Geist-Italic[wght].woff2
+│   │   │       ├── Geist-Light.woff2
+│   │   │       ├── Geist-Medium.woff2
+│   │   │       ├── Geist-Regular.woff2
+│   │   │       ├── Geist-SemiBold.woff2
+│   │   │       └── Geist[wght].woff2
+│   │   └── GeistMono
+│   │       ├── ttf
+│   │       ├── variable
+│   │       └── webfonts
+│   │           ├── GeistMono-Italic[wght].woff2
+│   │           ├── GeistMono-Medium.woff2
+│   │           ├── GeistMono-Regular.woff2
+│   │           ├── GeistMono-SemiBold.woff2
+│   │           └── GeistMono[wght].woff2
+│   ├── Alex-Aleman-Resume_en.pdf
+│   ├── Alex-Aleman-Resume_es.pdf
+│   ├── alex-logo.ico
+│   ├── png-mylogo.png
+│   └── vite.svg
+├── shared
 ├── src
 │   ├── assets
 │   │   ├── icons
@@ -61,13 +124,6 @@ G:\PROJECTS\portfolio
 │   │   │   ├── vue.svg
 │   │   │   ├── windows.svg
 │   │   │   └── wordpress.svg
-│   │   ├── projects
-│   │   │   ├── blog.webp
-│   │   │   ├── dashboard.webp
-│   │   │   ├── ecommerce.webp
-│   │   │   ├── portfolio.webp
-│   │   │   ├── seo.webp
-│   │   │   └── taskmanager.webp
 │   │   ├── profile.jpg
 │   │   └── react.svg
 │   ├── components
@@ -91,11 +147,15 @@ G:\PROJECTS\portfolio
 │   ├── i18n
 │   │   ├── en.json
 │   │   └── es.json
+│   ├── shared
+│   ├── .gitignore
 │   ├── App.css
 │   ├── App.jsx
 │   ├── i18n.js
 │   ├── index.css
-│   └── main.jsx
+│   ├── main.jsx
+│   └── tree-estructura.txt
+├── .env
 ├── .gitignore
 ├── cleanup-fonts.ps1
 ├── eslint.config.js
