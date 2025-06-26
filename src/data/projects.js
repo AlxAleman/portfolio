@@ -42,7 +42,7 @@ export default [
     description: "A productivity app to manage daily tasks, deadlines, and priorities with an intuitive interface and local storage persistence.",
     image: "/assets/projects/taskmanager.webp",
     tech: ["React", "JavaScript", "Local Storage"],
-    demo: "#",
-    repo: "#"
+    demo: "https://task-manager-app-alex.vercel.app",
+    repo: "https://github.com/AlxAleman/task-manager-app"
   }
 ];
