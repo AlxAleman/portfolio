@@ -30,11 +30,11 @@ export default [
   {
     id: 4,
     title: "Netflix Clone",
-    description: "A Netflix-inspired movie streaming interface featuring TMDB API integration, movie listings with ratings, detailed descriptions, and trailer modals.",
+    description: "A Netflix-inspired movie streaming interface built with Astro and React, featuring TMDB API integration for real movie data, ratings, descriptions, and trailer modals with responsive design.",
     image: "/assets/projects/netflix-clone.webp",
-    tech: ["React", "JavaScript", "TMDB API"],
-    demo: "#",
-    repo: "#"
+    tech: ["Astro", "React", "TypeScript", "TMDB API"],
+    demo: "https://netflix-clone-alex.vercel.app",
+    repo: "https://github.com/AlxAleman/netflix-clone"
   },
   {
     id: 5,

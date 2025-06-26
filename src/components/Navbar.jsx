@@ -95,7 +95,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
           >
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-sm">
               <img 
-                src="/png-mylogo.png" 
+                src="/alex-logo.png" 
                 alt="Alex Aleman Logo" 
                 className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
               />
