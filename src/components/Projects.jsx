@@ -35,8 +35,8 @@ export default function Projects() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Filtrar proyectos
-  const filtered = filter === "All" 
-    ? projectsData 
+  const filtered = filter === "All"
+    ? projectsData
     : projectsData.filter((p) => p.tech.includes(filter));
 
   // Paginación
@@ -69,8 +69,8 @@ export default function Projects() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         type: "spring",
@@ -87,9 +87,9 @@ export default function Projects() {
         className="min-h-screen flex items-center py-20"
       >
         <div className="w-full max-w-7xl mx-auto px-6">
-          
+
           {/* Header */}
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -100,14 +100,14 @@ export default function Projects() {
               <span className="text-black/80 dark:text-white/80">My</span>{" "}
               <span className="text-vscodeyellow font-semibold">Projects</span>
             </h2>
-            <motion.div 
+            <motion.div
               className="w-24 h-1 bg-vscodeyellow mx-auto mb-8"
               initial={{ width: 0 }}
               whileInView={{ width: 96 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
             />
-            
+
             {/* Filtros con estilo coherente */}
             <div className="flex flex-wrap justify-center gap-3">
               {FILTERS.map((f) => (
@@ -132,7 +132,7 @@ export default function Projects() {
           </motion.div>
 
           {/* Grid de Proyectos */}
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             variants={containerVariants}
             initial="hidden"
@@ -150,15 +150,15 @@ export default function Projects() {
               >
                 {/* Card del Proyecto - Mejorada para light mode */}
                 <div className="bg-white/90 dark:bg-black/40 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-white/20 hover:border-vscodeblue/50 hover:shadow-xl hover:shadow-vscodeblue/10 dark:hover:shadow-vscodeblue/20 transition-all duration-500 overflow-hidden h-full flex flex-col">
-                  
+
                   {/* Imagen del Proyecto */}
                   <div className="relative overflow-hidden">
-                    <img 
-                      src={project.image} 
+                    <img
+                      src={project.image}
                       alt={project.title}
                       className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    
+
                     {/* Overlay con efectos */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
@@ -182,7 +182,7 @@ export default function Projects() {
                           key={tech}
                           className="flex items-center gap-1 px-2 py-1 bg-vscodeblue/15 text-vscodeblue rounded-full text-[10px] font-medium border border-vscodeblue/25"
                         >
-                          {TECH_ICONS[tech]} 
+                          {TECH_ICONS[tech]}
                           <span>{tech}</span>
                         </span>
                       ))}
@@ -199,10 +199,10 @@ export default function Projects() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          Demo
+                          {project.type === "live" ? "LIVE SITE" : "DEMO"}
                         </motion.a>
                       )}
-                      
+
                       {project.repo && (
                         <motion.a
                           href={project.repo}
@@ -227,7 +227,7 @@ export default function Projects() {
 
           {/* Mensaje cuando no hay proyectos */}
           {filtered.length === 0 && (
-            <motion.div 
+            <motion.div
               className="text-center py-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -245,7 +245,7 @@ export default function Projects() {
 
           {/* Paginación mejorada */}
           {totalPages > 1 && (
-            <motion.div 
+            <motion.div
               className="flex justify-center items-center gap-4 mt-12"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -258,8 +258,8 @@ export default function Projects() {
                 disabled={page === 0}
                 className={`
                   p-2 rounded-xl transition-all duration-200
-                  ${page === 0 
-                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed' 
+                  ${page === 0
+                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed'
                     : 'text-vscodeblue hover:bg-vscodeblue/10 border border-vscodeblue/30'
                   }
                 `}
@@ -296,8 +296,8 @@ export default function Projects() {
                 disabled={page === totalPages - 1}
                 className={`
                   p-2 rounded-xl transition-all duration-200
-                  ${page === totalPages - 1 
-                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed' 
+                  ${page === totalPages - 1
+                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed'
                     : 'text-vscodeblue hover:bg-vscodeblue/10 border border-vscodeblue/30'
                   }
                 `}
@@ -312,7 +312,7 @@ export default function Projects() {
           )}
 
           {/* Call to Action - CON FUNCIÓN PARA ABRIR MODAL */}
-          <motion.div 
+          <motion.div
             className="mt-20 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -322,7 +322,7 @@ export default function Projects() {
             <p className="text-black/70 dark:text-white/70 mb-6">
               Want to see more projects or collaborate on something new?
             </p>
-            <motion.button 
+            <motion.button
               onClick={openContactModal}
               className="inline-flex items-center gap-2 bg-vscodeblue text-white px-8 py-4 rounded-xl font-medium hover:bg-vscodeblue/90 transition-colors duration-200 shadow-lg hover:shadow-xl hover:shadow-vscodeblue/20"
               whileHover={{ scale: 1.05 }}
@@ -339,9 +339,9 @@ export default function Projects() {
       </section>
 
       {/* Modal de contacto integrado */}
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={closeContactModal} 
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={closeContactModal}
       />
     </>
   );

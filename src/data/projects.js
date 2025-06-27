@@ -7,7 +7,8 @@ export default [
     image: "/assets/projects/booking-system.webp",
     tech: ["React", "Node", "MongoDB", "JavaScript"],
     demo: "https://booking-frontend-system.vercel.app",
-    repo: "https://github.com/AlxAleman/booking-system"
+    repo: "https://github.com/AlxAleman/booking-system",
+    type: "demo"
   },
   {
     id: 2,
@@ -16,7 +17,8 @@ export default [
     image: "/assets/projects/dashboard.webp",
     tech: ["React", "Tailwind CSS", "Recharts", "React Router"],
     demo: "https://adminpro-dashboard-admin-silk.vercel.app",
-    repo: "https://github.com/AlxAleman/dashboard-admin"
+    repo: "https://github.com/AlxAleman/dashboard-admin",
+    type: "demo"
   },
   {
     id: 3,
@@ -25,7 +27,8 @@ export default [
     image: "/assets/projects/event-stage.webp",
     tech: ["React", "Tailwind CSS", "Framer Motion", "JavaScript"],
     demo: "https://event-stage.vercel.app",
-    repo: "https://github.com/AlxAleman/event-website"
+    repo: "https://github.com/AlxAleman/event-website",
+    type: "demo"
   },
   {
     id: 4,
@@ -34,7 +37,8 @@ export default [
     image: "/assets/projects/netflix-clone.webp",
     tech: ["Astro", "React", "TypeScript", "TMDB API"],
     demo: "https://netflix-clone-alex.vercel.app",
-    repo: "https://github.com/AlxAleman/netflix-clone"
+    repo: "https://github.com/AlxAleman/netflix-clone",
+    type: "demo"
   },
   {
     id: 5,
@@ -43,9 +47,9 @@ export default [
     image: "/assets/projects/taskmanager.webp",
     tech: ["React", "JavaScript", "Local Storage"],
     demo: "https://task-manager-app-alex.vercel.app",
-    repo: "https://github.com/AlxAleman/task-manager-app"
+    repo: "https://github.com/AlxAleman/task-manager-app",
+    type: "demo"
   },
-
   {
     id: 6,
     title: "Elewa Studio",
@@ -53,9 +57,9 @@ export default [
     image: "/assets/projects/elewastudio.webp",
     tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Google Forms"],
     demo: "https://elewastudio.com",
-    repo: null
+    repo: null,
+    type: "live"
   },
-
   {
     id: 7,
     title: "Elewa Media",
@@ -63,9 +67,9 @@ export default [
     image: "/assets/projects/elewamedia.webp",
     tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Google Forms"],
     demo: "https://elewamedia.com",
-    repo: null
+    repo: null,
+    type: "live"
   },
-
   {
     id: 8,
     title: "Elewa Camera",
@@ -73,9 +77,9 @@ export default [
     image: "/assets/projects/elewacamera.webp",
     tech: ["WordPress", "PHP", "JavaScript", "CSS3"],
     demo: "https://elewacamera.com",
-    repo: null
+    repo: null,
+    type: "live"
   },
-
   {
     id: 9,
     title: "The Vine Oakland",
@@ -83,6 +87,7 @@ export default [
     image: "/assets/projects/thevineoakland.webp",
     tech: ["WordPress", "PHP", "JavaScript", "CSS3"],
     demo: "https://thevineoakland.com",
-    repo: null
+    repo: null,
+    type: "live"
   }
 ];
