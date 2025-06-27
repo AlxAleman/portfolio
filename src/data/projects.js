@@ -44,5 +44,45 @@ export default [
     tech: ["React", "JavaScript", "Local Storage"],
     demo: "https://task-manager-app-alex.vercel.app",
     repo: "https://github.com/AlxAleman/task-manager-app"
+  },
+
+  {
+    id: 6,
+    title: "Elewa Studio",
+    description: "A professional recording studio website featuring online booking system, studio showcase with multiple rooms (Studio A, Studio B, Chill Zone), pricing information, and Google Forms integration for contact and booking. Built with responsive design and modern UI for music production services.",
+    image: "/assets/projects/elewastudio.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Google Forms"],
+    demo: "https://elewastudio.com",
+    repo: null
+  },
+
+  {
+    id: 7,
+    title: "Elewa Media",
+    description: "A creative media production agency website showcasing video production, animation, and digital content services. Features dynamic portfolio gallery with work for major brands like Intel and Simpson Strong-Tie, Google Forms integration for project inquiries, and modern design with smooth animations.",
+    image: "/assets/projects/elewamedia.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Google Forms"],
+    demo: "https://elewamedia.com",
+    repo: null
+  },
+
+  {
+    id: 8,
+    title: "Elewa Camera",
+    description: "A professional camera and audiovisual equipment rental platform featuring extensive product catalog with cameras, lenses, monitors, lighting, and sound equipment. Includes advanced search functionality, category filtering, shopping cart system, and Google Forms integration for rental inquiries and bookings.",
+    image: "/assets/projects/elewacamera.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3"],
+    demo: "https://elewacamera.com",
+    repo: null
+  },
+
+  {
+    id: 9,
+    title: "The Vine Oakland",
+    description: "A community event website for Bay Area video industry networking mixers featuring event scheduling, venue information, photo gallery, and sponsorship opportunities. Includes registration system through Google Forms integration, event details with date/time/location, and modern responsive design for professional networking events.",
+    image: "/assets/projects/thevineoakland.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3"],
+    demo: "https://thevineoakland.com",
+    repo: null
   }
 ];
