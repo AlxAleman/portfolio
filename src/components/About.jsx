@@ -73,15 +73,24 @@ const About = () => {
             </div>
 
             {/* Ubicación y disponibilidad */}
-            <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-cyan-400/20">
+            <div className="bg-gray-100/80 dark:bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-cyan-400/20">
               <div className="flex items-center space-x-2 mb-2">
-                <svg className="w-4 h-4 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 text-cyan-500 dark:text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
-                <span className="text-cyan-400 font-medium">{t('about.location.title')}</span>
+                <span className="text-cyan-500 dark:text-cyan-400 font-medium">{t('about.location.title')}</span>
               </div>
-              <p className="text-gray-300 text-sm mb-2">{t('about.location.current')}</p>
-              <p className="text-gray-400 text-xs">{t('about.location.remote')}</p>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">{t('about.location.current')}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t('about.location.remote')}</p>
+              <a
+                href="mailto:alxaleman@gmail.com"
+                className="inline-flex items-center gap-1.5 text-xs text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors font-medium"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                alxaleman@gmail.com
+              </a>
             </div>
           </div>
         </div>

@@ -132,7 +132,12 @@
     "iuse": "I use"
   },
   "projects": {
-    "title": "Projects"
+    "title": "Projects",
+    "my": "My",
+    "cta_description": "Want to see more projects or collaborate on something new?",
+    "cta_button": "Get In Touch",
+    "no_results": "No projects found",
+    "no_results_hint": "Try selecting a different filter"
   },
   "contactButton": "contact",
   "contact": {

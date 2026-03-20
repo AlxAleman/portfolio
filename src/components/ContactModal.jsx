@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -85,6 +85,15 @@ function ModalContent({ isOpen, onClose }) {
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {t('contact.subtitle', "Let's work together on something great!")}
                     </p>
+                    <a
+                      href="mailto:alxaleman@gmail.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-2 text-sm font-medium text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors"
+                    >
+                      <FiMail className="w-4 h-4" />
+                      alxaleman@gmail.com
+                    </a>
                   </div>
                   <button
                     onClick={onClose}
@@ -272,7 +281,7 @@ function ModalContent({ isOpen, onClose }) {
                         <FiLinkedin className="w-5 h-5" />
                       </a>
                       <a
-                        href="https://github.com/tu-github"
+                        href="https://github.com/AlxAleman"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 rounded-lg bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 
@@ -282,6 +291,8 @@ function ModalContent({ isOpen, onClose }) {
                       </a>
                       <a
                         href="mailto:alxaleman@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 
                           hover:bg-green-100 dark:hover:bg-green-900/40 transition-all duration-200 hover:scale-105"
                       >

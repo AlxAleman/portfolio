@@ -1,6 +1,7 @@
 // src/components/Projects.jsx - Con modal de contacto integrado
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import projectsData from "../data/projects";
 import { FaReact, FaNodeJs } from "react-icons/fa";
 import { SiJavascript, SiTailwindcss, SiWordpress, SiMongodb, SiD3Dotjs } from "react-icons/si";
@@ -30,6 +31,7 @@ const FILTERS = [
 const PROJECTS_PER_PAGE = 8;
 
 export default function Projects() {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState("All");
   const [page, setPage] = useState(0);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -97,8 +99,8 @@ export default function Projects() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-light tracking-wider mb-4">
-              <span className="text-black/80 dark:text-white/80">My</span>{" "}
-              <span className="text-vscodeyellow font-semibold">Projects</span>
+              <span className="text-black/80 dark:text-white/80">{t('projects.my')}</span>{" "}
+              <span className="text-vscodeyellow font-semibold">{t('projects.title')}</span>
             </h2>
             <motion.div
               className="w-24 h-1 bg-vscodeyellow mx-auto mb-8"
@@ -235,10 +237,10 @@ export default function Projects() {
             >
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-xl font-semibold text-black dark:text-white mb-2">
-                No projects found
+                {t('projects.no_results')}
               </h3>
               <p className="text-black/60 dark:text-white/60">
-                Try selecting a different filter
+                {t('projects.no_results_hint')}
               </p>
             </motion.div>
           )}
@@ -320,7 +322,7 @@ export default function Projects() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <p className="text-black/70 dark:text-white/70 mb-6">
-              Want to see more projects or collaborate on something new?
+              {t('projects.cta_description')}
             </p>
             <motion.button
               onClick={openContactModal}
@@ -328,7 +330,7 @@ export default function Projects() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span>Get In Touch</span>
+              <span>{t('projects.cta_button')}</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

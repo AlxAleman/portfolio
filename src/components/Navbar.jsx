@@ -108,11 +108,15 @@ export default function Navbar({ dark, setDark, showMenu }) {
           {/* Redes sociales - Solo desktop */}
           <div className="hidden lg:flex gap-3 items-center ml-4">
             <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
-            <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <FaGithub size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
             </a>
-            <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <FaLinkedin size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
+            </a>
+            <a href="mailto:alxaleman@gmail.com" aria-label="Email" className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200 border border-gray-300 dark:border-gray-600 hover:border-cyan-500 dark:hover:border-cyan-400 rounded-full px-2.5 py-1">
+              <MdEmail size={14} />
+              <span>alxaleman@gmail.com</span>
             </a>
           </div>
         </div>
@@ -271,12 +275,18 @@ export default function Navbar({ dark, setDark, showMenu }) {
 
               {/* Redes sociales en móvil */}
               <div className="border-t border-light pt-4">
-                <div className="flex justify-center gap-6">
-                  <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer">
+                <div className="flex justify-center gap-6 mb-3">
+                  <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                     <FaGithub size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
                   </a>
-                  <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                     <FaLinkedin size={24} className="text-gray-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" />
+                  </a>
+                </div>
+                <div className="flex justify-center">
+                  <a href="mailto:alxaleman@gmail.com" className="flex items-center gap-2 text-sm text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors font-medium">
+                    <MdEmail size={16} />
+                    alxaleman@gmail.com
                   </a>
                 </div>
               </div>
