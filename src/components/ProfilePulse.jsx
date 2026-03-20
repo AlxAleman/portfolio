@@ -69,7 +69,7 @@ export default function ProfilePulse({ showMenu = true }) {
             repeatType: "loop",
           }}
         >
-          <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
+          <img src={profileImg} alt="Profile" className="w-full h-full object-cover object-top" />
         </motion.div>
       </div>
 
