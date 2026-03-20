@@ -23,8 +23,8 @@ export default function ProfilePulse({ showMenu = true }) {
         {/* Círculos animados: responsivos */}
         {[1, 2, 3, 4].map((i, idx) => {
           // Tamaños responsivos para los anillos
-          const baseSize = 180; // Tamaño base más pequeño para móvil
-          const increment = 24; // Incremento más pequeño
+          const baseSize = 268; // Ajustado al nuevo tamaño de foto (256px en md)
+          const increment = 28;
           const size = baseSize + i * increment;
           
           return (
@@ -55,7 +55,7 @@ export default function ProfilePulse({ showMenu = true }) {
 
         {/* Foto central - responsiva */}
         <motion.div
-          className="rounded-full overflow-hidden border-4 border-white w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 z-10"
+          className="rounded-full overflow-hidden border-4 border-white w-44 h-44 sm:w-52 sm:h-52 md:w-64 md:h-64 z-10"
           animate={{
             boxShadow: [
               "0 0 0px #5ecb5e66",
