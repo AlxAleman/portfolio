@@ -92,6 +92,16 @@ export default [
   },
   {
     id: 10,
+    title: "Primary Choices",
+    description: "Personal website for coach Adam Halpern focused on Practical Wisdom. Features a blog with automated email delivery to subscribers via a custom JavaScript mailer integrated with WordPress.",
+    image: "/assets/projects/primarychoices.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Nodemailer"],
+    demo: "https://www.primarychoices.com",
+    repo: null,
+    type: "live"
+  },
+  {
+    id: 11,
     title: "The Vine Oakland",
     description: "A community event website for Bay Area video industry networking mixers featuring event scheduling, venue information, photo gallery, and sponsorship opportunities. Includes registration system through Google Forms integration, event details with date/time/location, and modern responsive design for professional networking events.",
     image: "/assets/projects/thevineoakland.webp",
