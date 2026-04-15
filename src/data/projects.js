@@ -43,9 +43,9 @@ export default [
   {
     id: 5,
     title: "Primary Choices",
-    description: "Personal website for coach Adam Halpern focused on Practical Wisdom. Features a blog with automated email delivery to subscribers via a custom JavaScript mailer integrated with WordPress.",
+    description: "Personal website for coach Adam Halpern focused on Practical Wisdom. Features a blog with automated email delivery to subscribers via MailerLite and Zapier integration with WordPress.",
     image: "/assets/projects/primarychoices.webp",
-    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Nodemailer"],
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "MailerLite", "Zapier"],
     demo: "https://www.primarychoices.com",
     repo: null,
     type: "live"
