@@ -68,10 +68,11 @@
     "technologies": "Technologies",
     "jobs": {
       "crm": {
-        "title": "CRM Consultant - MSQL Report Writer",
+        "title": "Software Engineer",
         "period": "2024 - Present",
         "description": "Leading CRM management and business intelligence initiatives, specializing in workflow automation and data-driven reporting solutions.",
         "responsibilities": [
+          "Design and develop scalable software solutions to meet business requirements",
           "Manage and optimize ClientSpace CRM platform for enhanced business operations",
           "Design and configure complex workflows to streamline business processes",
           "Develop automated reporting systems using MSQL for executive decision-making",

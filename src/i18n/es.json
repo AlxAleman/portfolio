@@ -68,10 +68,11 @@
     "technologies": "Tecnologías",
     "jobs": {
       "crm": {
-        "title": "Consultor CRM - Desarrollador de Reportes MSQL",
+        "title": "Ingeniero de Software",
         "period": "2024 - Presente",
         "description": "Liderando iniciativas de gestión CRM e inteligencia de negocios, especializándome en automatización de flujos de trabajo y soluciones de reporting basadas en datos.",
         "responsibilities": [
+          "Diseñar y desarrollar soluciones de software escalables para cumplir con los requisitos del negocio",
           "Gestionar y optimizar la plataforma CRM ClientSpace para mejorar operaciones empresariales",
           "Diseñar y configurar flujos de trabajo complejos para optimizar procesos de negocio",
           "Desarrollar sistemas de reportes automatizados usando MSQL para toma de decisiones ejecutivas",
