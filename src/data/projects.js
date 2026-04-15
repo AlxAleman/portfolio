@@ -42,13 +42,13 @@ export default [
   },
   {
     id: 5,
-    title: "Netflix Clone",
-    description: "A Netflix-inspired movie streaming interface built with Astro and React, featuring TMDB API integration for real movie data, ratings, descriptions, and trailer modals with responsive design.",
-    image: "/assets/projects/netflix-clone.webp",
-    tech: ["Astro", "React", "TypeScript", "TMDB API"],
-    demo: "https://netflix-clone-alex.vercel.app",
-    repo: "https://github.com/AlxAleman/netflix-clone",
-    type: "demo"
+    title: "Primary Choices",
+    description: "Personal website for coach Adam Halpern focused on Practical Wisdom. Features a blog with automated email delivery to subscribers via a custom JavaScript mailer integrated with WordPress.",
+    image: "/assets/projects/primarychoices.webp",
+    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Nodemailer"],
+    demo: "https://www.primarychoices.com",
+    repo: null,
+    type: "live"
   },
   {
     id: 6,
@@ -92,16 +92,6 @@ export default [
   },
   {
     id: 10,
-    title: "Primary Choices",
-    description: "Personal website for coach Adam Halpern focused on Practical Wisdom. Features a blog with automated email delivery to subscribers via a custom JavaScript mailer integrated with WordPress.",
-    image: "/assets/projects/primarychoices.webp",
-    tech: ["WordPress", "PHP", "JavaScript", "CSS3", "Nodemailer"],
-    demo: "https://www.primarychoices.com",
-    repo: null,
-    type: "live"
-  },
-  {
-    id: 11,
     title: "The Vine Oakland",
     description: "A community event website for Bay Area video industry networking mixers featuring event scheduling, venue information, photo gallery, and sponsorship opportunities. Includes registration system through Google Forms integration, event details with date/time/location, and modern responsive design for professional networking events.",
     image: "/assets/projects/thevineoakland.webp",
@@ -109,5 +99,15 @@ export default [
     demo: "https://thevineoakland.com",
     repo: null,
     type: "live"
+  },
+  {
+    id: 11,
+    title: "Netflix Clone",
+    description: "A Netflix-inspired movie streaming interface built with Astro and React, featuring TMDB API integration for real movie data, ratings, descriptions, and trailer modals with responsive design.",
+    image: "/assets/projects/netflix-clone.webp",
+    tech: ["Astro", "React", "TypeScript", "TMDB API"],
+    demo: "https://netflix-clone-alex.vercel.app",
+    repo: "https://github.com/AlxAleman/netflix-clone",
+    type: "demo"
   }
 ];
