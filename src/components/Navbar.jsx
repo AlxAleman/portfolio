@@ -83,9 +83,9 @@ export default function Navbar({ dark, setDark, showMenu }) {
           : "bg-transparent border-b border-transparent"}
       `}
     >
-      <div className="flex justify-between items-center px-4 sm:px-6 lg:px-12 py-3 relative">
+      <div className="flex items-center px-4 sm:px-6 lg:px-12 py-3 gap-2">
         {/* Izquierda: Logo + Redes (Desktop) */}
-        <div className="flex items-center gap-4 lg:gap-6">
+        <div className="flex items-center gap-3 lg:gap-4 flex-shrink-0">
           {/* Logo */}
           <motion.button
             onClick={scrollToTop}
@@ -94,9 +94,9 @@ export default function Navbar({ dark, setDark, showMenu }) {
             whileTap={{ scale: 0.95 }}
           >
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center overflow-hidden shadow-sm">
-              <img 
-                src="/alex-logo.png" 
-                alt="Alex Aleman Logo" 
+              <img
+                src="/alex-logo.png"
+                alt="Alex Aleman Logo"
                 className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
               />
             </div>
@@ -106,7 +106,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
           </motion.button>
 
           {/* Redes sociales - Solo desktop */}
-          <div className="hidden lg:flex gap-3 items-center ml-4">
+          <div className="hidden lg:flex gap-3 items-center ml-2">
             <div className="w-px h-6 bg-gray-300 dark:bg-gray-600"></div>
             <a href="https://github.com/AlxAleman" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <FaGithub size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
@@ -114,15 +114,16 @@ export default function Navbar({ dark, setDark, showMenu }) {
             <a href="https://www.linkedin.com/in/alex-aleman-80569190/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <FaLinkedin size={20} className="text-gray-700 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200" />
             </a>
-            <a href="mailto:alxaleman@gmail.com" aria-label="Email" className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200 border border-gray-300 dark:border-gray-600 hover:border-cyan-500 dark:hover:border-cyan-400 rounded-full px-2.5 py-1">
+            {/* Email solo visible en pantallas muy anchas */}
+            <a href="mailto:alxaleman@gmail.com" aria-label="Email" className="hidden xl:flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-200 border border-gray-300 dark:border-gray-600 hover:border-cyan-500 dark:hover:border-cyan-400 rounded-full px-2.5 py-1">
               <MdEmail size={14} />
               <span>alxaleman@gmail.com</span>
             </a>
           </div>
         </div>
 
-        {/* Menú central - Desktop */}
-        <div className="hidden md:flex gap-6 lg:gap-8 text-base lg:text-lg font-medium absolute left-1/2 -translate-x-1/2">
+        {/* Menú central - flex con flex-1 para evitar solapamientos */}
+        <div className="hidden md:flex flex-1 justify-center gap-4 lg:gap-6 text-sm lg:text-base font-medium">
           {activeId && sectionMenu.map((item) =>
             item.label === "navigation.resume" ? (
               <ResumeDropdown key={item.id} active={activeId === item.id} />
@@ -132,7 +133,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
                 href={`#${item.id}`}
                 className={`
                   uppercase px-2 pb-1 border-b-2 border-transparent
-                  transition-all duration-200
+                  transition-all duration-200 whitespace-nowrap
                   ${
                     activeId === item.id
                       ? `${item.color} border-current font-bold`
@@ -147,7 +148,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
         </div>
 
         {/* Derecha: contacto, idioma, dark/light - Desktop */}
-        <div className="hidden sm:flex gap-2 lg:gap-3 items-center">
+        <div className="hidden sm:flex gap-2 lg:gap-3 items-center flex-shrink-0">
           <button
             onClick={() => setIsContactModalOpen(true)}
             className="btn-ghost flex items-center gap-2 font-medium px-3 py-1.5 rounded-lg transition-all duration-200"
@@ -155,9 +156,9 @@ export default function Navbar({ dark, setDark, showMenu }) {
             <MdEmail className="text-lg" />
             <span className="hidden lg:inline">{t('contactButton')}</span>
           </button>
-          
+
           <LanguageSelector />
-          
+
           <button
             onClick={() => setDark(!dark)}
             className="p-2.5 rounded-lg border border-light hover:border-light-medium hover-soft transition-all duration-200"
@@ -172,7 +173,7 @@ export default function Navbar({ dark, setDark, showMenu }) {
         </div>
 
         {/* Controles móviles - derecha */}
-        <div className="flex sm:hidden gap-2 items-center">
+        <div className="flex sm:hidden gap-2 items-center ml-auto">
           <button
             onClick={() => setDark(!dark)}
             className="p-2 rounded-lg border border-light hover-soft transition-colors"
