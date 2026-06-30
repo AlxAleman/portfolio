@@ -2,12 +2,12 @@
 export default [
   {
     id: 1,
-    title: "Video Game News",
-    description: "A modern game discovery platform inspired by RAWG.io, built with React and Vite. Features advanced game filtering, release calendar, platform browsing, store integration, and responsive design with smooth animations. Integrated with RAWG API for real-time game data including ratings, screenshots, and detailed information.",
-    image: "/assets/projects/rawg-clone.webp",
-    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "RAWG API"],
-    demo: "https://rawg-alex.vercel.app",
-    repo: "https://github.com/AlxAleman/rawg-clone",
+    title: "Clinic System (Physiotherapy)",
+    description: "Full-stack clinical management system for physiotherapy clinics. Features multi-role access (admin, therapist, receptionist, accounting), patient records and medical history, appointment scheduling, treatment plans, therapy session tracking, clinical evaluations, invoicing and payment processing, and an analytics dashboard with charts.",
+    image: "/assets/projects/Clinic System.webp",
+    tech: ["Next.js", "TypeScript", "Node.js", "Express", "PostgreSQL", "Prisma", "TailwindCSS", "AWS S3"],
+    demo: "https://sistema-clinica-alx.vercel.app",
+    repo: "https://github.com/AlxAleman/sistemaClinica",
     type: "demo"
   },
   {
@@ -108,6 +108,16 @@ export default [
     tech: ["Astro", "React", "TypeScript", "TMDB API"],
     demo: "https://netflix-clone-alex.vercel.app",
     repo: "https://github.com/AlxAleman/netflix-clone",
+    type: "demo"
+  },
+  {
+    id: 12,
+    title: "Video Game News",
+    description: "A modern game discovery platform inspired by RAWG.io, built with React and Vite. Features advanced game filtering, release calendar, platform browsing, store integration, and responsive design with smooth animations. Integrated with RAWG API for real-time game data including ratings, screenshots, and detailed information.",
+    image: "/assets/projects/rawg-clone.webp",
+    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion", "RAWG API"],
+    demo: "https://rawg-alex.vercel.app",
+    repo: "https://github.com/AlxAleman/rawg-clone",
     type: "demo"
   }
 ];
