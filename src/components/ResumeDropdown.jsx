@@ -45,7 +45,7 @@ export default function ResumeDropdown() {
               bg-white dark:bg-neutral-900 shadow-xl rounded-lg z-50 border border-neutral-200 dark:border-neutral-700 origin-top"
           >
             <a
-              href="/Alex-Aleman-Resume_en.pdf"
+              href="/Alex Arnoldo Segura Aleman - ENG.pdf"
               download
               className="block px-4 py-2 text-sm
                 text-vstextsoft dark:text-gray-200
@@ -55,7 +55,7 @@ export default function ResumeDropdown() {
               🇺🇸 {t("resume.resume_en") || "Resume (EN)"}
             </a>
             <a
-              href="/Alex-Aleman-Resume_es.pdf"
+              href="/Alex Arnoldo Segura Aleman - ESP.pdf"
               download
               className="block px-4 py-2 text-sm
                 text-vstextsoft dark:text-gray-200
