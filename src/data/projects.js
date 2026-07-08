@@ -112,6 +112,16 @@ export default [
   },
   {
     id: 12,
+    title: "Elewa Media (Webflow)",
+    description: "Webflow rebuild of the Elewa Media creative agency website, showcasing video production, animation, and digital content services. Features a modern design with dynamic portfolio gallery, smooth animations, and CMS-powered content management for ongoing updates.",
+    image: "/assets/projects/elewamediaWF.webp",
+    tech: ["Webflow", "JavaScript", "CSS3"],
+    demo: "https://elewa-media.webflow.io",
+    repo: null,
+    type: "live"
+  },
+  {
+    id: 13,
     title: "Video Game News",
     description: "A modern game discovery platform inspired by RAWG.io, built with React and Vite. Features advanced game filtering, release calendar, platform browsing, store integration, and responsive design with smooth animations. Integrated with RAWG API for real-time game data including ratings, screenshots, and detailed information.",
     image: "/assets/projects/rawg-clone.webp",
