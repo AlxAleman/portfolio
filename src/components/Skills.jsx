@@ -148,7 +148,7 @@ function SkillLayerCard({ category, layer, variants }) {
   return (
     <motion.div
       variants={variants}
-      className={`bento-card ${a.hoverBorder} p-5 flex flex-col justify-between`}
+      className={`bento-card ${a.hoverBorder} p-5 flex flex-col`}
     >
       <div>
         <div className="flex items-center justify-between mb-3">
