@@ -7,15 +7,10 @@ import ProfilePulse from "./components/ProfilePulse.jsx";
 import About from "./components/About.jsx";
 import Experience from "./components/Experience.jsx";
 import Skills from "./components/Skills.jsx";
+import BusinessAnalyst from "./components/BusinessAnalyst.jsx";
 import Projects from "./components/Projects.jsx";
 
 function App() {
-  const [dark, setDark] = useState(() => {
-    // Si no hay tema guardado, usa dark por defecto
-    const savedTheme = localStorage.getItem("theme");
-    return savedTheme ? savedTheme === "dark" : true; // ← true = dark por defecto
-  });
-
   const heroRef = useRef(null);
   const [showMenuInNavbar, setShowMenuInNavbar] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -37,11 +32,6 @@ function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  }, [dark]);
-
   // Función para hacer scroll al top
   const scrollToTop = () => {
     window.scrollTo({
@@ -51,16 +41,21 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen relative">
-      {/* Fondo gradiente solo en light mode */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-[#f4f4f8] via-[#e7ebf2] to-[#f7fafd] dark:hidden"></div>
-      {/* Fondo oscuro solo en dark mode */}
-      <div className="fixed inset-0 z-0 bg-vsbg hidden dark:block"></div>
+    <div className="min-h-screen relative bg-canvas">
+      {/* Fondo base */}
+      <div className="fixed inset-0 z-0 bg-canvas"></div>
+
+      {/* Ambient glow blobs compartidos entre secciones */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/4 w-[700px] h-[500px] rounded-full bg-indigo-500/10 blur-[130px]"></div>
+        <div className="absolute top-1/3 -right-32 w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[150px]"></div>
+        <div className="absolute bottom-10 left-10 w-[550px] h-[550px] rounded-full bg-violet-500/10 blur-[140px]"></div>
+      </div>
 
       {/* Contenido principal */}
-      <div className="relative z-10 text-vstextlight dark:text-white transition-colors">
+      <div className="relative z-10 text-slate-50">
         {/* Navbar fija */}
-        <Navbar dark={dark} setDark={setDark} showMenu={showMenuInNavbar} />
+        <Navbar showMenu={showMenuInNavbar} />
         
         {/* Hero/landing principal */}
         <div ref={heroRef}>
@@ -72,6 +67,7 @@ function App() {
           <About />
           <Experience />
           <Skills />
+          <BusinessAnalyst />
           <Projects />
         </main>
       </div>
@@ -86,7 +82,7 @@ function App() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 p-3 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            className="fixed bottom-6 right-6 z-50 p-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all duration-300"
             aria-label="Scroll to top"
           >
             <FiArrowUp size={20} />

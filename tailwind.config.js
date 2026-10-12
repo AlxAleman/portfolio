@@ -14,10 +14,13 @@ module.exports = {
         vscodeblue: '#569CD6',
         vscodemagenta: '#C586C0',
         vstextsoft: '#bcbcbc',
+        // Bento/console design system (dark-only)
+        canvas: '#0B0F17',
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'monospace'],
+        mono: ['Geist Mono', 'JetBrains Mono', 'Fira Code', 'Menlo', 'monospace'],
         sans: ['Inter', 'Segoe UI', 'Arial', 'sans-serif'],
+        display: ['Geist', 'Segoe UI', 'Arial', 'sans-serif'],
       },
     },
   },

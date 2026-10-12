@@ -1,96 +1,92 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  FiCode,
+  FiCheckCircle,
+  FiBarChart2,
+  FiZap,
+  FiMapPin,
+  FiMail,
+} from 'react-icons/fi';
+
+const pillars = [
+  { key: 'fullstack', icon: FiCode, accent: 'indigo' },
+  { key: 'qa', icon: FiCheckCircle, accent: 'cyan' },
+  { key: 'bi', icon: FiBarChart2, accent: 'violet' },
+  { key: 'automation', icon: FiZap, accent: 'indigo' },
+];
+
+const accentClasses = {
+  indigo: { bg: 'bg-indigo-500/10', text: 'text-indigo-400', hoverBorder: 'hover:border-indigo-500/40' },
+  cyan: { bg: 'bg-cyan-500/10', text: 'text-cyan-400', hoverBorder: 'hover:border-cyan-500/40' },
+  violet: { bg: 'bg-violet-500/10', text: 'text-violet-400', hoverBorder: 'hover:border-violet-500/40' },
+};
 
 const About = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center px-4 bg-gray-50 dark:bg-transparent">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">
-            <span className="text-cyan-600 dark:text-cyan-400">{t('about.title')}</span>
+    <section id="about" className="py-16 px-4">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="mb-8">
+          <span className="label-badge text-indigo-400">{t('about.eyebrow')}</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-50 mt-1">
+            {t('about.title')}
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Columna izquierda - Descripción principal */}
-          <div className="space-y-6">
-            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-              {t('about.description1')}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-              {t('about.description2')}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-              {t('about.description3')}
-            </p>
-          </div>
-
-          {/* Columna derecha - Stats y datos */}
-          <div className="space-y-8">
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300 dark:bg-gray-800/50 dark:backdrop-blur-sm dark:border-gray-700/50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">10+</div>
-                <div className="text-gray-600 dark:text-gray-400 text-sm">{t('about.stats.experience')}</div>
-              </div>
-              <div className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300 dark:bg-gray-800/50 dark:backdrop-blur-sm dark:border-gray-700/50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">50+</div>
-                <div className="text-gray-600 dark:text-gray-400 text-sm">{t('about.stats.projects')}</div>
-              </div>
-              <div className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300 dark:bg-gray-800/50 dark:backdrop-blur-sm dark:border-gray-700/50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">5</div>
-                <div className="text-gray-600 dark:text-gray-400 text-sm">{t('about.stats.certifications')}</div>
-              </div>
-              <div className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300 dark:bg-gray-800/50 dark:backdrop-blur-sm dark:border-gray-700/50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-1">3</div>
-                <div className="text-gray-600 dark:text-gray-400 text-sm">{t('about.stats.countries')}</div>
-              </div>
-            </div>
-
-            {/* Especialidades */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">{t('about.specialties.title')}</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-cyan-600 dark:bg-cyan-400 rounded-full"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{t('about.specialties.fullstack')}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-600 dark:bg-green-400 rounded-full"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{t('about.specialties.qa')}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-purple-600 dark:bg-purple-400 rounded-full"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{t('about.specialties.bi')}</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-yellow-600 dark:bg-yellow-400 rounded-full"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{t('about.specialties.automation')}</span>
-                </div>
-              </div>
+        {/* Bento asimétrico 7/5 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          {/* Narrativa (7 cols) */}
+          <div className="lg:col-span-7 bento-card hover:border-indigo-500/40 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="relative space-y-4">
+              <p className="text-slate-200 text-lg leading-relaxed">
+                {t('about.description1')}
+              </p>
+              <p className="text-slate-400 leading-relaxed">
+                {t('about.description2')}
+              </p>
+              <p className="text-slate-400 leading-relaxed">
+                {t('about.description3')}
+              </p>
             </div>
 
             {/* Ubicación y disponibilidad */}
-            <div className="bg-gray-100/80 dark:bg-gray-800/30 backdrop-blur-sm rounded-lg p-4 border border-cyan-400/20">
-              <div className="flex items-center space-x-2 mb-2">
-                <svg className="w-4 h-4 text-cyan-500 dark:text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                </svg>
-                <span className="text-cyan-500 dark:text-cyan-400 font-medium">{t('about.location.title')}</span>
+            <div className="relative mt-6 p-4 rounded-lg bg-black/30 border border-slate-800/80">
+              <div className="flex items-center gap-2 mb-2">
+                <FiMapPin className="text-cyan-400" size={16} />
+                <span className="text-cyan-400 font-medium text-sm">{t('about.location.title')}</span>
               </div>
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2">{t('about.location.current')}</p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mb-3">{t('about.location.remote')}</p>
+              <p className="text-slate-300 text-sm mb-1">{t('about.location.current')}</p>
+              <p className="text-slate-500 text-xs mb-3">{t('about.location.remote')}</p>
               <a
                 href="mailto:alxaleman@gmail.com"
-                className="inline-flex items-center gap-1.5 text-xs text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors font-medium"
+                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+                <FiMail size={13} />
                 alxaleman@gmail.com
               </a>
+            </div>
+          </div>
+
+          {/* Especialidades (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            <h3 className="label-badge text-slate-500 px-1">{t('about.specialties.title')}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+            {pillars.map(({ key, icon: Icon, accent }) => (
+              <div
+                key={key}
+                className={`bento-card ${accentClasses[accent].hoverBorder} p-4 flex flex-col justify-center gap-3`}
+              >
+                <div className={`w-10 h-10 rounded-lg ${accentClasses[accent].bg} flex items-center justify-center`}>
+                  <Icon className={accentClasses[accent].text} size={20} />
+                </div>
+                <span className="text-slate-200 font-medium text-sm leading-snug">
+                  {t(`about.specialties.${key}`)}
+                </span>
+              </div>
+            ))}
             </div>
           </div>
         </div>

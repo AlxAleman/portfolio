@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<base target="_top">
+<title>QA Data Portal · Interactive demo</title>
+<style>
+  :root {
+    --purple: #3730A3; --purple-2: #6366F1; --purple-bg: #EEF2FF;
+    --green: #10B981; --green-a11y: #047857; --green-bg: #ECFDF5;
+    --text: #2A2C2E; --grey: #71757B; --grey-light: #F4F4F7; --line: #E3E2E8; --white: #FFFFFF;
+    --red: #C12335; --red-bg: #FBE9EB; --amber: #A35400; --amber-bg: #FFF1E0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Helvetica, Arial, sans-serif; color: var(--text); background: var(--grey-light); font-size: 14.5px; line-height: 1.45; }
+  button, select, input { font: inherit; }
+  a { color: var(--purple); }
+
+  .pilot { background: var(--amber-bg); color: var(--amber); text-align: center; font-size: 12.5px; font-weight: 700; padding: 5px 16px; }
+  header { background: var(--purple); color: var(--white); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 58px; gap: 16px; }
+  .logo { display: flex; align-items: baseline; gap: 12px; }
+  .logo b { font-size: 16px; letter-spacing: .5px; }
+  .logo span { color: #C7D2FE; border-left: 1px solid #6366F1; padding-left: 12px; }
+  .who { font-size: 13.5px; color: #E0E7FF; }
+  nav { background: var(--white); border-bottom: 1px solid var(--line); padding: 0 28px; display: flex; gap: 4px; overflow-x: auto; }
+  nav button { border: 0; background: none; padding: 14px 16px; color: var(--text); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+  nav button:hover { color: var(--purple); }
+  nav button.on { color: var(--purple); font-weight: 700; border-bottom-color: var(--purple); }
+
+  main { padding: 24px 28px 48px; max-width: 1320px; margin: 0 auto; }
+  h1 { font-size: 23px; color: var(--purple); margin-bottom: 4px; }
+  .sub { color: var(--grey); margin-bottom: 20px; }
+  h2 { font-size: 16px; color: var(--purple); margin-bottom: 10px; }
+  .muted { color: var(--grey); }
+  .small { font-size: 12.5px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .tile { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .tile .lbl { font-size: 12.5px; color: var(--grey); }
+  .tile .val { font-size: 24px; font-weight: 700; color: var(--purple); margin-top: 2px; }
+  .tile .note { font-size: 12.5px; color: var(--grey); }
+
+  .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .spacer { flex: 1; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--purple); color: var(--white); border: 0; border-radius: 6px; padding: 9px 16px; font-weight: 700; cursor: pointer; font-size: 14px; text-decoration: none; }
+  .btn:hover { background: #312E81; }
+  .btn.ghost { background: var(--white); color: var(--purple); border: 1.5px solid var(--purple); }
+  .btn.ghost:hover { background: var(--purple-bg); }
+  .btn.danger { background: var(--red); }
+  .btn.danger:hover { background: #9B1B2A; }
+  .btn.sm { padding: 6px 11px; font-size: 13px; }
+  .btn[disabled] { background: #A5B4FC; border-color: #A5B4FC; color: var(--white); cursor: not-allowed; }
+
+  .seg { display: inline-flex; border: 1px solid #C9C4D2; border-radius: 6px; overflow: hidden; background: var(--white); }
+  .seg button { border: 0; background: var(--white); padding: 7px 12px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid #C9C4D2; }
+  .seg button.on { background: var(--purple); color: var(--white); font-weight: 700; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { border: 1px solid #C9C4D2; background: var(--white); border-radius: 14px; padding: 4px 11px; font-size: 13px; cursor: pointer; }
+  .chip.on { background: var(--purple); border-color: var(--purple); color: var(--white); font-weight: 700; }
+  .chip .c { opacity: .75; margin-left: 4px; }
+  select, input[type=date], input[type=text] { border: 1px solid #C9C4D2; border-radius: 6px; padding: 7px 9px; background: var(--white); color: var(--text); }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .card .top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .card .name { font-weight: 700; font-size: 16px; color: var(--purple); }
+  .card .meta { font-size: 12.5px; color: var(--grey); }
+  .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 13px; }
+  .kv span { color: var(--grey); display: block; font-size: 12px; }
+  .card .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 10px; white-space: nowrap; }
+  .pill.ok { background: var(--green-bg); color: var(--green-a11y); }
+  .pill.skip { background: var(--grey-light); color: var(--grey); }
+  .pill.err { background: var(--red-bg); color: var(--red); }
+  .pill.run { background: var(--purple-bg); color: var(--purple); }
+  .pill.warn { background: var(--amber-bg); color: var(--amber); }
+  .age-warn { color: var(--amber); font-weight: 700; }
+  .result { font-size: 12.5px; border-radius: 6px; padding: 7px 10px; background: var(--grey-light); }
+  .result.ok { background: var(--green-bg); color: #065F46; }
+  .result.err { background: var(--red-bg); color: #7A1320; }
+  .spin { width: 12px; height: 12px; border: 2px solid var(--purple-2); border-top-color: transparent; border-radius: 50%; display: inline-block; animation: s .8s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+
+  .panel { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+  .banner { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; margin-bottom: 18px; }
+  .dest { border-radius: 10px; padding: 14px 16px; }
+  .dest.now { background: var(--purple); color: var(--white); }
+  .dest.next { border: 2px dashed var(--purple-2); color: var(--purple); background: var(--white); }
+  .dest .k { font-size: 12px; opacity: .85; text-transform: uppercase; letter-spacing: .6px; }
+  .dest .v { font-size: 16px; font-weight: 700; margin-top: 2px; }
+  .arrow { color: var(--green-a11y); font-size: 26px; font-weight: 700; text-align: center; }
+  .flow { display: grid; grid-template-columns: 1fr 34px 1.25fr 34px 1fr; align-items: stretch; margin-bottom: 12px; }
+  .flow .box { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; }
+  .flow .box h3 { font-size: 13.5px; color: var(--purple); margin-bottom: 6px; }
+  .flow .box.engine { background: var(--purple-bg); border-color: #C7D2FE; }
+  .flow .box.out { border-left: 4px solid var(--green); }
+  .flow .arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .ex { display: flex; justify-content: space-between; border-bottom: 1px dashed #C7D2FE; padding: 2px 0; }
+  .ex:last-child { border-bottom: 0; }
+
+  .filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .filters label, .fl { display: flex; flex-direction: column; font-size: 12px; color: var(--grey); gap: 4px; }
+  .filters select { min-width: 150px; }
+  .ms { position: relative; }
+  .ms > button { border: 1px solid #C9C4D2; border-radius: 6px; padding: 7px 28px 7px 9px; background: var(--white); min-width: 170px; text-align: left; cursor: pointer; color: var(--text); position: relative; }
+  .ms > button::after { content: "▾"; position: absolute; right: 9px; top: 7px; color: var(--grey); }
+  .ms .panel-ms { position: absolute; top: 100%; left: 0; margin-top: 4px; background: var(--white); border: 1px solid #C9C4D2; border-radius: 8px; box-shadow: 0 8px 24px rgba(55,48,163,.15); z-index: 20; min-width: 230px; max-height: 320px; overflow: auto; padding: 8px; display: none; }
+  .ms.open .panel-ms { display: block; }
+  .filters .ms .opt, .ms .opt { display: flex; flex-direction: row; gap: 8px; align-items: center; padding: 4px 6px; border-radius: 4px; cursor: pointer; font-size: 13px; color: var(--text); white-space: nowrap; }
+  .ms .opt:hover { background: var(--purple-bg); }
+  .ms .bar { display: flex; gap: 6px; padding: 4px 6px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+  .ms .bar button { border: 0; background: none; color: var(--purple); cursor: pointer; font-size: 12.5px; text-decoration: underline; padding: 0; }
+
+  .multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; margin-bottom: 18px; }
+  .mini { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .mini .t { font-weight: 700; font-size: 13.5px; }
+  .mini .k { font-size: 22px; font-weight: 700; color: var(--purple); }
+  .mini svg { display: block; width: 100%; height: auto; margin-top: 4px; }
+
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th { background: var(--purple); color: var(--white); text-align: right; padding: 8px 10px; font-weight: 700; white-space: nowrap; }
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { background: #312E81; }
+  th:first-child, td:first-child { text-align: left; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; background: var(--white); }
+  tr:nth-child(even) td { background: #FAFAFC; }
+  td.total, th.total { font-weight: 700; }
+  td .ev { display: block; font-size: 11px; color: var(--grey); font-weight: 400; }
+  table.left td, table.left th { text-align: left; }
+  table.wrap td { white-space: normal; vertical-align: top; }
+  .loading { color: var(--grey); padding: 30px 0; text-align: center; }
+  .err-box { background: var(--red-bg); color: #7A1320; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; }
+  .ok-box { background: var(--green-bg); color: #065F46; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; }
+  .warn-box { background: var(--amber-bg); color: #6B3A00; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: 13.5px; }
+  .tip { position: fixed; pointer-events: none; background: var(--text); color: var(--white); font-size: 12px; padding: 6px 9px; border-radius: 5px; display: none; z-index: 30; white-space: nowrap; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 12.5px; background: var(--purple-bg); color: var(--purple); padding: 1px 5px; border-radius: 3px; }
+  .grid2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+  .srclist { max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+  .srclist label { display: flex; gap: 8px; align-items: center; padding: 4px 0; font-size: 13.5px; cursor: pointer; }
+  .srclist .acc { font-weight: 700; color: var(--purple); margin-top: 6px; font-size: 13px; }
+
+  .busy { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--purple); color: var(--white); border-radius: 24px;
+    padding: 10px 18px; display: none; align-items: center; gap: 10px; z-index: 80; box-shadow: 0 8px 24px rgba(55,48,163,.35); font-size: 14px; max-width: 92vw; }
+  .busy .spin { border-color: var(--white); border-top-color: transparent; width: 14px; height: 14px; }
+  .busy .sec { opacity: .8; font-variant-numeric: tabular-nums; }
+  #overlay { position: fixed; inset: 0; background: rgba(255,255,255,.45); cursor: progress; z-index: 75; display: none; }
+  .srows { border-top: 1px solid var(--line); }
+  .srow { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .srow .hdr { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .srow:last-child { border-bottom: 0; }
+  .srow .id { font-weight: 700; font-size: 13.5px; }
+  .srow .acts { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .srclist .acc input { margin-right: 6px; }
+  .inc { display: inline-flex; gap: 6px; align-items: center; border-radius: 14px; padding: 3px 10px; font-size: 12.5px; border: 1px solid #C9C4D2; background: var(--white); color: var(--grey); }
+  .inc.on { background: var(--green-bg); border-color: #A7F3D0; color: #065F46; }
+  .inc b { font-weight: 700; }
+  .inres { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; border-radius: 6px; padding: 5px 9px; }
+  .inres.yes { background: var(--green-bg); color: var(--green-a11y); }
+  .inres.no { background: var(--amber-bg); color: var(--amber); }
+  .inres.hid { background: var(--grey-light); color: var(--grey); }
+  .ttl { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .ttl h1 { margin: 0; }
+  .help-btn { border: 1.5px solid var(--purple); color: var(--purple); background: var(--white); border-radius: 14px; padding: 2px 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+  .help-btn:hover { background: var(--purple-bg); }
+  #helpShade { position: fixed; inset: 0; background: rgba(42,44,46,.35); z-index: 70; display: none; }
+  #help { position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100vw); background: var(--white); z-index: 71; display: none; flex-direction: column; box-shadow: -8px 0 24px rgba(0,0,0,.15); }
+  #help .hd { background: var(--purple); color: var(--white); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
+  #help .hd b { font-size: 16px; }
+  #help .hd button { background: none; border: 0; color: var(--white); font-size: 22px; cursor: pointer; line-height: 1; }
+  #help .bd { padding: 16px 18px 28px; overflow: auto; font-size: 13.5px; }
+  #help h3 { font-size: 14px; color: var(--purple); margin: 16px 0 6px; }
+  #help h3:first-child { margin-top: 0; }
+  #help dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: baseline; }
+  #help dt { font-weight: 700; white-space: nowrap; }
+  #help dd { color: var(--text); }
+  #help p { margin-bottom: 6px; }
+  td.exp { cursor: pointer; user-select: none; font-weight: 700; color: var(--purple); }
+  td.exp:hover { text-decoration: underline; }
+  td.exp .car { display: inline-block; width: 14px; color: var(--grey); font-weight: 400; }
+  tr.child td { background: #F8FAFF !important; font-size: 12.5px; }
+  tr.child td:first-child { padding-left: 32px; color: var(--grey); }
+  .toast { position: fixed; bottom: 18px; right: 18px; background: var(--red); color: var(--white); border-radius: 8px; padding: 10px 14px; font-size: 13.5px; z-index: 85; display: none; max-width: 420px; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  .result.warn { background: var(--amber-bg); color: #6B3A00; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  nav .badge { background: var(--green); color: var(--purple); border-radius: 10px; font-size: 11.5px; font-weight: 700; padding: 1px 7px; margin-left: 6px; }
+  .wiz { display: flex; flex-wrap: wrap; margin-bottom: 14px; }
+  .wiz div { flex: 1; min-width: 110px; text-align: center; font-size: 12.5px; padding: 8px 4px; border-bottom: 3px solid var(--line); color: var(--grey); }
+  .wiz div.on { border-color: var(--purple); color: var(--purple); font-weight: 700; }
+  .wiz div.done { border-color: var(--green); color: var(--green-a11y); }
+  .choice { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin-top: 8px; display: flex; gap: 10px; cursor: pointer; align-items: flex-start; background: var(--white); }
+  .choice:hover { border-color: var(--purple-2); }
+  .choice.on { border-color: var(--purple); background: var(--purple-bg); }
+  .choice b { display: block; }
+  .choice .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #94A3B8; flex: none; margin-top: 2px; }
+  .choice.on .dot { border-color: var(--purple); background: radial-gradient(var(--purple) 0 4px, transparent 5px); }
+  .form label.f { display: block; font-weight: 700; font-size: 13.5px; margin: 14px 0 5px; color: var(--text); }
+  .form .hint { font-weight: 400; color: var(--grey); font-size: 12.5px; }
+  .form select, .form input[type=text], .form textarea { width: 100%; }
+  textarea, input[type=number] { border: 1px solid #C9C4D2; border-radius: 6px; padding: 7px 9px; font: inherit; background: var(--white); color: var(--text); }
+  textarea { min-height: 64px; resize: vertical; }
+  input:disabled { background: var(--grey-light); color: var(--grey); }
+  .cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  .sugg { display: inline-block; font-size: 12px; color: var(--green-a11y); font-weight: 700; margin-top: 3px; }
+  .ex2 { font-size: 12px; color: var(--grey); margin-top: 3px; }
+  .nav-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .opt-line { display: flex; gap: 8px; align-items: center; padding: 3px 0; font-size: 13.5px; cursor: pointer; }
+  .tabpick { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0 14px; }
+  .top-line { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  #modalShade { position: fixed; inset: 0; background: rgba(42,44,46,.45); z-index: 65; display: none; align-items: center; justify-content: center; padding: 16px; }
+  #modal { background: var(--white); border-radius: 12px; max-width: 680px; width: 100%; padding: 22px; max-height: 90vh; overflow: auto; }
+  .who { display: flex; align-items: center; gap: 12px; }
+  .viewas { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #E0E7FF; }
+  .viewas select { padding: 4px 8px; font-size: 13px; border-radius: 6px; border: 0; }
+  .demo-bar { background: var(--amber-bg); color: #6B3A00; font-size: 13px; padding: 7px 28px; display: none; align-items: center; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid #F3D9B5; }
+  .demo-bar b { color: var(--amber); }
+  .inline-load { display: flex; gap: 8px; align-items: center; color: var(--purple); background: var(--purple-bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; font-size: 13.5px; }
+
+  @media (max-width: 900px) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .flow { grid-template-columns: 1fr; }
+    .flow .arrow { transform: rotate(90deg); height: 30px; }
+    .banner, .grid2, .cols2 { grid-template-columns: 1fr; }
+    header { padding: 0 16px; } main { padding: 18px 16px 40px; } nav { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="pilot">INTERACTIVE DEMO · every company, person and number is fictional · nothing is saved and no email is sent (reload to reset) · try <b>View as → User</b> in the header · <a href="/" style="color:inherit">← back to the portfolio</a></div>
+<header>
+  <div class="logo"><b>QA Data Portal</b><span>Interactive demo</span><span id="ver" style="border:0;padding:0;font-size:11.5px;opacity:.75"></span></div>
+  <div class="who" id="who"></div>
+</header>
+<div class="demo-bar" id="demoBar"></div>
+<nav id="nav"></nav>
+<main id="main"><div class="loading"><span class="spin"></span> Loading…</div></main>
+<div class="tip" id="tip"></div>
+<div class="busy" id="busy" role="status" aria-live="polite"><span class="spin"></span><span class="msg"></span><span class="sec"></span></div>
+<div id="overlay"></div>
+<div class="toast" id="toast" role="alert"></div>
+<div id="modalShade"><div id="modal" role="dialog" aria-modal="true"></div></div>
+<div id="helpShade"></div>
+<aside id="help" role="dialog" aria-label="Help"><div class="hd"><b id="helpTitle">Help</b><button id="helpClose" aria-label="Close help">×</button></div><div class="bd" id="helpBody"></div></aside>
+
+<script src="mock.js"></script>
+<script>
+/* Visible version: change it on every release, so anyone can tell which version they are looking at. */
+const PORTAL_VERSION = 'demo';
+document.getElementById('ver').textContent = PORTAL_VERSION;
+
+/* ============================================================ server calls */
+function call(fn, ...args) {
+  return new Promise((resolve, reject) => {
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(e => reject(e && e.message ? e : new Error(String(e))))[fn](...args);
+    } else if (window.MOCK && window.MOCK[fn]) {
+      setTimeout(() => { Promise.resolve().then(() => window.MOCK[fn](...args)).then(resolve, reject); }, 150);
+    } else reject(new Error('Not running inside Apps Script'));
+  });
+}
+
+/* ============================================================ busy indicator */
+// Every action shows that it is working (message + seconds) until it finishes. "block" stops other clicks meanwhile.
+let busyTimer = null;
+function busyStart(msg, block) {
+  const el = document.getElementById('busy');
+  el.querySelector('.msg').textContent = msg;
+  const sec = el.querySelector('.sec');
+  const t0 = Date.now();
+  sec.textContent = '0 s';
+  clearInterval(busyTimer);
+  busyTimer = setInterval(() => { sec.textContent = Math.round((Date.now() - t0) / 1000) + ' s'; }, 1000);
+  el.style.display = 'flex';
+  document.getElementById('overlay').style.display = block ? 'block' : 'none';
+}
+function toast(msg, ok) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.style.display = 'block';
+  el.style.background = ok ? 'var(--green-a11y)' : 'var(--red)';
+  clearTimeout(toast.t); toast.t = setTimeout(() => { el.style.display = 'none'; }, 7000);
+}
+function busyMsg(msg) { document.querySelector('#busy .msg').textContent = msg; }
+function busyEnd() {
+  clearInterval(busyTimer);
+  document.getElementById('busy').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
+async function withBusy(msg, block, fn) {
+  busyStart(msg, block);
+  try { return await fn(); } finally { busyEnd(); }
+}
+
+/* ============================================================ help */
+const pill = (cls, t) => `<span class="pill ${cls}">${t}</span>`;
+const HELP = () => ({
+  status: { title: 'Help · Status', body: `
+    <h3>What a “source” is</h3>
+    <p>One account file (and tab) shared with view access. An account can have several sources, for example one tab per LOB.</p>
+    <h3>Summary tiles</h3>
+    <dl><dt>Sources</dt><dd>Active sources and how many accounts they belong to.</dd>
+      <dt>Evaluations loaded</dt><dd>Evaluations of 2026 stored in the destination, all sources together.</dd>
+      <dt>Last update</dt><dd>Most recent time any source was loaded.</dd>
+      <dt>Sources with errors</dt><dd>Sources whose last load failed.</dd></dl>
+    <h3>Views and filters</h3>
+    <dl><dt>Cards</dt><dd>One card per account. If the account has several sources, each one is shown inside the card.</dd>
+      <dt>List</dt><dd>One row per source. Click a column header to sort (▲ ascending, ▼ descending).</dd>
+      <dt>Sort by</dt><dd>Account (A–Z), data status, country, evaluations (high → low), data age or last run.</dd>
+      <dt>All · Loaded · Not loaded · Error</dt><dd>Quick filters by data status; the number is how many sources are in each.</dd></dl>
+    <h3>Data status (one per source)</h3>
+    <dl><dt>${pill('ok', '✓ Data loaded')}</dt><dd>The source has evaluations loaded. They are used in Results.</dd>
+      <dt>${pill('warn', 'Data not loaded')}</dt><dd>Nothing is loaded (never loaded, or deleted in Manage data).</dd>
+      <dt>${pill('warn', '⚠ Needs mapping')}</dt><dd>A column of the rule was renamed or removed in the account file. Nothing new is loaded and the data loaded before is kept. <b>Fix mapping</b> lets the user or the BA team pick the new column, test it and reload (no approval needed; the old name is kept as an alternative).</dd>
+      <dt>${pill('err', '✕ Error')}</dt><dd>The last load failed. Hover the indicator or read the red line for the reason (e.g. no access to the file).</dd>
+      <dt>${pill('run', 'Loading…')}</dt><dd>The file is being read right now. Wait until it finishes.</dd></dl>
+    <h3>Card fields</h3>
+    <dl><dt>Source ID</dt><dd>Name of the source in the configuration (e.g. NW-VOICE).</dd>
+      <dt>Country · LOB</dt><dd>Taken from the loaded data.</dd>
+      <dt>Evaluations loaded</dt><dd>Evaluations of 2026 currently stored for the source.</dd>
+      <dt>Data from – to</dt><dd>Oldest and newest evaluation date loaded.</dd>
+      <dt>Last run</dt><dd>When the source was last loaded.</dd>
+      <dt>Newest evaluation</dt><dd>How old the newest evaluation is. In <span class="age-warn">orange</span> when older than ${STALE_DAYS} days: the account may not be adding data.</dd></dl>
+    <h3>Buttons</h3>
+    <dl><dt>⤓ Load data</dt><dd>Reads the account file and loads all its 2026 evaluations (15–75 seconds).</dd>
+      <dt>⟳ Refresh</dt><dd>Reads the file again and replaces the source's evaluations with what the file has today.</dd>
+      <dt>⟳ Refresh all</dt><dd>Does the same for every active source, one after the other.</dd>
+      <dt>Open source file / ↗</dt><dd>Opens the account file in a new tab.</dd></dl>` },
+  flow: { title: 'Help · How data flows', body: `
+    <h3>Destination</h3>
+    <dl><dt>Today (pilot)</dt><dd>A Google Sheet (tab “Data”). The percentage is how much of the Google Sheets capacity is used.</dd>
+      <dt>Next</dt><dd>BigQuery (cloud data warehouse). Only the step that writes the data changes.</dd></dl>
+    <h3>The three steps of each source</h3>
+    <dl><dt>1 · Account file</dt><dd>The file and tab read with view access.</dd>
+      <dt>2 · Read, clean and calculate</dt><dd>Rows read minus the rows left out, equals the evaluations loaded.</dd>
+      <dt>3 · Destination</dt><dd>Evaluations stored for the source and their date range.</dd></dl>
+    <h3>Why rows are left out</h3>
+    <dl><dt>No WDID</dt><dd>The row has no Workday ID, so it cannot be assigned to an agent.</dd>
+      <dt>Filtered by the account rule</dt><dd>Excluded by the rule of that account (same as its current template).</dd>
+      <dt>Before 2026 / outside range</dt><dd>The pilot only loads 2026.</dd>
+      <dt>Unreadable date</dt><dd>The date could not be understood.</dd>
+      <dt>Score not numeric</dt><dd>The score is empty or is text.</dd>
+      <dt>Duplicate evaluation</dt><dd>The same evaluation appears more than once in the file; only the most recent copy is counted (latest evaluation date up to today; same date → the lower row).</dd>
+      <dt>Already loaded from another source</dt><dd>The evaluation already exists from another source (for example, a copy of the file); it is not loaded twice.</dd>
+      <dt>Rule version</dt><dd>Changes when the account's rule changes; the source is then reloaded with the new rule.</dd></dl>` },
+  results: { title: 'Help · Results', body: `
+    <h3>How the QA score is calculated</h3>
+    <p><b>Weighted:</b> sum of the numerators ÷ sum of the denominators of every evaluation in the selection. It is never an average of averages, so a period with more evaluations weighs more.</p>
+    <h3>Period</h3>
+    <dl><dt>Month</dt><dd>Choose the year and one or several months.</dd>
+      <dt>Week</dt><dd>Choose the year and one or several weeks. Weeks start on Monday (ISO numbering); the label shows that Monday, e.g. “W40 · Sep 28”.</dd>
+      <dt>Specific range</dt><dd>Any “from – to” dates, grouped by day, week or month.</dd></dl>
+    <h3>Country → Account → LOB</h3>
+    <p>Multi-select filters in that order: the accounts offered depend on the countries chosen, and the LOBs on the countries and accounts chosen. With one account selected, the detail is shown by LOB · country. <b>Reset</b> goes back to everything.</p>
+    <h3>Tiles, trends and table</h3>
+    <dl><dt>QA score</dt><dd>Weighted score of the whole selection.</dd>
+      <dt>Evaluations</dt><dd>Evaluations in the selection.</dd>
+      <dt>Agents evaluated</dt><dd>Different WDIDs in the selection.</dd>
+      <dt>Accounts</dt><dd>Accounts with data in the selection.</dd>
+      <dt>Trend cards</dt><dd>One line per account (or LOB · country). Hover a point to see the period, score and evaluations.</dd>
+      <dt>Table</dt><dd>Score per period. The small number under each score is its evaluations. “—” means no evaluations in that period. Total = all its evaluations together. Click any column (a period or Total) to sort high → low; click again for low → high. Click an account name (▸) to show its LOBs with their own results; click again (▾) to hide them.</dd></dl>` },
+  manage: { title: 'Help · Manage data', body: `
+    <h3>What this page does</h3>
+    <p>Deletes loaded evaluations. Only sources with data loaded are listed. The account files are not touched.</p>
+    <h3>Steps</h3>
+    <dl><dt>1 · What to delete</dt><dd><b>All sources</b> (everything loaded) or <b>Choose sources</b>. “Whole account” selects all the sources of that account.</dd>
+      <dt>2 · Which dates</dt><dd><b>All dates</b> or a <b>Date range</b> (from – to, both included).</dd>
+      <dt>Preview</dt><dd>Counts what will be deleted per source and what will remain. Nothing is deleted yet.</dd>
+      <dt>3 · Confirm</dt><dd>Optional reason, type <b>DELETE</b>, then press the red button. It stays grey until the preview has rows and DELETE is typed.</dd></dl>
+    <h3>Safety</h3>
+    <dl><dt>7-day backup</dt><dd>Deleted evaluations are kept for 7 days and can be restored.</dd>
+      <dt>Reloading</dt><dd>“Load data” or “Refresh” in Status loads the source again from its file, including what you deleted.</dd>
+      <dt>Approval</dt><dd>This page is for the BA team (Admin). Users ask for deletions and reloads in <b>Requests</b> and an Admin approves them.</dd></dl>
+    <h3>Remove a source</h3>
+    <dl><dt>What it does</dt><dd>In this order: deletes all the evaluations of the source (kept 7 days in the backup), unticks <b>Active</b> in its Config row and records it in Requests. The account file is not touched.</dd>
+      <dt>Undo</dt><dd>Tick Active again in the Config tab and press Load data (or Restore the deletion within 7 days).</dd></dl>
+    <h3>Deletion history</h3>
+    <dl><dt>Batch</dt><dd>ID of the deletion.</dd>
+      <dt>Deleted</dt><dd>In the backup; can be restored with <b>Restore</b>.</dd>
+      <dt>Restored</dt><dd>Put back (with who and when).</dd>
+      <dt>Expired</dt><dd>More than 7 days old: the backup was removed; it cannot be restored.</dd></dl>` },
+  rules: { title: 'Help · Rules & log', body: `
+    <h3>Rules (how each source is read)</h3>
+    <dl><dt>Where</dt><dd>Tab read, and where the LOB and country come from (a column or a fixed value).</dd>
+      <dt>Columns used</dt><dd>Exact headers of the date, WDID and agent name. Columns are found by header name, so they can move.</dd>
+      <dt>Filter</dt><dd>Rows kept (pilot: same as the account's current template).</dd>
+      <dt>Numerator ÷ Denominator</dt><dd>How each evaluation counts in the weighted score.</dd>
+      <dt>Duplicate key</dt><dd>Columns that identify one evaluation; used to avoid loading it twice.</dd>
+      <dt>v</dt><dd>Rule version.</dd></dl>
+    <h3>Activity log (Admin only)</h3>
+    <p>One row per source per load: when, who ran it and why (refresh, new source and its request, Fix mapping, approved reload, scheduled run…), account and source, the file, the tabs of the rule and the tabs actually read (with their evaluations), the result, the rows left out and the messages (errors and duplicates, with examples). The same data is in the Log tab of the control sheet.</p>
+    <dl><dt>${pill('ok', 'OK')}</dt><dd>Loaded correctly.</dd>
+      <dt>${pill('skip', 'SKIPPED')}</dt><dd>Not read because the file had not changed (automatic runs only).</dd>
+      <dt>${pill('err', 'ERROR')}</dt><dd>Failed; the message says why.</dd>
+      <dt>Excluded (why)</dt><dd>Rows left out and the reason (see Help in “How data flows”).</dd></dl>` },
+  add: { title: 'Help · Add a file', body: `
+    <h3>Two ways</h3>
+    <dl><dt>Quick add</dt><dd>Only the link (plus account and country). The BA team maps the columns and confirms the calculation with the user.</dd>
+      <dt>Map it myself</dt><dd>5 steps. The portal reads the real file, finds the column names, guesses each column and tests the result.</dd></dl>
+    <h3>The 5 steps</h3>
+    <dl><dt>1 · Link</dt><dd>“Check access” opens the file. If it fails, share the file as <b>Viewer</b> with the address shown. A file that is already registered is flagged.</dd>
+      <dt>2 · Tabs & headers</dt><dd>The row with the column names is detected (change it if needed). Tabs with the same columns are ticked. “Include new tabs automatically” reads future tabs whose name follows the pattern (suggested from the ticked tabs, e.g. “* 2026”) and that have the mapped columns; unticked tabs are always ignored. The first time a new tab is read, an Admin is asked to confirm it (Requests › New tab found).</dd>
+      <dt>3 · Account</dt><dd>Account, country and LOB: the same for all rows, or taken from a column.</dd>
+      <dt>4 · Columns</dt><dd>Date, WDID, agent name and how the score is shown: one column (0–100, 0–1 or percent, 0–5, 1–5, 1–10 or any other range), points earned ÷ possible, or a combination. For scales that start at 1, choose what the lowest score is worth. Rows that should not count (e.g. calibrations). Columns that identify one evaluation (to never count it twice).</dd>
+      <dt>5 · Test & send</dt><dd>Reads the whole file and shows the evaluations and the weighted QA score per month. Nothing is saved. The user confirms whether the last full month matches their own report (saved as evidence) and sends it; an Admin approves it in Requests. An Admin saves and loads it directly. A warning appears if the QA score looks too low (usually a wrong scale) or if many scores are not numbers.</dd></dl>` },
+  requests: { title: 'Help · Requests', body: `
+    <h3>Types</h3>
+    <dl><dt>Delete data</dt><dd>Removes the evaluations of one source in a period. Kept in a backup for 7 days (Manage data › Restore).</dd>
+      <dt>Reload a period</dt><dd>The account corrected its file: the source is read again and the period takes the values the file has today.</dd>
+      <dt>Change the calculation</dt><dd>A column, tab or rule changed; the BA team updates it and marks the request as done.</dd>
+      <dt>New source / New link</dt><dd>Files sent from Add a file.</dd>
+      <dt>Column renamed</dt><dd>Record of a Fix mapping (no approval needed).</dd>
+      <dt>New tab found</dt><dd>Automatic: a tab was read for the first time (e.g. a new month). It is already loaded; an Admin confirms it, or excludes it and the source is reloaded without it.</dd></dl>
+    <h3>Who approves</h3>
+    <dl><dt>Admin (BA team)</dt><dd>Approves everything: new sources, changes, deletions and reloads. Approved actions run immediately.</dd>
+      <dt>Emails</dt><dd>The alert list gets an email for every new request; the requester when it is done or rejected (with the reason). Emails only notify: approvals happen only in the portal.</dd></dl>
+    <h3>Statuses</h3>
+    <dl><dt>${pill('run', 'Requested')}</dt><dd>Waiting for the BA team.</dd>
+      <dt>${pill('ok', '✓ Done')}</dt><dd>Approved and executed. “Result” says what happened.</dd><dt>${pill('err', 'Rejected')}</dt><dd>Not done; the reason is in “Result”.</dd></dl>` },
+  access: { title: 'Help · Access', body: `
+    <h3>Manage people here</h3><p><b>+ Add person</b>: email, name, role and, for a User, the accounts they can see (from the list, “All accounts”, or accounts not loaded yet). <b>Edit</b> changes role, accounts or request emails; <b>Remove</b> takes away access. Changes apply the next time the person opens or reloads the portal and are recorded in Requests (“Access change”, Admins only). The list is also the Access tab of the control sheet.</p>
+    <h3>Safety</h3><p>You cannot remove yourself or your own Admin role, and the portal always keeps at least one Admin.</p>
+    <h3>Roles</h3><dl><dt>User</dt><dd>Only their accounts: Status and Results, add files, fix renamed columns, refresh their sources and send requests.</dd>
+      <dt>Admin</dt><dd>The BA team: everything, and approves every request.</dd></dl>
+    <p>People who are not in the list cannot open the portal.</p>
+    <h3>Pilot mode</h3><p>While the Access tab is empty, everyone with the link is Admin.</p>` },
+});
+function openHelp() {
+  const all = HELP(); const h = all[S.view] || all.status;
+  document.getElementById('helpTitle').textContent = h.title;
+  document.getElementById('helpBody').innerHTML = h.body +
+    `<h3>Everywhere</h3><dl><dt>Version</dt><dd>${esc(PORTAL_VERSION)} (next to the portal name).</dd><dt>Working banner</dt><dd>The purple message at the top shows what the portal is doing and the seconds elapsed.</dd></dl>`;
+  document.getElementById('help').style.display = 'flex';
+  document.getElementById('helpShade').style.display = 'block';
+}
+function closeHelp() {
+  document.getElementById('help').style.display = 'none';
+  document.getElementById('helpShade').style.display = 'none';
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-help]')) openHelp(); });
+document.getElementById('helpClose').onclick = closeHelp;
+document.getElementById('helpShade').onclick = closeHelp;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeHelp(); });
+
+/* ============================================================ helpers */
+const esc = v => String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const N = v => (typeof v === 'number' ? v.toLocaleString('en-US') : (v === '' || v === null || v === undefined ? '—' : esc(v)));
+const pct = k => (k === null || k === undefined || !isFinite(k) ? '—' : (k * 100).toFixed(1) + '%');
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dayStr = d => new Date(d * 86400000).toISOString().slice(0, 10);
+const strDay = s => { const p = s.split('-').map(Number); return Math.round(Date.UTC(p[0], p[1] - 1, p[2]) / 86400000); };
+function isoWeek(d) {                         // d = days since 1970-01-01
+  const dow = (new Date(d * 86400000).getUTCDay() + 6) % 7;
+  const monday = d - dow;
+  const year = new Date((monday + 3) * 86400000).getUTCFullYear();
+  const jan4 = Math.round(Date.UTC(year, 0, 4) / 86400000);
+  const jan4Mon = jan4 - ((new Date(jan4 * 86400000).getUTCDay() + 6) % 7);
+  return { year: year, week: Math.floor((monday - jan4Mon) / 7) + 1, monday: monday };
+}
+const weekKey = d => { const w = isoWeek(d); return `${w.year}-W${String(w.week).padStart(2, '0')}`; };
+const monthKey = d => dayStr(d).slice(0, 7);
+function periodLabel(p) {
+  if (/^\d{4}-\d{2}$/.test(p)) return `${MONTHS[+p.slice(5, 7) - 1]} ${p.slice(0, 4)}`;
+  const w = p.match(/^(\d{4})-W(\d{2})$/);
+  if (w) { const mon = S.weekMonday[p]; return `W${+w[2]}` + (mon !== undefined ? ` · ${MONTHS[+dayStr(mon).slice(5, 7) - 1]} ${+dayStr(mon).slice(8, 10)}` : ''); }
+  return `${MONTHS[+p.slice(5, 7) - 1]} ${+p.slice(8, 10)}`;
+}
+const statusOf = s => {
+  if (s.__group) return s.__status;
+  if (S.running[s.id]) return 'Loading';
+  if (s.mapping) return 'Needs mapping';
+  if (s.last && s.last.status === 'ERROR') return 'Error';
+  return s.data && s.data.rows ? 'Loaded' : 'Not loaded';
+};
+const STATUS_ORDER = ['Loading', 'Error', 'Needs mapping', 'Not loaded', 'Loaded'];
+const ageOf = s => (s.data && s.data.max && S.status ? strDay(S.status.today) - strDay(s.data.max) : null);
+const STALE_DAYS = 7;
+const prefs = (() => { try { return JSON.parse(localStorage.getItem('qaPilotPrefs') || '{}'); } catch (e) { return {}; } })();
+const savePrefs = () => { try { localStorage.setItem('qaPilotPrefs', JSON.stringify(prefs)); } catch (e) { /* storage blocked */ } };
+
+/* ============================================================ state */
+const S = {
+  view: 'status', status: null, ds: null, dsVersion: null, running: {}, lastRun: {}, error: '',
+  statusView: prefs.statusView || 'cards', sortKey: prefs.sortKey || 'account', sortDir: prefs.sortDir || 1, statusFilter: 'All',
+  r: null, weekMonday: {}, expanded: new Set(), add: null, req: null, fix: null,
+  del: { sources: new Set(), allSources: true, datesMode: 'all', from: '', to: '', preview: null, reason: '', confirm: '', msg: '' },
+};
+const $main = document.getElementById('main');
+const VIEWS = { status: 'Status', flow: 'How data flows', results: 'Results', add: '+ Add a file', requests: 'Requests', manage: 'Manage data', rules: 'Rules & log', access: 'Access' };
+const NAV_BY_ROLE = {
+  Admin: ['status', 'flow', 'results', 'add', 'requests', 'manage', 'rules', 'access'],
+  User: ['status', 'results', 'add', 'requests'],
+};
+const allowedViews = () => NAV_BY_ROLE[S.status && S.status.me ? S.status.me.role : 'User'] || NAV_BY_ROLE.User;
+function buildNav() {
+  const nav = document.getElementById('nav');
+  const pending = S.status && S.status.pending;
+  nav.innerHTML = allowedViews().map(v => `<button data-view="${v}" class="${S.view === v ? 'on' : ''}">${esc(VIEWS[v])}${v === 'requests' && pending ? `<span class="badge" title="Waiting for you">${pending}</span>` : ''}</button>`).join('');
+  nav.querySelectorAll('button').forEach(b => b.onclick = () => go(b.dataset.view));
+}
+document.addEventListener('click', e => { document.querySelectorAll('.ms.open').forEach(m => { if (!m.contains(e.target)) m.classList.remove('open'); }); });
+
+function go(v) {
+  if (!allowedViews().includes(v)) v = 'status';
+  S.view = v;
+  buildNav();
+  ({ status: renderStatus, flow: renderFlow, results: renderResults, add: renderAdd, requests: renderRequests, manage: renderManage, rules: renderRules, access: renderAccess })[v]();
+}
+
+async function loadStatus() {
+  try {
+    S.status = await call('apiStatus');
+    S.error = '';
+  } catch (e) { S.error = e.message; }
+  renderWho();
+  buildNav();
+}
+
+/* ============================================================ DEMO: view as another role (pilot only) */
+// Only for real Admins and only while SELF.DEMO_VIEW_AS is true on the server. Remove after the pilot.
+function renderWho() {
+  const me = (S.status && S.status.me) || {};
+  const who = document.getElementById('who');
+  const txt = `<span>${esc(S.status && S.status.user ? 'Signed in as ' + S.status.user : 'Signed in')}${me.realRole === 'Admin' && me.viewAs ? '' : ' · ' + esc(me.role || '')}${me.open ? ' (pilot: Access list empty)' : ''}</span>`;
+  const demo = me.realRole === 'Admin' && me.demoAccounts;
+  who.innerHTML = txt + (demo ? `<label class="viewas" title="Pilot / demo only: see the portal as another role">View as
+    <select id="viewAs">${['Admin', 'User'].map(r => `<option ${r === me.role ? 'selected' : ''}>${r}</option>`).join('')}</select></label>` : '');
+  const bar = document.getElementById('demoBar');
+  if (demo && me.viewAs) {
+    const acc = me.viewAs.accounts && me.viewAs.accounts.length ? me.viewAs.accounts.join(', ') : 'all accounts';
+    bar.innerHTML = `<span><b>DEMO</b> · You are viewing the portal as <b>${esc(me.role)}</b> (${esc(acc)}). What you do is real: requests, emails and approvals are saved.</span>
+      <button class="btn ghost sm" id="backAdmin">Back to Admin</button>`;
+    bar.style.display = 'flex';
+    document.getElementById('backAdmin').onclick = () => switchRole({ role: 'Admin' });
+  } else { bar.style.display = 'none'; bar.innerHTML = ''; }
+  const sel = document.getElementById('viewAs');
+  if (sel) sel.onchange = () => { const role = sel.value; sel.value = me.role; confirmRole(role); };
+}
+function confirmRole(role) {
+  const me = S.status.me, accs = me.demoAccounts || [];
+  const needs = role === 'User';
+  const what = { Admin: 'everything (your real role)', User: 'only the accounts you choose: Status, Results, Add a file and Requests' }[role];
+  openModal(`<h2>View the portal as ${esc(role)}?</h2>
+    <p class="small">${esc(role)} sees ${esc(what)}. The page reloads with what that role sees. Your real role stays <b>Admin</b>; this switch is only for the pilot.</p>
+    ${needs ? `<div class="form"><label class="f">Account(s) of the user</label>
+      <div class="tabpick">${accs.map(a => `<label class="opt-line"><input type="checkbox" data-va="${esc(a)}"> ${esc(a)}</label>`).join('')}</div></div>` : ''}
+    <div id="va-err"></div>
+    <div class="nav-row"><button class="btn ghost" id="va-cancel">Cancel</button><button class="btn" id="va-ok">Switch to ${esc(role)} and reload</button></div>`);
+  document.getElementById('va-cancel').onclick = closeModal;
+  document.getElementById('va-ok').onclick = () => {
+    const accounts = Array.from(document.querySelectorAll('[data-va]:checked')).map(c => c.dataset.va);
+    if (needs && !accounts.length) { document.getElementById('va-err').innerHTML = '<div class="err-box" style="margin-top:10px">Choose at least one account for the user.</div>'; return; }
+    closeModal();
+    switchRole({ role: role, accounts: accounts });
+  };
+}
+async function switchRole(v) {
+  await withBusy(`Switching to ${v.role}… reloading what that role sees`, true, async () => {
+    try {
+      await call('apiSetViewAs', v);
+      Object.assign(S, { add: null, req: null, fix: null, ds: null, dsVersion: null, r: null, expanded: new Set(), statusFilter: 'All' });
+      await loadStatus();
+      go('status');
+      toast(`✓ Now viewing as ${v.role}${v.accounts && v.accounts.length ? ' (' + v.accounts.join(', ') + ')' : ''}.`, true);
+    } catch (e) { toast(e.message); }
+  });
+}
+
+/** The dataset is loaded once and reloaded only when the data changed (run, delete, restore). */
+async function ensureDataset() {
+  if (S.ds && S.status && S.dsVersion === S.status.dataVersion) return;
+  S.ds = await call('apiDataset');
+  S.dsVersion = S.ds.version;
+  indexDataset();
+}
+
+/* ============================================================ STATUS */
+const SORTS = {
+  account: { label: 'Account (A–Z)', val: s => (s.account + ' ' + s.id).toLowerCase(), dir: 1 },
+  status: { label: 'Data status', val: s => STATUS_ORDER.indexOf(statusOf(s)), dir: 1 },
+  country: { label: 'Country', val: s => ((s.data.countries || []).join(', ') || s.country || '').toLowerCase(), dir: 1 },
+  rows: { label: 'Evaluations (high → low)', val: s => s.data.rows || 0, dir: -1 },
+  age: { label: 'Data age (oldest first)', val: s => (ageOf(s) === null ? 1e9 : ageOf(s)), dir: -1 },
+  lastRun: { label: 'Last run (newest first)', val: s => s.lastRun || '', dir: -1 },
+  id: { label: 'Source ID', val: s => s.id, dir: 1 },
+  lob: { label: 'LOB', val: s => (s.data.lobs || []).join(', ').toLowerCase(), dir: 1 },
+  min: { label: 'Data from', val: s => s.data.min || '', dir: 1 },
+  max: { label: 'Data to', val: s => s.data.max || '', dir: -1 },
+  read: { label: 'Rows read', val: s => (s.lastLoad ? s.lastLoad.read : 0), dir: -1 },
+  excluded: { label: 'Excluded', val: s => excludedOf(s) || 0, dir: -1 },
+};
+const excludedOf = s => (s.lastLoad ? ['noWdid', 'filtered', 'outOfRange', 'badDate', 'badValue', 'dupes', 'conflicts'].reduce((t, k) => t + (Number(s.lastLoad[k]) || 0), 0) : null);
+const FILTERS = ['All', 'Loaded', 'Not loaded', 'Needs mapping', 'Error'];
+const passFilter = s => S.statusFilter === 'All' || statusOf(s) === S.statusFilter;
+
+function sortedSources() {
+  const sort = SORTS[S.sortKey] || SORTS.account;
+  return S.status.sources.filter(s => s.active).filter(passFilter).sort((a, b) => {
+    const x = sort.val(a), y = sort.val(b);
+    return (x < y ? -1 : x > y ? 1 : 0) * S.sortDir;
+  });
+}
+
+function renderStatus() {
+  if (S.error) { $main.innerHTML = `<div class="err-box">${esc(S.error)}</div>`; return; }
+  if (!S.status) { $main.innerHTML = '<div class="loading"><span class="spin"></span> Loading…</div>'; return; }
+  const st = S.status;
+  const srcs = st.sources.filter(s => s.active);
+  const errors = srcs.filter(s => ['Error', 'Needs mapping'].includes(statusOf(s))).length;
+  const lastRun = srcs.map(s => s.lastRun).filter(Boolean).sort().pop() || '—';
+  const busy = Object.keys(S.running).length > 0;
+  const counts = {};
+  FILTERS.forEach(f => { const keep = S.statusFilter; S.statusFilter = f; counts[f] = srcs.filter(passFilter).length; S.statusFilter = keep; });
+  const list = sortedSources();
+  $main.innerHTML = `
+    <div class="ttl"><h1>Account sources</h1><button class="help-btn" data-help title="What does everything on this page mean?">? Help</button></div>
+    <p class="sub">Each source is one account file shared with view access. The portal reads it directly: no template tab, no copies, no extra work for the account.</p>
+    <div class="tiles">
+      <div class="tile"><div class="lbl">Sources</div><div class="val">${srcs.length}</div><div class="note">${new Set(srcs.map(s => s.account)).size} accounts</div></div>
+      <div class="tile"><div class="lbl">Evaluations loaded</div><div class="val">${N(st.destination.rows)}</div><div class="note">2026 data in the destination</div></div>
+      <div class="tile"><div class="lbl">Last update</div><div class="val" style="font-size:18px">${esc(lastRun)}</div><div class="note">Manual runs during the pilot</div></div>
+      <div class="tile"><div class="lbl">Sources needing attention</div><div class="val" style="color:${errors ? 'var(--red)' : 'var(--green-a11y)'}">${errors}</div><div class="note">${errors ? 'Error or renamed column: see the source' : 'All sources read correctly'}</div></div>
+    </div>
+    <div class="toolbar">
+      <span class="seg"><button data-sv="cards" class="${S.statusView === 'cards' ? 'on' : ''}">▦ Cards</button><button data-sv="list" class="${S.statusView === 'list' ? 'on' : ''}">☰ List</button></span>
+      <label class="fl" style="flex-direction:row;align-items:center;gap:6px">Sort by
+        <select id="sortSel">${Object.keys(SORTS).filter(k => ['account', 'status', 'country', 'rows', 'age', 'lastRun'].includes(k)).map(k => `<option value="${k}" ${k === S.sortKey ? 'selected' : ''}>${SORTS[k].label}</option>`).join('')}${['account', 'status', 'country', 'rows', 'age', 'lastRun'].includes(S.sortKey) ? '' : `<option selected>${esc(SORTS[S.sortKey].label)}</option>`}</select>
+      </label>
+      <div class="chips">${FILTERS.filter(f => f !== 'Needs mapping' || counts[f] || S.statusFilter === f).map(f => `<button class="chip ${S.statusFilter === f ? 'on' : ''}" data-sf="${f}">${f}<span class="c">${counts[f]}</span></button>`).join('')}</div>
+      <span class="spacer"></span>
+      ${role() === 'Admin' ? `<button class="btn" id="runAll" ${busy ? 'disabled' : ''} title="Reads every active source file again (all 2026 data)">⟳ Refresh all</button>` : ''}
+    </div>
+    ${list.length ? (S.statusView === 'cards' ? `<div class="cards">${groupCards(list)}</div>` : statusTable(list)) : '<div class="panel muted">No sources match this filter.</div>'}
+    <p class="small muted" style="margin-top:10px">Cards: one per account · List: one row per source. Loaded data is used in Results.</p>`;
+  document.querySelectorAll('[data-sv]').forEach(b => b.onclick = () => { S.statusView = prefs.statusView = b.dataset.sv; savePrefs(); renderStatus(); });
+  document.getElementById('sortSel').onchange = e => { if (SORTS[e.target.value]) setSort(e.target.value, SORTS[e.target.value].dir); };
+  document.querySelectorAll('[data-sf]').forEach(b => b.onclick = () => { S.statusFilter = b.dataset.sf; renderStatus(); });
+  document.querySelectorAll('[data-sort]').forEach(th => th.onclick = () => {
+    const k = th.dataset.sort;
+    setSort(k, S.sortKey === k ? -S.sortDir : SORTS[k].dir);
+  });
+  const ra = document.getElementById('runAll'); if (ra) ra.onclick = runAll;
+  document.querySelectorAll('[data-run]').forEach(b => b.onclick = () => runOne(b.dataset.run));
+  document.querySelectorAll('[data-fix]').forEach(b => b.onclick = () => openFix(b.dataset.fix));
+}
+function setSort(k, dir) { S.sortKey = prefs.sortKey = k; S.sortDir = prefs.sortDir = dir; savePrefs(); renderStatus(); }
+
+function pillFor(s) {
+  const st = statusOf(s);
+  if (st === 'Loading') return '<span class="pill run"><span class="spin"></span> Loading…</span>';
+  if (st === 'Needs mapping') return `<span class="pill warn" title="A column was renamed in the account file">⚠ Needs mapping</span>`;
+  if (st === 'Error') return `<span class="pill err" title="${esc((s.last && s.last.message) || '')}">✕ Error</span>`;
+  return st === 'Loaded' ? '<span class="pill ok">✓ Data loaded</span>' : '<span class="pill warn">Data not loaded</span>';
+}
+function ageText(s) {
+  const a = ageOf(s);
+  if (a === null) return '—';
+  const t = a === 0 ? 'today' : a === 1 ? '1 day ago' : `${a} days ago`;
+  return a > STALE_DAYS ? `<span class="age-warn" title="No evaluations in the last ${STALE_DAYS} days">${t}</span>` : t;
+}
+// Real values from the loaded data; without data, the fixed value of the rule (or "—" if it comes from a column)
+const fixedOr = v => (/^\[.*\]$|^\{tab\}$/i.test(String(v || '')) ? '—' : String(v || '—'));
+const countriesOf = s => (s.data.countries && s.data.countries.length ? s.data.countries.join(', ') : fixedOr(s.country));
+const lobsOf = s => (s.data.lobs && s.data.lobs.length ? s.data.lobs.join(', ') : fixedOr(s.lob));
+/** Loaded → "Refresh" (reads the file again); not loaded → "Load data". Both load all the 2026 data. */
+function runButton(s) {
+  if (!s.canRun) return '';
+  const has = s.data && s.data.rows;
+  return `<button class="btn sm" data-run="${esc(s.id)}" title="${has ? 'Read the file again (all 2026 data)' : 'Load all the 2026 data from the file'}" ${Object.keys(S.running).length ? 'disabled' : ''}>${has ? '⟳ Refresh' : '⤓ Load data'}</button>`;
+}
+function errorLine(s) {
+  if (statusOf(s) === 'Needs mapping') {
+    const miss = Array.from(new Set(s.mapping.tabs.flatMap(t => t.specs))).map(x => `“${esc(x.split('||').pop())}”`).join(', ');
+    return `<div class="result warn"><span>Column ${miss} not found in the file. The data loaded before is kept; new data is paused.</span>${s.canFix ? `<button class="btn sm" data-fix="${esc(s.id)}">Fix mapping</button>` : ''}</div>`;
+  }
+  return statusOf(s) === 'Error' ? `<div class="result err">✕ ${esc((s.last && s.last.message) || 'Error')}</div>` : '';
+}
+
+function card(s) {
+  const d = s.data || {};
+  return `<div class="card">
+    <div class="top">
+      <div><div class="name">${esc(s.account)}</div><div class="meta">${esc(s.id)} · ${esc(countriesOf(s))} · LOB ${esc(lobsOf(s))}</div></div>
+      ${pillFor(s)}
+    </div>
+    <div class="kv">
+      <div><span>Evaluations loaded</span><b>${N(d.rows)}</b></div>
+      <div><span>Data from – to</span><b>${esc(d.min || '—')} → ${esc(d.max || '—')}</b></div>
+      <div><span>Last run</span><b>${esc(s.lastRun || '—')}</b></div>
+      <div><span>Newest evaluation</span><b>${ageText(s)}</b></div>
+    </div>
+    ${errorLine(s)}
+    <div class="actions">
+      ${runButton(s)}
+      ${s.fileUrl ? `<a class="btn ghost sm" href="${esc(s.fileUrl)}" target="_blank" rel="noopener">Open source file</a>` : ''}
+    </div>
+  </div>`;
+}
+
+/** Cards view: one card per account. Accounts with one source keep the simple card. */
+function groupCards(list) {
+  const groups = new Map();
+  list.forEach(s => { if (!groups.has(s.account)) groups.set(s.account, []); groups.get(s.account).push(s); });
+  return Array.from(groups.values()).map(g => (g.length === 1 ? card(g[0]) : accountCard(g))).join('');
+}
+
+function accountCard(g) {
+  const rows = g.reduce((t, s) => t + (s.data.rows || 0), 0);
+  const mins = g.map(s => s.data.min).filter(Boolean).sort();
+  const maxs = g.map(s => s.data.max).filter(Boolean).sort();
+  const worst = g.map(statusOf).sort((a, b) => STATUS_ORDER.indexOf(a) - STATUS_ORDER.indexOf(b))[0];
+  const pseudo = { __group: true, __status: worst, id: g[0].account, data: { max: maxs[maxs.length - 1] || '' } };
+  const countries = Array.from(new Set(g.flatMap(s => (s.data.countries && s.data.countries.length ? s.data.countries : [countriesOf(s)])))).join(', ');
+  return `<div class="card">
+    <div class="top">
+      <div><div class="name">${esc(g[0].account)}</div><div class="meta">${esc(countries)} · ${g.length} sources</div></div>
+      ${pillFor(pseudo)}
+    </div>
+    <div class="kv">
+      <div><span>Evaluations loaded (all sources)</span><b>${N(rows)}</b></div>
+      <div><span>Data from – to</span><b>${esc(mins[0] || '—')} → ${esc(maxs[maxs.length - 1] || '—')}</b></div>
+    </div>
+    <div class="srows">${g.map(s => {
+      return `<div class="srow">
+        <div class="hdr"><div class="id">${esc(s.id)} <span class="muted small" style="font-weight:400">· LOB ${esc(lobsOf(s))}</span></div>${pillFor(s)}</div>
+        <div class="small muted">${N(s.data.rows)} evaluations · ${esc(s.data.min || '—')} → ${esc(s.data.max || '—')} · newest ${ageText(s)} · last run ${esc(s.lastRun || '—')}</div>
+        <div class="acts"><span class="spacer"></span>${runButton(s)}${s.fileUrl ? `<a class="btn ghost sm" href="${esc(s.fileUrl)}" target="_blank" rel="noopener" title="Open source file">↗</a>` : ''}</div>
+        ${errorLine(s)}
+      </div>`;
+    }).join('')}</div>
+  </div>`;
+}
+
+function statusTable(list) {
+  const th = (k, label, left) => `<th class="sortable" data-sort="${k}" style="${left ? 'text-align:left' : ''}">${label}${S.sortKey === k ? (S.sortDir > 0 ? ' ▲' : ' ▼') : ''}</th>`;
+  return `<div class="tbl-wrap"><table>
+    <tr>${th('account', 'Account · source', 1)}${th('country', 'Country', 1)}${th('lob', 'LOB', 1)}${th('status', 'Data', 1)}
+      ${th('rows', 'Evaluations')}${th('max', 'Data range')}${th('age', 'Newest evaluation')}${th('lastRun', 'Last run')}<th>Action</th></tr>
+    ${list.map(s => `<tr>
+      <td><b>${esc(s.account)}</b><span class="ev">${esc(s.id)}</span></td><td style="text-align:left;white-space:normal;max-width:150px">${esc(countriesOf(s))}</td>
+      <td style="text-align:left;max-width:160px;overflow:hidden;text-overflow:ellipsis" title="${esc(lobsOf(s))}">${esc(lobsOf(s))}</td>
+      <td style="text-align:left">${pillFor(s)}</td><td>${N(s.data.rows)}</td><td>${esc(s.data.min || '—')} → ${esc(s.data.max || '—')}</td>
+      <td>${ageText(s)}</td><td>${esc(s.lastRun || '—')}</td>
+      <td style="white-space:nowrap">${runButton(s)}${s.fileUrl ? ` <a class="btn ghost sm" href="${esc(s.fileUrl)}" target="_blank" rel="noopener" title="Open source file">↗</a>` : ''}</td></tr>`).join('')}
+  </table></div>`;
+}
+
+setInterval(() => {
+  document.querySelectorAll('[data-elapsed]').forEach(el => { el.textContent = Math.round((Date.now() - Number(el.dataset.elapsed)) / 1000) + ' s'; });
+}, 1000);
+
+async function runOne(id, label) {
+  S.running[id] = Date.now(); renderIfStatus();
+  busyStart(`${label || 'Loading'} ${id}: reading the file and loading all its 2026 evaluations… (15–75 s)`, false);
+  try { S.lastRun[id] = await call('apiRun', id); }
+  catch (e) { S.lastRun[id] = { status: 'ERROR', message: e.message, stats: {} }; toast(`${id}: ${e.message}`); }
+  busyMsg(`${id}: done. Refreshing the totals…`);
+  delete S.running[id];
+  try { await loadStatus(); } finally { busyEnd(); }
+  renderIfStatus();
+}
+async function runAll() {
+  const list = S.status.sources.filter(x => x.active);
+  for (let i = 0; i < list.length; i++) await runOne(list[i].id, `Loading ${i + 1} of ${list.length} ·`);
+}
+function renderIfStatus() { if (S.view === 'status') renderStatus(); }
+
+/* ============================================================ FLOW */
+function renderFlow() {
+  if (!S.status) { renderStatus(); return; }
+  const st = S.status;
+  const d = st.destination;
+  $main.innerHTML = `
+    <div class="ttl"><h1>How the data is updated and where it goes</h1><button class="help-btn" data-help title="What does everything on this page mean?">? Help</button></div>
+    <p class="sub">The same three steps for every account. Only the destination changes when the project moves to the new environment.</p>
+    <div class="banner">
+      <div class="dest now"><div class="k">Destination today (pilot)</div><div class="v">${esc(d.today)}</div>
+        <div class="small">“${esc(d.name)}” › tab ${esc(d.tab)} · ${N(d.rows)} evaluations · ${((d.cells / d.cellLimit) * 100).toFixed(1)}% of the Google Sheets capacity</div></div>
+      <div class="arrow">→</div>
+      <div class="dest next"><div class="k">Destination next</div><div class="v">BigQuery</div><div class="small">${esc(d.future)}. Only the write step changes; accounts, rules and results stay the same.</div></div>
+    </div>
+    <div class="panel">
+      <h2>Rules that apply to every account</h2>
+      <p class="small">Columns are found by <b>header name</b> (they can move between months) · only 2026 data · rows without WDID are left out ·
+      one row per evaluation with a <b>numerator</b> and a <b>denominator</b>, so any week or month is calculated as sum ÷ sum (weighted, never an average of averages) ·
+      every evaluation has a key, so the same file read twice, renamed or copied never creates duplicates.</p>
+    </div>
+    ${st.sources.filter(s => s.active).map(flowRow).join('')}`;
+}
+function flowRow(s) {
+  const l = s.lastLoad;
+  const ex = l ? [['No WDID', l.noWdid], ['Filtered by the account rule', l.filtered], ['Before 2026 / outside range', l.outOfRange],
+    ['Unreadable date', l.badDate], ['Score not numeric', l.badValue], ['Duplicate evaluation', l.dupes], ['Already loaded from another source', l.conflicts]]
+    .filter(x => Number(x[1]) > 0) : [];
+  return `<div class="flow">
+    <div class="box"><h3>1 · Account file</h3><b>${esc(s.account)}</b> <span class="muted">(${esc(s.id)})</span><br>Tab: ${esc(s.tabs)}<br>
+      ${s.fileUrl ? `<a href="${esc(s.fileUrl)}" target="_blank" rel="noopener">Open file</a> · ` : ''}<span class="muted">view access only</span></div>
+    <div class="arrow">→</div>
+    <div class="box engine"><h3>2 · Read, clean and calculate</h3>
+      ${l ? `<div class="ex"><span>Rows read</span><b>${N(l.read)}</b></div>
+      ${ex.map(x => `<div class="ex"><span>− ${esc(x[0])}</span><span>${N(x[1])}</span></div>`).join('')}
+      <div class="ex"><span><b>= Evaluations loaded</b></span><b>${N(l.loaded)}</b></div>
+      <div class="small muted" style="margin-top:4px">Last run ${esc(l.runAt)} · rule version ${esc(l.version)}</div>` : '<span class="muted">Not run yet</span>'}
+    </div>
+    <div class="arrow">→</div>
+    <div class="box out"><h3>3 · Destination</h3><b>${N(s.data.rows)}</b> evaluations<br>${esc(s.data.min || '—')} → ${esc(s.data.max || '—')}<br>
+      <span class="muted small">Account · LOB · country · date · WDID · numerator · denominator</span></div>
+  </div>`;
+}
+
+/* ============================================================ RESULTS */
+function indexDataset() {
+  const ds = S.ds, c = ds.cols;
+  const years = new Set(), months = {}, weeks = {}, triples = new Set();
+  S.weekMonday = {};
+  let minD = Infinity, maxD = -Infinity;
+  for (let i = 0; i < c.d.length; i++) {
+    const d = c.d[i];
+    const y = +dayStr(d).slice(0, 4);
+    years.add(y);
+    (months[y] = months[y] || new Set()).add(monthKey(d));
+    const w = isoWeek(d), wk = weekKey(d);
+    (weeks[w.year] = weeks[w.year] || new Set()).add(wk);
+    S.weekMonday[wk] = w.monday;
+    triples.add(c.a[i] + '|' + c.c[i] + '|' + c.l[i]);
+    if (d < minD) minD = d; if (d > maxD) maxD = d;
+  }
+  ds.meta = { years: Array.from(years).sort(), months: months, weeks: weeks,
+    triples: Array.from(triples).map(t => t.split('|').map(Number)), minD: minD, maxD: maxD };
+  if (!S.r) {
+    const year = ds.meta.years.length ? ds.meta.years[ds.meta.years.length - 1] : new Date().getFullYear();
+    S.r = { mode: 'month', year: year, months: null, weeks: null, from: isFinite(minD) ? dayStr(minD) : '', to: isFinite(maxD) ? dayStr(maxD) : '',
+      grain: 'month', countries: null, accounts: null, lobs: null };   // facet sets: null = all
+  }
+}
+
+async function renderResults() {
+  if (!S.status) { renderStatus(); return; }
+  $main.innerHTML = `<div class="ttl"><h1>Results: QA score (weighted)</h1><button class="help-btn" data-help title="What does everything on this page mean?">? Help</button></div>
+    <p class="sub">QA = sum of numerators ÷ sum of denominators of every evaluation in the period. Filters apply instantly.</p>
+    <div id="res"><div class="loading"><span class="spin"></span> Loading the data (first time only)…</div></div>`;
+  const needLoad = !(S.ds && S.dsVersion === S.status.dataVersion);
+  if (needLoad) busyStart('Loading the evaluations (only the first time or after the data changes)…', false);
+  try { await ensureDataset(); } catch (e) { busyEnd(); document.getElementById('res').innerHTML = `<div class="err-box">${esc(e.message)}</div>`; return; }
+  if (needLoad) busyEnd();
+  if (S.view !== 'results') return;
+  if (!S.ds.cols.d.length) { document.getElementById('res').innerHTML = '<div class="panel muted">There is no data yet. Run the sources in Status.</div>'; return; }
+  drawResultsView();
+}
+
+/**
+ * Hierarchical filters Country > Account > LOB: the accounts offered depend on the selected countries,
+ * and the LOBs on the selected countries and accounts. Each facet: null = all, Set = chosen values.
+ */
+function facetOptions() {
+  const D = S.ds.dict, r = S.r, T = S.ds.meta.triples;
+  const inSet = (set, name) => !set || set.has(name);
+  const countries = Array.from(new Set(T.map(t => D.cty[t[1]]))).sort();
+  const accounts = Array.from(new Set(T.filter(t => inSet(r.countries, D.cty[t[1]])).map(t => D.acc[t[0]]))).sort();
+  const lobs = Array.from(new Set(T.filter(t => inSet(r.countries, D.cty[t[1]]) && inSet(r.accounts, D.acc[t[0]])).map(t => D.lob[t[2]]))).sort();
+  return { countries: countries, accounts: accounts, lobs: lobs };
+}
+
+/** Drops chosen values that are no longer offered (an upper filter changed). Empty → back to "all". */
+function pruneFacet(key, avail) {
+  const set = S.r[key];
+  if (!set) return;
+  Array.from(set).forEach(v => { if (!avail.includes(v)) set.delete(v); });
+  if (!set.size || set.size === avail.length) S.r[key] = null;
+}
+
+function drawResultsView() {
+  const r = S.r, meta = S.ds.meta;
+  let opt = facetOptions();
+  pruneFacet('countries', opt.countries);
+  opt = facetOptions();
+  pruneFacet('accounts', opt.accounts);
+  opt = facetOptions();
+  pruneFacet('lobs', opt.lobs);
+  const monthsAvail = Array.from(meta.months[r.year] || []).sort();
+  const weeksAvail = Array.from(meta.weeks[r.year] || []).sort();
+  if (!r.months) r.months = new Set(monthsAvail);
+  if (!r.weeks) r.weeks = new Set(weeksAvail);
+  const sel = (id, label, list, val, all) => `<label>${label}<select id="${id}"><option value="">${all}</option>${list.map(x => `<option ${x === val ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></label>`;
+  const msText = (set, avail, word) => (set.size === avail.length ? `All ${word} (${avail.length})` : set.size === 0 ? `No ${word}` : set.size <= 3 ? Array.from(set).sort().map(periodLabel).join(', ') : `${set.size} ${word} selected`);
+  const multi = (id, label, avail, set, word) => `<div class="fl">${label}<div class="ms" id="${id}"><button type="button">${esc(msText(set, avail, word))}</button>
+    <div class="panel-ms"><div class="bar"><button data-all>Select all</button><button data-none>Clear</button></div>
+    ${avail.map(p => `<label class="opt"><input type="checkbox" value="${p}" ${set.has(p) ? 'checked' : ''}> ${esc(periodLabel(p))}</label>`).join('')}</div></div></div>`;
+  const facetText = (set, avail, word) => (!set ? `All ${word} (${avail.length})` : set.size === 0 ? `No ${word}` : set.size <= 2 ? Array.from(set).sort().join(', ') : `${set.size} ${word} selected`);
+  const facet = (id, label, avail, set, word) => `<div class="fl">${label}<div class="ms" id="${id}"><button type="button" title="${esc(set ? Array.from(set).sort().join(', ') : 'All')}">${esc(facetText(set, avail, word))}</button>
+    <div class="panel-ms"><div class="bar"><button data-all>Select all</button><button data-none>Clear</button></div>
+    ${avail.map(v => `<label class="opt"><input type="checkbox" value="${esc(v)}" ${!set || set.has(v) ? 'checked' : ''}> ${esc(v)}</label>`).join('')}</div></div></div>`;
+  document.getElementById('res').innerHTML = `
+    <div class="filters">
+      <div class="fl">Period<span class="seg"><button data-mode="month" class="${r.mode === 'month' ? 'on' : ''}">Month</button><button data-mode="week" class="${r.mode === 'week' ? 'on' : ''}">Week</button><button data-mode="range" class="${r.mode === 'range' ? 'on' : ''}">Specific range</button></span></div>
+      ${r.mode !== 'range' ? `<label>Year<select id="f-year">${meta.years.map(y => `<option ${y === r.year ? 'selected' : ''}>${y}</option>`).join('')}</select></label>` : ''}
+      ${r.mode === 'month' ? multi('ms-month', 'Months', monthsAvail, r.months, 'months') : ''}
+      ${r.mode === 'week' ? multi('ms-week', 'Weeks', weeksAvail, r.weeks, 'weeks') : ''}
+      ${r.mode === 'range' ? `<label>From<input type="date" id="f-from" value="${esc(r.from)}"></label><label>To<input type="date" id="f-to" value="${esc(r.to)}"></label>
+        <label>Group by<select id="f-grain">${['day', 'week', 'month'].map(g => `<option value="${g}" ${r.grain === g ? 'selected' : ''}>${g[0].toUpperCase() + g.slice(1)}</option>`).join('')}</select></label>` : ''}
+      ${facet('ms-cty', 'Country', opt.countries, r.countries, 'countries')}
+      ${facet('ms-acc', 'Account', opt.accounts, r.accounts, 'accounts')}
+      ${facet('ms-lob', 'LOB', opt.lobs, r.lobs, 'LOBs')}
+      <button class="btn ghost sm" id="f-reset">Reset</button>
+    </div>
+    <div id="res-body"></div>`;
+  const redraw = () => drawResultsView();
+  document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => { r.mode = b.dataset.mode; redraw(); });
+  const fy = document.getElementById('f-year');
+  if (fy) fy.onchange = e => { r.year = +e.target.value; r.months = null; r.weeks = null; redraw(); };
+  const ff = document.getElementById('f-from'); if (ff) ff.onchange = e => { r.from = e.target.value; redraw(); };
+  const ft = document.getElementById('f-to'); if (ft) ft.onchange = e => { r.to = e.target.value; redraw(); };
+  const fg = document.getElementById('f-grain'); if (fg) fg.onchange = e => { r.grain = e.target.value; redraw(); };
+  bindFacet('ms-cty', 'countries', opt.countries, redraw);
+  bindFacet('ms-acc', 'accounts', opt.accounts, redraw);
+  bindFacet('ms-lob', 'lobs', opt.lobs, redraw);
+  document.getElementById('f-reset').onclick = () => { S.r = null; indexDataset(); redraw(); };
+  bindMulti('ms-month', r.months, monthsAvail, redraw);
+  bindMulti('ms-week', r.weeks, weeksAvail, redraw);
+  drawResultsBody(compute());
+}
+
+function bindMulti(id, set, avail, redraw) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.querySelector(':scope > button').onclick = e => { e.stopPropagation(); el.classList.toggle('open'); };
+  el.querySelector('[data-all]').onclick = e => { e.stopPropagation(); avail.forEach(p => set.add(p)); redraw(); reopen(id); };
+  el.querySelector('[data-none]').onclick = e => { e.stopPropagation(); set.clear(); redraw(); reopen(id); };
+  el.querySelectorAll('input[type=checkbox]').forEach(cb => cb.onchange = () => { cb.checked ? set.add(cb.value) : set.delete(cb.value); redraw(); reopen(id); });
+}
+/** Multi-select over a facet (null = all). */
+function bindFacet(id, key, avail, redraw) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.querySelector(':scope > button').onclick = e => { e.stopPropagation(); el.classList.toggle('open'); };
+  el.querySelector('[data-all]').onclick = e => { e.stopPropagation(); S.r[key] = null; redraw(); reopen(id); };
+  el.querySelector('[data-none]').onclick = e => { e.stopPropagation(); S.r[key] = new Set(); redraw(); reopen(id); };
+  el.querySelectorAll('input[type=checkbox]').forEach(cb => cb.onchange = () => {
+    const set = S.r[key] ? S.r[key] : new Set(avail);
+    cb.checked ? set.add(cb.value) : set.delete(cb.value);
+    S.r[key] = set.size === avail.length ? null : set;
+    redraw(); reopen(id);
+  });
+}
+function reopen(id) { const el = document.getElementById(id); if (el) el.classList.add('open'); }
+
+/** Weighted aggregation in the browser: one pass over the compact dataset. */
+function compute() {
+  const r = S.r, ds = S.ds, c = ds.cols, D = ds.dict;
+  const idxSet = (set, dict) => (set ? new Set(Array.from(set).map(v => dict.indexOf(v))) : null);
+  const sa = idxSet(r.accounts, D.acc), sc = idxSet(r.countries, D.cty), sl = idxSet(r.lobs, D.lob);
+  const oneAccount = r.accounts && r.accounts.size === 1;
+  const bySource = {};
+  const fromD = r.mode === 'range' && r.from ? strDay(r.from) : -Infinity;
+  const toD = r.mode === 'range' && r.to ? strDay(r.to) : Infinity;
+  const keyOf = d => (r.mode === 'month' ? monthKey(d) : r.mode === 'week' ? weekKey(d)
+    : r.grain === 'month' ? monthKey(d) : r.grain === 'week' ? weekKey(d) : dayStr(d));
+  const rows = new Map(), subs = new Map(), periods = new Set(), agents = new Set(), accounts = new Set();
+  let tn = 0, tm = 0, te = 0;
+  for (let i = 0; i < c.d.length; i++) {
+    if (sa && !sa.has(c.a[i])) continue;
+    if (sc && !sc.has(c.c[i])) continue;
+    if (sl && !sl.has(c.l[i])) continue;
+    const d = c.d[i];
+    if (r.mode === 'month') { if (!r.months.has(monthKey(d))) continue; }
+    else if (r.mode === 'week') { if (!r.weeks.has(weekKey(d))) continue; }
+    else if (d < fromD || d > toD) continue;
+    const p = keyOf(d);
+    if (r.mode === 'range' && r.grain === 'week') S.weekMonday[p] = isoWeek(d).monday;
+    periods.add(p);
+    const label = oneAccount ? `${D.lob[c.l[i]]} · ${D.cty[c.c[i]]}` : D.acc[c.a[i]];
+    const sid = D.src[c.s[i]];
+    bySource[sid] = (bySource[sid] || 0) + 1;
+    const add = (map, key) => {
+      let row = map.get(key);
+      if (!row) { row = { label: key, n: 0, m: 0, e: 0, ag: new Set(), cells: {} }; map.set(key, row); }
+      row.n += c.n[i]; row.m += c.m[i]; row.e++; row.ag.add(c.w[i]);
+      const cell = row.cells[p] || (row.cells[p] = { n: 0, m: 0, e: 0 });
+      cell.n += c.n[i]; cell.m += c.m[i]; cell.e++;
+    };
+    add(rows, label);
+    if (!oneAccount) {                                   // drill-down: the account's LOBs
+      if (!subs.has(label)) subs.set(label, new Map());
+      add(subs.get(label), `${D.lob[c.l[i]]} · ${D.cty[c.c[i]]}`);
+    }
+    tn += c.n[i]; tm += c.m[i]; te++; agents.add(c.a[i] + '|' + c.w[i]); accounts.add(c.a[i]);
+  }
+  const ps = Array.from(periods).sort();
+  const shape = x => ({
+    label: x.label, kpi: x.m ? x.n / x.m : null, evals: x.e, agents: x.ag.size,
+    cells: ps.map(p => (x.cells[p] ? { kpi: x.cells[p].m ? x.cells[p].n / x.cells[p].m : null, evals: x.cells[p].e } : null)) });
+  const sub = {};
+  subs.forEach((m, acc) => { sub[acc] = Array.from(m.values()).map(shape); });
+  return {
+    periods: ps, sub: sub,
+    rows: Array.from(rows.values()).sort((a, b) => a.label.localeCompare(b.label)).map(shape),
+    overall: { kpi: tm ? tn / tm : null, evals: te, agents: agents.size, accounts: accounts.size },
+    bySource: bySource, oneAccount: oneAccount,
+  };
+}
+
+function periodScopeText() {
+  const r = S.r;
+  if (r.mode === 'range') return `${r.from || '…'} → ${r.to || '…'} · by ${r.grain}`;
+  const set = r.mode === 'month' ? r.months : r.weeks;
+  return `${set.size} ${r.mode}${set.size === 1 ? '' : 's'} of ${r.year}`;
+}
+
+/** Table sort: by name, by one period or by Total; high → low first, click again for low → high. */
+function sortRows(res, list) {
+  const rs = S.rsort || { key: 'label', dir: 1 };
+  const pi = res.periods.indexOf(rs.key);
+  const val = x => (rs.key === 'label' ? x.label.toLowerCase() : rs.key === 'total' ? x.kpi : pi >= 0 && x.cells[pi] ? x.cells[pi].kpi : null);
+  return (list || res.rows).slice().sort((a, b) => {
+    const x = val(a), y = val(b);
+    if (x === null && y === null) return a.label.localeCompare(b.label);
+    if (x === null) return 1;                                  // rows without data in that column go last
+    if (y === null) return -1;
+    return (x < y ? -1 : x > y ? 1 : 0) * rs.dir || a.label.localeCompare(b.label);
+  });
+}
+
+function drawResultsBody(res) {
+  S.lastRes = res;
+  const box = document.getElementById('res-body');
+  if (!res.rows.length) { box.innerHTML = '<div class="panel muted">No evaluations for these filters.</div>'; return; }
+  const all = [];
+  res.rows.forEach(x => x.cells.forEach(c => { if (c && c.kpi !== null) all.push(c.kpi); }));
+  const lo = Math.max(0, Math.floor((Math.min.apply(null, all) * 100 - 5) / 10) * 10) / 100;
+  const r = S.r;
+  const scope = res.oneAccount ? `${esc(Array.from(r.accounts)[0])} by LOB · country` : 'by account';
+  const unit = r.mode === 'range' ? r.grain : r.mode;
+  box.innerHTML = `
+    <div class="tiles">
+      <div class="tile"><div class="lbl">QA score (weighted)</div><div class="val">${pct(res.overall.kpi)}</div><div class="note">${esc(periodScopeText())}</div></div>
+      <div class="tile"><div class="lbl">Evaluations</div><div class="val">${N(res.overall.evals)}</div><div class="note">in the selection</div></div>
+      <div class="tile"><div class="lbl">Agents evaluated</div><div class="val">${N(res.overall.agents)}</div><div class="note">unique WDIDs</div></div>
+      <div class="tile"><div class="lbl">Accounts</div><div class="val">${N(res.overall.accounts)}</div><div class="note">with data in the selection</div></div>
+    </div>
+    <h2>Trend ${scope}</h2>
+    <div class="multiples">${res.rows.map(x => mini(x, res.periods, lo)).join('')}</div>
+    <h2>QA score per ${unit} ${scope}</h2>
+    <div class="tbl-wrap"><table>
+      <tr>${rth('label', res.oneAccount ? 'LOB · country' : 'Account')}${res.periods.map(p => rth(p, esc(periodLabel(p)))).join('')}${rth('total', 'Total', 'total')}</tr>
+      ${sortRows(res).map(x => {
+        const kids = !res.oneAccount && res.sub[x.label] ? res.sub[x.label] : null;
+        const open = kids && S.expanded.has(x.label);
+        const first = kids ? `<td class="exp" data-exp="${esc(x.label)}" title="${open ? 'Hide' : 'Show'} the LOBs of this account"><span class="car">${open ? '▾' : '▸'}</span>${esc(x.label)}</td>` : `<td>${esc(x.label)}</td>`;
+        return resultRow(x, first, '') + (open ? sortRows(res, kids).map(k => resultRow(k, `<td>${esc(k.label)}</td>`, 'child')).join('') : '');
+      }).join('')}
+    </table></div>
+    <p class="small muted" style="margin-top:8px">Click an account to show or hide its LOBs. Click a column to sort (high → low, click again for low → high). Small numbers = evaluations. Totals use all their evaluations, not an average of the periods.</p>`;
+  box.querySelectorAll('[data-exp]').forEach(td => td.onclick = () => {
+    const k = td.dataset.exp;
+    S.expanded.has(k) ? S.expanded.delete(k) : S.expanded.add(k);
+    drawResultsBody(S.lastRes);
+  });
+  box.querySelectorAll('[data-rsort]').forEach(th => th.onclick = () => {
+    const k = th.dataset.rsort;
+    const cur = S.rsort || { key: 'label', dir: 1 };
+    S.rsort = cur.key === k ? { key: k, dir: -cur.dir } : { key: k, dir: k === 'label' ? 1 : -1 };
+    drawResultsBody(S.lastRes);
+  });
+  bindTips();
+}
+
+/** One row of the Results table (an account, or one of its LOBs when expanded). */
+function resultRow(x, firstCell, cls) {
+  return `<tr class="${cls}">${firstCell}${x.cells.map(c => c ? `<td title="${c.evals} evaluations">${pct(c.kpi)}<span class="ev">${N(c.evals)}</span></td>` : '<td class="muted">—</td>').join('')}
+    <td class="total">${pct(x.kpi)}<span class="ev">${N(x.evals)} evals · ${N(x.agents)} agents</span></td></tr>`;
+}
+
+/** Sortable header cell of the Results table. */
+function rth(key, label, cls) {
+  const rs = S.rsort || { key: 'label', dir: 1 };
+  const arrow = rs.key === key ? (rs.dir > 0 ? ' ▲' : ' ▼') : '';
+  return `<th class="sortable ${cls || ''}" data-rsort="${esc(key)}" title="Sort by this column">${label}${arrow}</th>`;
+}
+
+/** One series per card (small multiples): one hue, shared scale across cards. */
+function mini(x, periods, lo) {
+  const W = 260, H = 96, pl = 30, pr = 8, pt = 8, pb = 18;
+  const pts = x.cells.map((c, i) => (c && c.kpi !== null ? { i: i, k: c.kpi, e: c.evals } : null));
+  const xs = i => pl + (periods.length > 1 ? (i * (W - pl - pr)) / (periods.length - 1) : (W - pl - pr) / 2);
+  const ys = k => pt + (H - pt - pb) * (1 - (Math.min(k, 1) - lo) / (1 - lo || 1));
+  let path = '';
+  pts.forEach((p, j) => { if (!p) return; path += (j && pts[j - 1] ? 'L' : 'M') + xs(p.i).toFixed(1) + ',' + ys(p.k).toFixed(1); });
+  const grid = [lo, (lo + 1) / 2, 1].map(g => `<line x1="${pl}" x2="${W - pr}" y1="${ys(g)}" y2="${ys(g)}" stroke="#E5E7EB"/><text x="${pl - 4}" y="${ys(g) + 3}" font-size="9" fill="#71757B" text-anchor="end">${Math.round(g * 100)}%</text>`).join('');
+  const r = periods.length > 30 ? 2.5 : 4;
+  const dots = pts.filter(Boolean).map(p => `<circle cx="${xs(p.i)}" cy="${ys(p.k)}" r="${r}" fill="#3730A3" stroke="#fff" stroke-width="${r > 3 ? 2 : 1}"/>` +
+    `<circle cx="${xs(p.i)}" cy="${ys(p.k)}" r="10" fill="transparent" data-tip="${esc(periodLabel(periods[p.i]))}: ${pct(p.k)} · ${p.e} evaluations"/>`).join('');
+  const first = periods.length ? `<text x="${pl}" y="${H - 4}" font-size="9" fill="#71757B">${esc(periodLabel(periods[0]))}</text>` : '';
+  const last = periods.length > 1 ? `<text x="${W - pr}" y="${H - 4}" font-size="9" fill="#71757B" text-anchor="end">${esc(periodLabel(periods[periods.length - 1]))}</text>` : '';
+  return `<div class="mini"><div class="t">${esc(x.label)}</div><div class="k">${pct(x.kpi)} <span class="muted small" style="font-weight:400">${N(x.evals)} evals</span></div>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="QA trend for ${esc(x.label)}">${grid}<path d="${path}" fill="none" stroke="#3730A3" stroke-width="2" stroke-linejoin="round"/>${dots}${first}${last}</svg></div>`;
+}
+
+function bindTips() {
+  const tip = document.getElementById('tip');
+  document.querySelectorAll('[data-tip]').forEach(el => {
+    el.onmousemove = e => { tip.style.display = 'block'; tip.textContent = el.getAttribute('data-tip'); tip.style.left = (e.clientX + 12) + 'px'; tip.style.top = (e.clientY - 30) + 'px'; };
+    el.onmouseleave = () => { tip.style.display = 'none'; };
+  });
+}
+
+/* ============================================================ MANAGE DATA */
+async function renderManage() {
+  if (!S.status) { renderStatus(); return; }
+  const m = S.del;
+  // Only sources with loaded data can be deleted
+  const srcs = S.status.sources.filter(s => s.data && s.data.rows);
+  Array.from(m.sources).forEach(id => { if (!srcs.some(s => s.id === id)) m.sources.delete(id); });
+  const totalLoaded = srcs.reduce((t, s) => t + s.data.rows, 0);
+  const byAcc = {};
+  srcs.forEach(s => { (byAcc[s.account] = byAcc[s.account] || []).push(s); });
+  const ready = m.preview && m.preview.total > 0 && m.confirm === 'DELETE';
+  $main.innerHTML = `
+    <div class="ttl"><h1>Manage data</h1><button class="help-btn" data-help title="What does everything on this page mean?">? Help</button></div>
+    <p class="sub">Delete loaded evaluations by source and date range, or everything. Deleted rows are kept in a backup for 7 days and can be restored.</p>
+    <div class="warn-box">⚠ The account files are the source of truth: if you press <b>Load data</b> or <b>Refresh</b> on a source after deleting, its rows are loaded again from the file. This page is for the BA team; users ask for deletions in <b>Requests</b> and an Admin approves them.</div>
+    ${m.msg ? `<div class="${m.msgErr ? 'err-box' : 'ok-box'}">${esc(m.msg)}</div>` : ''}
+    <div class="grid2">
+      <div class="panel">
+        <h2>1 · What to delete</h2>
+        <div class="toolbar"><span class="seg"><button data-scope="all" class="${m.allSources ? 'on' : ''}">All sources</button><button data-scope="some" class="${m.allSources ? '' : 'on'}">Choose sources</button></span></div>
+        ${!srcs.length ? '<p class="muted">There is no loaded data to delete.</p>' : m.allSources ? `<p class="small muted">All ${srcs.length} sources with data · ${N(totalLoaded)} evaluations.</p>` : `<div class="srclist">${Object.keys(byAcc).sort().map(a => `<label class="acc"><input type="checkbox" data-acc="${esc(a)}" ${byAcc[a].every(s => m.sources.has(s.id)) ? 'checked' : ''}>${esc(a)} <span class="muted small" style="font-weight:400">(whole account)</span></label>` +
+          byAcc[a].map(s => `<label style="padding-left:22px"><input type="checkbox" data-src="${esc(s.id)}" ${m.sources.has(s.id) ? 'checked' : ''}> ${esc(s.id)} <span class="muted small">(${N(s.data.rows)} evaluations)</span></label>`).join('')).join('')}</div>`}
+        <h2 style="margin-top:16px">2 · Which dates</h2>
+        <div class="toolbar"><span class="seg"><button data-dm="all" class="${m.datesMode === 'all' ? 'on' : ''}">All dates</button><button data-dm="range" class="${m.datesMode === 'range' ? 'on' : ''}">Date range</button></span>
+          ${m.datesMode === 'range' ? `<label class="fl">From<input type="date" id="d-from" value="${esc(m.from)}"></label><label class="fl">To<input type="date" id="d-to" value="${esc(m.to)}"></label>` : ''}</div>
+        <button class="btn ghost" id="d-preview">Preview what will be deleted</button>
+      </div>
+      <div class="panel">
+        <h2>3 · Confirm</h2>
+        ${m.previewLoading ? '<div class="inline-load"><span class="spin"></span> Counting the evaluations that match… please wait.</div>' : ''}
+        ${m.preview ? `<p><b>${N(m.preview.total)}</b> evaluations will be deleted · ${N(m.preview.remaining)} will remain.</p>
+          ${m.preview.total ? `<div class="tbl-wrap" style="margin:8px 0 12px"><table class="left"><tr><th>Source</th><th>Rows</th></tr>${Object.keys(m.preview.bySource).sort().map(k => `<tr><td>${esc(k)}</td><td>${N(m.preview.bySource[k])}</td></tr>`).join('')}</table></div>` : ''}`
+          : m.previewLoading ? '' : '<p class="muted small">Step 1: choose what to delete. Step 2: press “Preview”. Step 3: type DELETE and press Delete.</p>'}
+        <label class="fl" style="margin-bottom:8px">Reason (optional)<input type="text" id="d-reason" value="${esc(m.reason)}" placeholder="e.g. wrong file loaded for September"></label>
+        <label class="fl" style="margin-bottom:12px"><span>Type <b>DELETE</b> to confirm</span><input type="text" id="d-confirm" value="${esc(m.confirm)}" autocomplete="off"></label>
+        <button class="btn danger" id="d-go" ${ready ? '' : 'disabled'}>Delete ${m.preview && m.preview.total ? N(m.preview.total) + ' evaluations' : ''}</button>
+      </div>
+    </div>
+    ${removePanel()}
+    <h2>Deletion history</h2>
+    <div id="d-hist"><div class="loading"><span class="spin"></span> Loading…</div></div>`;
+  const resetPreview = () => { m.preview = null; m.confirm = ''; };
+  document.querySelectorAll('[data-scope]').forEach(b => b.onclick = () => { m.allSources = b.dataset.scope === 'all'; resetPreview(); renderManage(); });
+  document.querySelectorAll('[data-dm]').forEach(b => b.onclick = () => { m.datesMode = b.dataset.dm; resetPreview(); renderManage(); });
+  document.querySelectorAll('[data-src]').forEach(cb => cb.onchange = () => { cb.checked ? m.sources.add(cb.dataset.src) : m.sources.delete(cb.dataset.src); resetPreview(); renderManage(); });
+  document.querySelectorAll('[data-acc]').forEach(cb => cb.onchange = () => {
+    (byAcc[cb.dataset.acc] || []).forEach(s => (cb.checked ? m.sources.add(s.id) : m.sources.delete(s.id)));
+    resetPreview(); renderManage();
+  });
+  const df = document.getElementById('d-from'); if (df) df.onchange = e => { m.from = e.target.value; resetPreview(); renderManage(); };
+  const dt = document.getElementById('d-to'); if (dt) dt.onchange = e => { m.to = e.target.value; resetPreview(); renderManage(); };
+  document.getElementById('d-reason').oninput = e => { m.reason = e.target.value; };
+  document.getElementById('d-confirm').oninput = e => { m.confirm = e.target.value.trim(); document.getElementById('d-go').disabled = !(m.preview && m.preview.total > 0 && m.confirm === 'DELETE'); };
+  document.getElementById('d-preview').onclick = async () => {
+    const q = deleteQuery();
+    if (q.error) { m.msg = q.error; m.msgErr = true; renderManage(); return; }
+    m.msg = ''; m.preview = null; m.previewLoading = true; renderManage();
+    await withBusy('Counting the evaluations that match…', true, async () => {
+      try { m.preview = await call('apiDeletePreview', q); } catch (e) { m.preview = null; m.msg = e.message; m.msgErr = true; }
+    });
+    m.previewLoading = false; renderManage();
+    const c = document.getElementById('d-confirm'); if (c && m.preview && m.preview.total) c.focus();
+  };
+  document.getElementById('d-go').onclick = async () => {
+    const q = deleteQuery(); q.confirm = 'DELETE'; q.reason = m.reason;
+    const n = m.preview ? m.preview.total : 0;
+    const btn = document.getElementById('d-go'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Deleting…';
+    await withBusy(`Deleting ${N(n)} evaluations and saving the 7-day backup… keep this page open.`, true, async () => {
+      try {
+        const res = await call('apiDelete', q);
+        m.msg = res.rows ? `✓ Done: deleted ${res.rows.toLocaleString('en-US')} evaluations (batch ${res.batchId}). You can restore them below for 7 days.` : 'Nothing matched: no rows were deleted.';
+        m.msgErr = false;
+      } catch (e) { m.msg = e.message; m.msgErr = true; }
+      busyMsg('Refreshing the totals…');
+      m.preview = null; m.confirm = ''; m.reason = '';
+      await loadStatus();
+    });
+    renderManage();
+    window.scrollTo(0, 0);
+  };
+  bindRemove();
+  loadHistory();
+}
+
+/* Remove a source: deletes its data (7-day backup), then unticks Active in Config. Admin only. */
+function removePanel() {
+  const rm = S.rm || (S.rm = { source: '', reason: '', confirm: '' });
+  const srcs = S.status.sources.filter(s => s.active);
+  if (!srcs.length) return '';
+  if (!srcs.some(s => s.id === rm.source)) rm.source = '';
+  const sel = srcs.find(s => s.id === rm.source);
+  return `<div class="panel form"><h2>Remove a source</h2>
+    <p class="small">Deletes <b>all</b> the evaluations of the source (kept 7 days in the backup below) and then unticks <b>Active</b> in its Config row, so it stops loading and leaves Status and Results. The account file is not touched; the rule is kept in Config in case you need it again.</p>
+    <div class="cols2"><div><label class="f">Source</label><select id="rm-src"><option value="">— choose —</option>${srcs.map(s => `<option value="${esc(s.id)}" ${s.id === rm.source ? 'selected' : ''}>${esc(s.account)} · ${esc(s.id)} (${N(s.data.rows || 0)} evaluations)</option>`).join('')}</select></div>
+      <div><label class="f">Reason</label><input type="text" id="rm-why" value="${esc(rm.reason)}" placeholder="e.g. test account"></div></div>
+    ${sel ? `<label class="f">Type <b>REMOVE</b> to confirm</label><div class="toolbar"><input type="text" id="rm-confirm" value="${esc(rm.confirm)}" autocomplete="off" style="width:180px">
+      <button class="btn danger" id="rm-go" ${rm.confirm === 'REMOVE' ? '' : 'disabled'}>Remove ${esc(sel.id)} and delete ${N(sel.data.rows || 0)} evaluations</button></div>` : ''}</div>`;
+}
+function bindRemove() {
+  const rm = S.rm, src = document.getElementById('rm-src');
+  if (!src) return;
+  src.onchange = () => { rm.source = src.value; rm.confirm = ''; renderManage(); };
+  document.getElementById('rm-why').oninput = e => { rm.reason = e.target.value; };
+  const c = document.getElementById('rm-confirm');
+  if (c) c.oninput = () => { rm.confirm = c.value.trim(); document.getElementById('rm-go').disabled = rm.confirm !== 'REMOVE'; };
+  const go = document.getElementById('rm-go');
+  if (go) go.onclick = async () => {
+    go.disabled = true;
+    await withBusy(`Removing ${rm.source}: deleting its evaluations (7-day backup) and deactivating its rule…`, true, async () => {
+      try {
+        const res = await call('apiRemoveSource', { sourceId: rm.source, reason: rm.reason, confirm: 'REMOVE' });
+        S.del.msg = `✓ ${res.sourceId} removed: ${res.rows ? `${res.rows.toLocaleString('en-US')} evaluations deleted (batch ${res.batchId}, restorable for 7 days)` : 'it had no data'}; Active is unticked in Config.`;
+        S.del.msgErr = false;
+        S.rm = null;
+        busyMsg('Refreshing the totals…');
+        await loadStatus();
+      } catch (e) { S.del.msg = e.message; S.del.msgErr = true; }
+    });
+    renderManage(); window.scrollTo(0, 0);
+  };
+}
+
+function deleteQuery() {
+  const m = S.del;
+  if (!m.allSources && !m.sources.size) return { error: 'Choose at least one source.' };
+  if (m.datesMode === 'range' && (!m.from || !m.to)) return { error: 'Choose both dates of the range.' };
+  if (m.datesMode === 'range' && m.from > m.to) return { error: 'The start date is after the end date.' };
+  return { sources: m.allSources ? [] : Array.from(m.sources), from: m.datesMode === 'range' ? m.from : '', to: m.datesMode === 'range' ? m.to : '' };
+}
+
+async function loadHistory() {
+  const box = document.getElementById('d-hist');
+  try {
+    const list = await call('apiDeletions');
+    if (!box || S.view !== 'manage') return;
+    box.innerHTML = list.length ? `<div class="tbl-wrap"><table class="left wrap">
+      <tr><th>Batch</th><th>Deleted at</th><th>By</th><th>Sources</th><th>Dates</th><th>Rows</th><th>Reason</th><th>Status</th><th></th></tr>
+      ${list.map(d => `<tr><td>${esc(d.batchId)}</td><td>${esc(d.deletedAt)}</td><td>${esc(d.by)}</td><td>${esc(d.sources)}</td>
+        <td>${esc(d.from)} → ${esc(d.to)}</td><td>${N(d.rows)}</td><td>${esc(d.reason || '—')}</td>
+        <td>${esc(d.status)}${d.restoredAt ? `<br><span class="small muted">${esc(d.restoredAt)} · ${esc(d.restoredBy)}</span>` : ''}</td>
+        <td>${d.canRestore ? `<button class="btn ghost sm" data-restore="${esc(d.batchId)}">Restore</button>` : ''}</td></tr>`).join('')}
+    </table></div>` : '<div class="panel muted">No deletions yet.</div>';
+    box.querySelectorAll('[data-restore]').forEach(b => b.onclick = async () => {
+      b.disabled = true; b.innerHTML = '<span class="spin"></span> Restoring…';
+      await withBusy(`Restoring batch ${b.dataset.restore}…`, true, async () => {
+        try {
+          const res = await call('apiRestore', b.dataset.restore);
+          S.del.msg = `✓ Done: restored ${res.restored.toLocaleString('en-US')} evaluations` + (res.skipped ? ` (${res.skipped} were already loaded again and were skipped).` : '.');
+          S.del.msgErr = false;
+        } catch (e) { S.del.msg = e.message; S.del.msgErr = true; }
+        busyMsg('Refreshing the totals…');
+        await loadStatus();
+      });
+      renderManage();
+      window.scrollTo(0, 0);
+    });
+  } catch (e) { if (box) box.innerHTML = `<div class="err-box">${esc(e.message)}</div>`; }
+}
+
+/* ============================================================ RULES & LOG */
+const specText = s => { const m = String(s || '').match(/^\[(.+)\]$/); return m ? `from column “${esc(m[1])}”` : /^\{tab\}$/i.test(s) ? 'from the tab name' : esc(s); };
+async function renderRules() {
+  if (!S.status) { renderStatus(); return; }
+  $main.innerHTML = `
+    <div class="ttl"><h1>Rules and activity log</h1><button class="help-btn" data-help title="What does everything on this page mean?">? Help</button></div>
+    <p class="sub">How each account is read and calculated (pilot: same fields as its current template). Editing from the portal comes in phase 2; today the BA team edits the Config tab.</p>
+    <div class="panel"><div class="tbl-wrap"><table class="left wrap">
+      <tr><th>Source</th><th>Where</th><th>Columns used</th><th>Filter</th><th>Numerator ÷ Denominator</th><th>Duplicate key</th><th>Notes</th></tr>
+      ${S.status.sources.map(s => `<tr>
+        <td><b>${esc(s.account)}</b><br><span class="muted small">${esc(s.id)} · v ${esc(s.ruleVersion || '—')}</span></td>
+        <td>Tab “${esc(s.tabs)}”<br><span class="muted small">LOB ${specText(s.lob)} · ${specText(s.country)}</span></td>
+        <td class="small">Date: <code>${esc(s.rules.dateHeader)}</code><br>WDID: <code>${esc(s.rules.wdidHeader)}</code><br>Name: <code>${esc(s.rules.nameHeader || '—')}</code></td>
+        <td class="small">${esc(s.rules.filter || '—')}</td>
+        <td class="small"><code>${esc(s.rules.numerator)}</code> ÷ <code>${esc(s.rules.denominator)}</code></td>
+        <td class="small">${esc(s.rules.keyFields)}</td>
+        <td class="small muted">${esc(s.notes)}</td></tr>`).join('')}
+    </table></div></div>
+    <h2>Activity log <span class="muted small" style="font-weight:400">· Admin only · every load: who, why, account, file, tabs and result</span></h2>
+    <div id="log"><div class="loading"><span class="spin"></span> Loading…</div></div>`;
+  try {
+    const log = await call('apiLog');
+    document.getElementById('log').innerHTML = `<div class="tbl-wrap"><table class="left wrap">
+      <tr><th>When</th><th>By · why</th><th>Account · source</th><th>File · tabs</th><th>Result</th><th>Loaded</th><th>Excluded (why)</th><th>Messages (errors, duplicates)</th></tr>
+      ${log.map(l => {
+        const why = [['no WDID', l.noWdid], ['filtered', l.filtered], ['outside range', l.outOfRange], ['bad date', l.badDate], ['not numeric', l.badValue], ['duplicates', l.dupes], ['conflicts', l.conflicts]]
+          .filter(x => Number(x[1]) > 0).map(x => `${N(x[1])} ${x[0]}`).join(' · ');
+        const pill = l.status === 'OK' ? 'ok' : l.status === 'ERROR' ? 'err' : l.status === 'NEEDS MAPPING' ? 'warn' : 'skip';
+        return `<tr><td>${esc(l.runAt)}</td><td class="small">${esc(l.runBy || '—')}<span class="ev">${esc(l.context || '')}</span></td>
+          <td>${esc(l.account || '—')}<span class="ev">${esc(l.source)}</span></td>
+          <td class="small">${l.file ? `<a href="${esc(l.file)}" target="_blank" rel="noopener">Open file</a>` : '—'}${l.tabsRule ? `<span class="ev">Rule: ${esc(l.tabsRule)}</span>` : ''}${l.tabsRead ? `<span class="ev">Read: ${esc(l.tabsRead)}</span>` : ''}</td>
+          <td><span class="pill ${pill}">${esc(l.status)}</span></td><td>${N(l.loaded)}<span class="ev">of ${N(l.read)} read · ${esc(l.min || '—')} → ${esc(l.max || '—')}</span></td>
+          <td class="small">${why || '—'}</td><td class="small muted">${esc(l.message) || '—'}</td></tr>`;
+      }).join('')}
+    </table></div>`;
+  } catch (e) { document.getElementById('log').innerHTML = `<div class="err-box">${esc(e.message)}</div>`; }
+}
+
+/* ============================================================ SHARED (self-service) */
+const role = () => (S.status && S.status.me ? S.status.me.role : 'User');
+const isAdmin = () => role() === 'Admin';
+function openModal(html) { document.getElementById('modal').innerHTML = html; document.getElementById('modalShade').style.display = 'flex'; }
+function closeModal() { document.getElementById('modalShade').style.display = 'none'; }
+document.getElementById('modalShade').addEventListener('click', e => { if (e.target.id === 'modalShade') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/** Closest header to a missing column name (same words, contained, or few letters different). */
+function similarity(a, b) {
+  const n = s => String(s || '').toLowerCase().replace(/[^a-z0-9%]+/g, ' ').trim();
+  a = n(a); b = n(b);
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  if (a.includes(b) || b.includes(a)) return 0.9;
+  const ta = new Set(a.split(' ')), tb = new Set(b.split(' '));
+  let both = 0; ta.forEach(t => { if (tb.has(t)) both++; });
+  const jac = both / (ta.size + tb.size - both);
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return Math.max(jac, 1 - d[a.length][b.length] / Math.max(a.length, b.length));
+}
+function bestMatch(spec, headers) {
+  let best = '', score = 0;
+  String(spec).split('||').forEach(alias => headers.forEach(h => { const s = similarity(alias, h); if (s > score) { score = s; best = h; } }));
+  return score >= 0.5 ? best : '';
+}
+
+/** Reasons a row is left out: key in the test stats, label, meaning and what to do. */
+const LEFT_OUT = [
+  ['noWdid', 'No WDID', 'The WDID is empty or says N/A, so the evaluation cannot be assigned to an agent. Fill the WDID in the file.'],
+  ['filtered', 'Excluded by your rule', 'Matches a rule in “Rows that should not count” (e.g. calibrations). Nothing to fix if that is intended.'],
+  ['badDate', 'Unreadable date', 'The date is empty or not a date. Check the date column, or choose month-first / day-first in step 4.'],
+  ['outOfRange', 'Outside 2026', 'The pilot only loads evaluations of 2026.'],
+  ['badValue', 'Score is not a number', 'The score is empty or text (e.g. stars, words, “N/A”). Text scores are not supported yet.'],
+  ['dupes', 'Duplicate (older copy)', 'The same evaluation (same values in the columns that identify it) appears more than once. Only the most recent copy is counted: the latest evaluation date up to today; with the same date, the lower row in the file. If they are really different evaluations, add a column to the key (e.g. ticket ID or evaluator).'],
+  ['already', 'Already loaded from another source', 'The same evaluation is already loaded from another source (e.g. the same file registered twice or a copy). It is not loaded again.'],
+];
+
+/** Result of reading a file with a rule (wizard test, fix mapping test). Nothing is saved. */
+function testBox(t) {
+  if (!t.ok && t.needs) return `<div class="result err">✕ Columns still not found: ${t.needs.map(n => `tab “${esc(n.tab)}”: ${n.specs.map(x => '“' + esc(x) + '”').join(', ')}`).join(' · ')}</div>`;
+  if (!t.ok) return `<div class="result err">✕ ${esc(t.error)}</div>`;
+  const s = t.stats;
+  const excl = LEFT_OUT.map(x => ({ key: x[0], label: x[1], why: x[2], n: Number(s[x[0]]) || 0, ex: (t.examples || {})[x[0]] || [] })).filter(x => x.n);
+  const exTotal = excl.reduce((a, x) => a + x.n, 0);
+  return `<div class="tiles" style="margin:12px 0">
+      <div class="tile"><div class="lbl">Rows read</div><div class="val">${N(s.read)}</div></div>
+      <div class="tile"><div class="lbl">Evaluations that count</div><div class="val" style="color:var(--green-a11y)">${N(s.loaded)}</div></div>
+      <div class="tile"><div class="lbl">Rows left out</div><div class="val">${N(exTotal)}</div></div>
+      <div class="tile"><div class="lbl">Dates</div><div class="val" style="font-size:16px">${esc(s.min || '—')} → ${esc(s.max || '—')}</div></div></div>
+    ${s.dupes ? `<div class="warn-box" style="margin:8px 0">⚠ <b>${N(s.dupes)} duplicated evaluation${s.dupes === 1 ? '' : 's'} detected.</b> For each one, only the most recent copy is counted (latest evaluation date up to today; with the same date, the lower row). See “Duplicate” below for examples.</div>` : ''}
+    ${excl.length ? `<h2 style="font-size:14px;margin-top:4px">Why rows were left out</h2>
+      <div class="tbl-wrap" style="margin-bottom:10px"><table class="left wrap"><tr><th>Reason</th><th style="text-align:right">Rows</th><th>What it means · what to do</th><th>Examples in the file</th></tr>
+      ${excl.map(x => `<tr><td><b>${esc(x.label)}</b></td><td style="text-align:right">${N(x.n)}</td><td class="small">${x.why}</td>
+        <td class="small">${x.ex.length ? x.ex.map(e => `${esc(e.where)}${e.where ? ': ' : ''}${esc(e.what)}`).join('<br>') : '—'}</td></tr>`).join('')}</table></div>` : ''}
+    ${(t.warnings || []).map(w => `<div class="warn-box" style="margin:8px 0">⚠ ${esc(w)}</div>`).join('')}
+    ${t.months.length ? `<div class="tbl-wrap" style="margin-top:10px;max-width:520px"><table><tr><th>Month</th><th>Evaluations</th><th>QA score (weighted)</th></tr>
+      ${t.months.map(m => `<tr><td>${esc(periodLabel(m.month))}</td><td>${N(m.evals)}</td><td>${pct(m.kpi)}</td></tr>`).join('')}</table></div>` : '<p class="muted">No evaluations of 2026 would be loaded.</p>'}`;
+}
+
+/* ============================================================ FIX MAPPING */
+function openFix(id) {
+  const s = S.status.sources.find(x => x.id === id);
+  if (!s || !s.mapping) return;
+  const specs = [];
+  s.mapping.tabs.forEach(t => t.specs.forEach(sp => { if (!specs.some(x => x.spec === sp)) specs.push({ spec: sp, headers: t.headers }); }));
+  S.fix = { id: id, specs: specs, tabs: s.mapping.tabs, more: (s.mapping.count || 0) - s.mapping.tabs.length,
+    renames: specs.map(x => bestMatch(x.spec, x.headers)), ignore: new Set(), test: null, testing: false };
+  drawFix();
+}
+function fixChanges() {
+  const f = S.fix;
+  return { renames: f.specs.map((x, i) => ({ spec: x.spec, header: f.renames[i] })).filter(x => x.header), ignoreTabs: Array.from(f.ignore) };
+}
+function drawFix() {
+  const f = S.fix;
+  openModal(`<h2>Fix mapping · ${esc(f.id)}</h2>
+    <p class="small">These columns were not found in the account file. Nothing new was loaded and <b>the data loaded before is kept</b>.
+      Pick the column that now holds the same information. The old name is kept as an alternative, so older tabs keep working.</p>
+    <div class="form">${f.specs.map((x, i) => `<label class="f">Column “${esc(x.spec.split('||').join('” or “'))}”</label>
+      <select data-ren="${i}"><option value="">— choose the new column —</option>${x.headers.map(h => `<option ${h === f.renames[i] ? 'selected' : ''}>${esc(h)}</option>`).join('')}</select>
+      ${f.renames[i] && f.renames[i] === bestMatch(x.spec, x.headers) ? '<div class="sugg">✓ Suggested: closest name</div>' : ''}`).join('')}
+    <label class="f">Tabs with the problem</label>
+    ${f.tabs.map(t => `<label class="opt-line"><input type="checkbox" data-ign="${esc(t.tab)}" ${f.ignore.has(t.tab) ? 'checked' : ''}> “${esc(t.tab)}” is not an evaluations tab: ignore it</label>`).join('')}
+    ${f.more > 0 ? `<p class="small muted">+ ${f.more} more tab(s) with the same problem.</p>` : ''}</div>
+    ${f.testing ? '<div class="inline-load" style="margin-top:12px"><span class="spin"></span> Reading the file with the new mapping… nothing is saved yet.</div>' : ''}
+    ${f.test ? testBox(f.test) : ''}
+    <div class="nav-row"><button class="btn ghost" id="fx-cancel">Cancel</button><span>
+      <button class="btn ghost" id="fx-test" ${f.testing ? 'disabled' : ''}>Test</button>
+      <button class="btn" id="fx-save" ${f.test && f.test.ok && !f.testing ? '' : 'disabled'} title="Test first">Save and reload</button></span></div>
+    <p class="small muted" style="margin-top:10px">No approval is needed for a renamed column. The change is versioned and the BA team is notified.</p>`);
+  document.querySelectorAll('[data-ren]').forEach(sel => sel.onchange = () => { f.renames[+sel.dataset.ren] = sel.value; f.test = null; drawFix(); });
+  document.querySelectorAll('[data-ign]').forEach(cb => cb.onchange = () => { cb.checked ? f.ignore.add(cb.dataset.ign) : f.ignore.delete(cb.dataset.ign); f.test = null; drawFix(); });
+  document.getElementById('fx-cancel').onclick = closeModal;
+  document.getElementById('fx-test').onclick = async () => {
+    f.testing = true; f.test = null; drawFix();
+    await withBusy(`Testing the new mapping of ${f.id}…`, false, async () => {
+      try { f.test = await call('apiRemapTest', f.id, fixChanges()); } catch (e) { f.test = { ok: false, error: e.message }; }
+    });
+    f.testing = false; drawFix();
+  };
+  document.getElementById('fx-save').onclick = async () => {
+    let res = null;
+    await withBusy(`Saving the new mapping and reloading ${f.id}…`, true, async () => {
+      try { res = await call('apiRemapSave', f.id, fixChanges()); } catch (e) { toast(e.message); }
+      if (res) { busyMsg('Refreshing the totals…'); await loadStatus(); }
+    });
+    if (!res) return;
+    closeModal();
+    if (res.status === 'OK') toast(`✓ ${f.id}: mapping saved and ${N(res.loaded)} evaluations loaded.`, true);
+    else toast(`${f.id}: ${res.message}`);
+    if (S.view === 'status') renderStatus();
+  };
+}
+
+/* ============================================================ ADD A FILE */
+const WIZ = ['Link', 'Tabs & headers', 'Account', 'Columns', 'Test & send'];
+function newAdd() {
+  return { mode: null, step: 0, url: '', file: null, checking: false, insp: null, loadingTab: false, tab: '', tabs: new Set(), autoTabs: true, tabPattern: '*', patEdited: false,
+    d: { account: '', countryMode: 'fixed', country: '', lobMode: 'fixed', lob: '', date: '', dateFormat: '', wdid: '', name: '',
+      scoreMode: 'one', scoreCol: '', scale: '0-100', smin: '', smax: '', lowZero: '', earned: '', possible: '', num: '', den: '', filters: [], keys: [] },
+    test: null, testedKey: '', testing: false, confirmed: null, comment: '', note: '', fromRequest: null, done: null, sending: false };
+}
+function myAccounts() { return S.status.me.accounts && S.status.me.accounts.length ? S.status.me.accounts : null; }
+
+function renderAdd() {
+  if (!S.status) { renderStatus(); return; }
+  const a = S.add || (S.add = newAdd());
+  if (!a.d.account && myAccounts() && myAccounts().length === 1) a.d.account = myAccounts()[0];
+  const head = `<div class="ttl"><h1>Add a file${a.mode === 'quick' ? ' · Quick add' : a.mode === 'map' ? ' · Map the columns' : ''}</h1><button class="help-btn" data-help>? Help</button></div>`;
+  if (a.done) { $main.innerHTML = head + addDone(a); bindAddDone(); return; }
+  if (!a.mode) {
+    $main.innerHTML = head + `<p class="sub">Share a Google Sheet with QA evaluations. The portal only reads it (Viewer access); it never changes the file.</p>
+      <div class="panel" style="max-width:760px">
+        <div class="choice" data-mode="quick"><span class="dot"></span><div><b>Quick add</b><span class="muted small">Paste the link and the BA team does the rest: they map the columns and confirm the calculation with you.</span></div></div>
+        <div class="choice" data-mode="map"><span class="dot"></span><div><b>Map it myself</b><span class="muted small">5 short steps: tell the portal which columns hold the date, the agent and the score, and check the result before sending.</span></div></div>
+      </div>`;
+    document.querySelectorAll('[data-mode]').forEach(c => c.onclick = () => { a.mode = c.dataset.mode; renderAdd(); });
+    return;
+  }
+  if (a.mode === 'quick') { $main.innerHTML = head + quickForm(a); bindQuick(a); return; }
+  $main.innerHTML = head + `<p class="sub">${a.fromRequest ? `Mapping the file of request ${esc(a.fromRequest)}. ` : ''}Step ${a.step + 1} of 5. Nothing is saved until you ${isAdmin() ? 'save' : 'send'} it in the last step.</p>
+    <div class="wiz">${WIZ.map((w, i) => `<div class="${i === a.step ? 'on' : i < a.step ? 'done' : ''}">${i < a.step ? '✓ ' : ''}${w}</div>`).join('')}</div>
+    <div class="panel form">${[stepLink, stepTabs, stepAccount, stepColumns, stepTest][a.step](a)}
+      <div class="nav-row"><button class="btn ghost" id="a-back">${a.step ? '← Back' : 'Cancel'}</button>${a.step < 4 ? `<button class="btn" id="a-next" ${canNext(a) ? '' : 'disabled'}>Next →</button>` : sendButton(a)}</div></div>`;
+  document.getElementById('a-back').onclick = () => { if (a.step) a.step--; else S.add = newAdd(); renderAdd(); };
+  const nx = document.getElementById('a-next');
+  if (nx) nx.onclick = async () => {
+    a.step++;
+    if (a.step === 1 && !a.insp) { renderAdd(); await inspectTab(a, mainTab(a), null); return; }
+    renderAdd();
+  };
+  [bindLink, bindTabs, bindAccount, bindColumns, bindTest][a.step](a);
+}
+
+function canNext(a) {
+  const d = a.d;
+  if (a.step === 0) return !!(a.file && a.file.ok);
+  if (a.step === 1) return !!(a.insp && !a.insp.empty && a.tabs.size && !a.loadingTab && (!a.autoTabs || validPattern(a.tabPattern)));
+  if (a.step === 2) return !!(d.account && d.country && d.lob);
+  if (a.step === 3) {
+    const score = d.scoreMode === 'one' ? d.scoreCol : d.scoreMode === 'two' ? d.earned && d.possible : d.num && d.den;
+    return !!(d.date && d.wdid && score && d.keys.length && (d.scoreMode !== 'one' || scaleOf(d)));
+  }
+  return false;
+}
+
+function linkBlock(a) {
+  const f = a.file;
+  return `<label class="f">Google Sheet link</label>
+    <div class="toolbar" style="flex-wrap:nowrap"><input type="text" id="a-url" style="flex:1" placeholder="Paste the link: docs.google.com/spreadsheets/d/…" value="${esc(a.url)}">
+      <button class="btn ghost" id="a-check" ${a.checking ? 'disabled' : ''}>Check access</button></div>
+    ${a.checking ? '<div class="inline-load"><span class="spin"></span> Opening the file…</div>' : ''}
+    ${f && f.ok ? `<div class="result ok">✓ The portal can read “${esc(f.name)}” · ${f.tabs.length} tab(s)</div>` : ''}
+    ${f && f.ok && f.known.length ? `<div class="warn-box" style="margin-top:8px">⚠ This file is already registered: ${f.known.map(k => `<b>${esc(k.id)}</b> (${esc(k.account)}, tabs “${esc(k.tabs)}”)`).join(', ')}.
+      Adding it again never duplicates evaluations, but check that a new source is really needed.</div>` : ''}
+    ${f && !f.ok ? `<div class="err-box" style="margin-top:8px">✕ ${esc(f.message)}${f.shareWith ? `<br>In Google Sheets click <b>Share</b> and add <b>${esc(f.shareWith)}</b> as <b>Viewer</b>, then click “Check access” again.` : ''}</div>` : ''}`;
+}
+function bindLinkBlock(a, after) {
+  const u = document.getElementById('a-url');
+  u.oninput = () => { a.url = u.value.trim(); };
+  u.onkeydown = e => { if (e.key === 'Enter') document.getElementById('a-check').click(); };
+  document.getElementById('a-check').onclick = async () => {
+    a.url = u.value.trim();
+    if (!a.url) { a.file = { ok: false, message: 'Paste the link of the Google Sheet first.' }; after(); return; }
+    a.checking = true; a.file = null; a.insp = null; a.test = null; after();
+    await withBusy('Checking that the portal can open the file…', false, async () => {
+      try { a.file = await call('apiInspectFile', a.url); } catch (e) { a.file = { ok: false, message: e.message }; }
+    });
+    a.checking = false; after();
+  };
+}
+function stepLink(a) { return `<h2>Paste the link of the file</h2><p class="small muted">Open the Google Sheet and copy the address from the browser.</p>` + linkBlock(a); }
+function bindLink(a) { bindLinkBlock(a, renderAdd); }
+
+function mainTab(a) {
+  const t = a.file.tabs.slice().sort((x, y) => y.rows - x.rows)[0];
+  return t ? t.name : '';
+}
+async function inspectTab(a, tab, hr) {
+  a.loadingTab = true; a.tab = tab; renderAdd();
+  await withBusy(`Reading the column names of “${tab}”…`, false, async () => {
+    try {
+      const prev = a.insp;
+      a.insp = await call('apiInspectTab', a.file.fileId, tab, hr);
+      a.tabs = new Set([tab].concat(a.insp.similar || []));
+      if (!prev || prev.headers.join('|') !== (a.insp.headers || []).join('|')) applyGuess(a);
+    } catch (e) { a.insp = { empty: true, error: e.message }; }
+  });
+  a.loadingTab = false; a.test = null; renderAdd();
+}
+function applyGuess(a) {
+  const g = a.insp.guess || {}, d = a.d;
+  Object.assign(d, { date: g.date || '', wdid: g.wdid || '', name: g.name || '', scoreMode: 'one', scoreCol: g.score || '', scale: g.scale || '0-100',
+    earned: '', possible: '', num: '', den: '', filters: [], dateFormat: '' });
+  d.keys = g.id ? [g.id, g.wdid].filter(Boolean) : [g.date, g.wdid, g.name || g.score].filter(Boolean);
+  if (g.lob) { d.lobMode = 'column'; d.lob = g.lob; } else if (d.lobMode === 'column') { d.lobMode = 'fixed'; d.lob = ''; }
+  if (g.country) { d.countryMode = 'column'; d.country = g.country; } else if (d.countryMode === 'column') { d.countryMode = 'fixed'; d.country = ''; }
+}
+function stepTabs(a) {
+  const i = a.insp;
+  const tabs = a.file.tabs;
+  return `<h2>Tabs and column names</h2>
+    <div class="cols2"><div><label class="f">Tab to read the column names from</label>
+      <select id="a-tab">${tabs.map(t => `<option value="${esc(t.name)}" ${t.name === a.tab ? 'selected' : ''}>${esc(t.name)} (${N(t.rows)} rows)</option>`).join('')}</select></div>
+      <div><label class="f">Column names are in row</label><div class="toolbar" style="margin:0"><input type="number" id="a-hr" min="1" max="30" style="width:90px" value="${i && i.headerRow ? i.headerRow : 1}"><button class="btn ghost sm" id="a-reread">Read again</button></div></div></div>
+    ${a.loadingTab ? '<div class="inline-load" style="margin-top:12px"><span class="spin"></span> Reading the tab…</div>' : ''}
+    ${i && i.error ? `<div class="err-box" style="margin-top:12px">${esc(i.error)}</div>` : ''}
+    ${i && i.empty && !i.error ? '<div class="warn-box" style="margin-top:12px">This tab is empty. Choose another tab.</div>' : ''}
+    ${i && !i.empty ? `<label class="f">The portal found these column names in row ${i.headerRow} (first rows below). Is this right? If not, change the row and click “Read again”.</label>
+      <div class="tbl-wrap"><table class="left"><tr>${i.headers.map(h => `<th>${esc(h || '(empty)')}</th>`).join('')}</tr>
+      ${i.sample.map(r => `<tr>${i.headers.map((_, j) => `<td>${esc(r[j] || '')}</td>`).join('')}</tr>`).join('')}</table></div>
+      <label class="f">Which tabs have evaluations? <span class="hint">Tabs with the same columns are already ticked.</span></label>
+      <div class="tabpick">${tabs.map(t => `<label class="opt-line"><input type="checkbox" data-tabsel="${esc(t.name)}" ${a.tabs.has(t.name) ? 'checked' : ''}> ${esc(t.name)} <span class="muted small">(${N(t.rows)} rows)</span></label>`).join('')}</div>
+      <label class="choice ${a.autoTabs ? 'on' : ''}" style="cursor:pointer"><input type="checkbox" id="a-auto" ${a.autoTabs ? 'checked' : ''}><div><b>Include new tabs automatically</b>
+        <span class="muted small">For files with one tab per month. The tabs you leave unticked above are always ignored.</span></div></label>
+      ${a.autoTabs ? patternBlock(a) : ''}` : ''}`;
+}
+/** Wildcard match of a tab name, same rule as the engine ("* 2026" = anything ending in " 2026"). */
+function tabMatch(pat, name) {
+  if (!pat.includes('*')) return pat.trim().toLowerCase() === String(name).trim().toLowerCase();
+  return new RegExp('^' + pat.trim().split('*').map(x => x.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join('.*') + '$', 'i').test(String(name).trim());
+}
+const validPattern = pat => /\*/.test(pat || '') && !/,/.test(pat) && String(pat).trim()[0] !== '-';
+/** Common start or end of the ticked tab names, cut at a word boundary: "Jan 2026" + "Feb 2026" → "* 2026". */
+function suggestPattern(names) {
+  if (names.length < 2) return '*';
+  const sep = /[\s_\-.|]/;
+  let suf = names.reduce((x, n) => { let i = 0; while (i < x.length && i < n.length && x[x.length - 1 - i].toLowerCase() === n[n.length - 1 - i].toLowerCase()) i++; return x.slice(x.length - i); });
+  if (suf && !sep.test(suf[0])) { const k = suf.search(sep); suf = k >= 0 ? suf.slice(k) : ''; }
+  if (suf.trim().length >= 2) return '*' + suf;
+  let pre = names.reduce((x, n) => { let i = 0; while (i < x.length && i < n.length && x[i].toLowerCase() === n[i].toLowerCase()) i++; return x.slice(0, i); });
+  if (pre && !sep.test(pre[pre.length - 1])) { let k = -1; for (let i = 0; i < pre.length; i++) if (sep.test(pre[i])) k = i; pre = k >= 0 ? pre.slice(0, k + 1) : ''; }
+  return pre.trim().length >= 2 ? pre + '*' : '*';
+}
+function patternBlock(a) {
+  if (!a.patEdited) a.tabPattern = suggestPattern(a.file.tabs.map(t => t.name).filter(t => a.tabs.has(t)));
+  const ok = validPattern(a.tabPattern);
+  const match = ok ? a.file.tabs.map(t => t.name).filter(t => tabMatch(a.tabPattern, t)) : [];
+  const read = match.filter(t => a.tabs.has(t)), ignored = match.filter(t => !a.tabs.has(t));
+  return `<div style="margin:10px 0 0 4px"><div class="toolbar" style="margin:0"><span class="small"><b>Only new tabs whose name looks like</b></span>
+      <input type="text" id="a-pat" value="${esc(a.tabPattern)}" style="width:200px"><span class="hint small">* = any text · “*” alone = any name</span></div>
+    ${ok ? `<div class="ex2">Today it matches: ${read.map(esc).join(', ') || '—'}${ignored.length ? ` · always ignored (unticked): ${ignored.map(esc).join(', ')}` : ''}.
+      A new tab is read only if it follows this pattern <b>and</b> has the mapped columns, and the BA team is asked to confirm it the first time.</div>`
+      : '<div class="err-box" style="margin-top:6px">Add a * to the pattern, for example “* 2026”, without commas.</div>'}</div>`;
+}
+function bindTabs(a) {
+  document.getElementById('a-tab').onchange = e => inspectTab(a, e.target.value, null);
+  document.getElementById('a-reread').onclick = () => inspectTab(a, a.tab, Number(document.getElementById('a-hr').value) || 1);
+  document.querySelectorAll('[data-tabsel]').forEach(cb => cb.onchange = () => { cb.checked ? a.tabs.add(cb.dataset.tabsel) : a.tabs.delete(cb.dataset.tabsel); a.test = null; renderAdd(); });
+  const au = document.getElementById('a-auto');
+  if (au) au.onchange = () => { a.autoTabs = au.checked; a.test = null; renderAdd(); };
+  const pt = document.getElementById('a-pat');
+  if (pt) {
+    pt.oninput = () => { a.tabPattern = pt.value; a.patEdited = true; a.test = null; const n = document.getElementById('a-next'); if (n) n.disabled = !canNext(a); };
+    pt.onchange = () => renderAdd();
+  }
+}
+
+function headerOptions(a, sel, blank) {
+  return (blank ? `<option value="">${blank}</option>` : '') + a.insp.headers.filter(Boolean).map(h => `<option ${h === sel ? 'selected' : ''}>${esc(h)}</option>`).join('');
+}
+function fixedOrColumn(a, key, label, list) {
+  const d = a.d, mode = d[key + 'Mode'];
+  return `<div><label class="f">${label}</label>
+    <span class="seg" style="margin-bottom:6px"><button data-fm="${key}:fixed" class="${mode === 'fixed' ? 'on' : ''}">Same for all rows</button><button data-fm="${key}:column" class="${mode === 'column' ? 'on' : ''}">From a column</button></span>
+    ${mode === 'fixed' ? `<input type="text" data-fv="${key}" list="dl-${key}" value="${esc(d[key])}" placeholder="e.g. ${key === 'lob' ? 'Voice' : 'Mexico'}">
+      <datalist id="dl-${key}">${(list || []).map(x => `<option value="${esc(x)}">`).join('')}</datalist>`
+      : `<select data-fc="${key}">${headerOptions(a, d[key], '— choose the column —')}</select>${colExamples(a, d[key])}`}</div>`;
+}
+function colExamples(a, h) {
+  const c = h && a.insp.cols.find(x => x.header === h);
+  return c && c.examples.length ? `<div class="ex2">Examples: ${c.examples.map(esc).join(' · ')}</div>` : '';
+}
+function stepAccount(a) {
+  const d = a.d, mine = myAccounts();
+  return `<h2>Which account is this?</h2><div class="cols2">
+    <div><label class="f">Account</label>${mine ? `<select id="a-acc"><option value="">— choose —</option>${mine.map(x => `<option ${x === d.account ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>`
+      : `<input type="text" id="a-acc" list="dl-acc" value="${esc(d.account)}" placeholder="Account name as in the master list"><datalist id="dl-acc">${S.status.known.accounts.map(x => `<option value="${esc(x)}">`).join('')}</datalist>`}</div>
+    <div><label class="f">KPI</label><input type="text" value="QA score" disabled></div>
+    ${fixedOrColumn(a, 'country', 'Country', S.status.known.countries)}
+    ${fixedOrColumn(a, 'lob', 'LOB', [])}</div>
+    ${mine ? '' : '<p class="small muted" style="margin-top:10px">Use the same account name as the other sources of the account, so Results groups them together.</p>'}`;
+}
+function bindAccount(a) {
+  const acc = document.getElementById('a-acc');
+  const upd = () => { const n = document.getElementById('a-next'); if (n) n.disabled = !canNext(a); };
+  acc.oninput = acc.onchange = () => { a.d.account = acc.value.trim(); upd(); };
+  bindFixedOrColumn(a, upd);
+}
+function bindFixedOrColumn(a, upd) {
+  document.querySelectorAll('[data-fm]').forEach(b => b.onclick = () => { const [k, m] = b.dataset.fm.split(':'); if (a.d[k + 'Mode'] !== m) { a.d[k + 'Mode'] = m; a.d[k] = ''; } renderAdd(); });
+  document.querySelectorAll('[data-fv]').forEach(i => i.oninput = () => { a.d[i.dataset.fv] = i.value.trim(); upd(); });
+  document.querySelectorAll('[data-fc]').forEach(s => s.onchange = () => { a.d[s.dataset.fc] = s.value; renderAdd(); });
+}
+
+function colField(a, label, key, blank) {
+  const g = a.insp.guess || {};
+  const gk = { date: g.date, wdid: g.wdid, name: g.name }[key];
+  return `<div><label class="f">${label}</label><select data-col="${key}">${headerOptions(a, a.d[key], blank || '— choose —')}</select>
+    ${a.d[key] && a.d[key] === gk ? '<span class="sugg">✓ Suggested</span>' : ''}${colExamples(a, a.d[key])}</div>`;
+}
+const OPS = [['empty', 'is empty → don’t count the row'], ['equals', 'is … → don’t count the row'], ['only', 'is … → count only these rows']];
+function stepColumns(a) {
+  const d = a.d, i = a.insp;
+  const dateCol = i.cols.find(c => c.header === d.date);
+  const sc = i.cols.find(c => c.header === d.scoreCol);
+  return `<h2>Tell the portal about the columns</h2><p class="small muted">The best guess is already selected (✓ Suggested). Change it if it is wrong. Examples come from the first rows of “${esc(a.tab)}”.</p>
+    <div class="cols2">${colField(a, 'Which column has the evaluation date?', 'date')}${colField(a, 'Which column has the agent’s WDID?', 'wdid')}
+      ${dateCol && dateCol.textDate ? `<div><label class="f">The dates are written as text. Which comes first?</label><select id="a-dfmt">
+        <option value="" ${!d.dateFormat ? 'selected' : ''}>Detect automatically</option><option value="MDY" ${d.dateFormat === 'MDY' ? 'selected' : ''}>Month first (MM/DD/YYYY)</option><option value="DMY" ${d.dateFormat === 'DMY' ? 'selected' : ''}>Day first (DD/MM/YYYY)</option></select></div>` : ''}
+      ${colField(a, 'Agent name <span class="hint">optional</span>', 'name', '— none —')}</div>
+    <label class="f">How is the QA score shown?</label>
+    <div class="choice ${d.scoreMode === 'one' ? 'on' : ''}" data-sm="one"><span class="dot"></span><div style="flex:1"><b>One column with the final score</b>
+      ${d.scoreMode === 'one' ? `<div class="cols2" style="margin-top:6px"><select data-sc="scoreCol">${headerOptions(a, d.scoreCol, '— choose —')}</select>
+        <select data-sc="scale">${SCALES.map(x => `<option value="${x[0]}" ${d.scale === x[0] ? 'selected' : ''}>${x[1]}</option>`).join('')}</select></div>
+        ${d.scale === 'range' ? `<div class="toolbar" style="margin-top:6px"><span class="small">Lowest</span><input type="number" data-sx="smin" value="${esc(d.smin)}" style="width:90px"><span class="small">Highest</span><input type="number" data-sx="smax" value="${esc(d.smax)}" style="width:90px"></div>` : ''}
+        ${scaleOf(d) && scaleOf(d).min > 0 ? `<div class="toolbar" style="margin-top:6px"><span class="small">The lowest score (${scaleOf(d).min}) is worth</span>
+          <select data-sc="lowZero"><option value="" ${!d.lowZero ? 'selected' : ''}>its share: ${scaleOf(d).min} of ${scaleOf(d).max} = ${pct(scaleOf(d).min / scaleOf(d).max)}</option><option value="1" ${d.lowZero ? 'selected' : ''}>0% (${scaleOf(d).min} = 0%, ${scaleOf(d).max} = 100%)</option></select></div>` : ''}
+        ${sc ? `<div class="ex2">Examples: ${sc.examples.map(esc).join(' · ')}${sc.max !== null ? ` · values from ${esc(sc.min)} to ${esc(sc.max)}` : ''}${scaleExample(d, sc)}</div>` : ''}` : ''}</div></div>
+    <div class="choice ${d.scoreMode === 'two' ? 'on' : ''}" data-sm="two"><span class="dot"></span><div style="flex:1"><b>Two columns: points earned and points possible</b><span class="muted small">For example “Attained” and “Possible”.</span>
+      ${d.scoreMode === 'two' ? `<div class="cols2" style="margin-top:6px"><select data-sc="earned">${headerOptions(a, d.earned, '— points earned —')}</select><select data-sc="possible">${headerOptions(a, d.possible, '— points possible —')}</select></div>` : ''}</div></div>
+    <div class="choice ${d.scoreMode === 'expr' ? 'on' : ''}" data-sm="expr"><span class="dot"></span><div style="flex:1"><b>Several items combined</b><span class="muted small">${isAdmin() ? 'Write the numerator and denominator.' : 'If you are not sure, use Quick add and the BA team will set it up with you.'}</span>
+      ${d.scoreMode === 'expr' ? `<div class="cols2" style="margin-top:6px"><input type="text" data-sx="num" value="${esc(d.num)}" placeholder="Numerator, e.g. [Item 1] + [Item 2]"><input type="text" data-sx="den" value="${esc(d.den)}" placeholder="Denominator, e.g. 2"></div>
+        <div class="ex2">Use [Column name], numbers and + − × ÷ ( ). Each evaluation counts numerator ÷ denominator.</div>` : ''}</div></div>
+    <label class="f">Rows that should not count <span class="hint">optional, e.g. calibrations or test evaluations</span></label>
+    ${d.filters.map((f, k) => `<div class="toolbar" style="margin-bottom:6px"><select data-ff="${k}:col" style="flex:1">${headerOptions(a, f.col, '— column —')}</select>
+      <select data-ff="${k}:op">${OPS.map(o => `<option value="${o[0]}" ${f.op === o[0] ? 'selected' : ''}>${o[1]}</option>`).join('')}</select>
+      ${f.op !== 'empty' ? `<input type="text" data-fval="${k}" value="${esc(f.value || '')}" placeholder="value" style="width:140px">` : ''}
+      <button class="btn ghost sm" data-fdel="${k}" title="Remove">✕</button></div>`).join('')}
+    <button class="btn ghost sm" id="a-addf">+ Add a rule</button>
+    <label class="f">Columns that together identify one evaluation</label>
+    <p class="small muted" style="margin-bottom:6px">Used to never count the same evaluation twice (even if the file is copied or renamed). Best: an evaluation or ticket ID plus the WDID.</p>
+    <div class="chips">${i.headers.filter(Boolean).map(h => `<button class="chip ${d.keys.includes(h) ? 'on' : ''}" data-key="${esc(h)}">${d.keys.includes(h) ? '✓ ' : ''}${esc(h)}</button>`).join('')}</div>`;
+}
+const SCALES = [['0-100', '0 to 100 (e.g. 92)'], ['0-1', '0 to 1, or a percentage (e.g. 0.92 or 92%)'], ['0-5', '0 to 5 (e.g. 4 = 80%)'],
+  ['1-5', '1 to 5 (e.g. stars written as numbers)'], ['1-10', '1 to 10'], ['range', 'Other range…']];
+/** { min, max } of the chosen scale, or null if the custom range is not valid yet. */
+function scaleOf(d) {
+  const p = { '0-100': [0, 100], '0-1': [0, 1], '0-5': [0, 5], '1-5': [1, 5], '1-10': [1, 10] }[d.scale];
+  const r = p || [Number(d.smin), Number(d.smax)];
+  return d.scale === 'range' && (d.smin === '' || d.smax === '') || !(r[1] > r[0]) || r[0] < 0 ? null : { min: r[0], max: r[1] };
+}
+/** " · e.g. 4 → 80%": how a real value of the file is counted with the chosen scale. */
+function scaleExample(d, sc) {
+  const s = scaleOf(d), v = Number(String(sc.examples[0] || '').replace(/[,%]/g, ''));
+  if (!s || !isFinite(v) || sc.pctText) return '';
+  const k = s.min > 0 && d.lowZero ? (v - s.min) / (s.max - s.min) : v / s.max;
+  return ` · <b>${esc(sc.examples[0])} counts as ${pct(k)}</b>`;
+}
+function bindColumns(a) {
+  const d = a.d;
+  const upd = () => { a.test = null; const n = document.getElementById('a-next'); if (n) n.disabled = !canNext(a); };
+  document.querySelectorAll('[data-col]').forEach(s => s.onchange = () => { d[s.dataset.col] = s.value; a.test = null; renderAdd(); });
+  const df = document.getElementById('a-dfmt'); if (df) df.onchange = () => { d.dateFormat = df.value; upd(); };
+  document.querySelectorAll('[data-sm]').forEach(c => c.onclick = e => { if (e.target.closest('select,input')) return; if (d.scoreMode !== c.dataset.sm) { d.scoreMode = c.dataset.sm; a.test = null; renderAdd(); } });
+  document.querySelectorAll('[data-sc]').forEach(s => s.onchange = () => { d[s.dataset.sc] = s.value; a.test = null; renderAdd(); });
+  document.querySelectorAll('[data-sx]').forEach(i => i.oninput = () => { d[i.dataset.sx] = i.value; upd(); });
+  document.querySelectorAll('[data-sx=smin],[data-sx=smax]').forEach(i => i.onchange = () => renderAdd());
+  document.querySelectorAll('[data-ff]').forEach(s => s.onchange = () => { const [k, f] = s.dataset.ff.split(':'); d.filters[+k][f] = s.value; a.test = null; renderAdd(); });
+  document.querySelectorAll('[data-fval]').forEach(i => i.oninput = () => { d.filters[+i.dataset.fval].value = i.value; upd(); });
+  document.querySelectorAll('[data-fdel]').forEach(b => b.onclick = () => { d.filters.splice(+b.dataset.fdel, 1); a.test = null; renderAdd(); });
+  document.getElementById('a-addf').onclick = () => { d.filters.push({ col: '', op: 'equals', value: '' }); renderAdd(); };
+  document.querySelectorAll('[data-key]').forEach(b => b.onclick = () => { const k = b.dataset.key; d.keys = d.keys.includes(k) ? d.keys.filter(x => x !== k) : d.keys.concat([k]); a.test = null; renderAdd(); });
+}
+
+function addDraft(a) {
+  const d = a.d, all = a.file.tabs.map(t => t.name);
+  return { fileId: a.file.fileId, account: d.account, country: { mode: d.countryMode, value: d.country }, lob: { mode: d.lobMode, value: d.lob },
+    tabs: all.filter(t => a.tabs.has(t)), autoTabs: a.autoTabs, tabPattern: a.autoTabs ? a.tabPattern.trim() : '', excludeTabs: all.filter(t => !a.tabs.has(t)),
+    headerRow: a.insp.headerRow, date: d.date, dateFormat: d.dateFormat, wdid: d.wdid, name: d.name,
+    score: { mode: d.scoreMode, col: d.scoreCol, scale: d.scale, min: d.smin, max: d.smax, lowZero: d.lowZero, earned: d.earned, possible: d.possible, num: d.num, den: d.den },
+    filters: d.filters.filter(f => f.col && (f.op === 'empty' || String(f.value || '').trim())), keys: d.keys };
+}
+/** Month to compare with the POC's own report: the last complete month in the test. */
+function checkMonth(t) {
+  const cur = S.status.today.slice(0, 7);
+  const ms = t.months.filter(m => m.month < cur);
+  return (ms.length ? ms[ms.length - 1] : t.months[t.months.length - 1]) || null;
+}
+function sendButton(a) {
+  const t = a.test;
+  const ready = t && t.ok && t.stats.loaded > 0 && (isAdmin() || a.confirmed !== null);
+  return `<button class="btn" id="a-send" ${ready && !a.sending ? '' : 'disabled'} title="${ready ? '' : 'Run the test' + (isAdmin() ? '' : ' and answer the question') + ' first'}">${isAdmin() ? 'Save and load now' : 'Send to the BA team'}</button>`;
+}
+function stepTest(a) {
+  const t = a.test;
+  const cm = t && t.ok ? checkMonth(t) : null;
+  return `<h2>Test before ${isAdmin() ? 'saving' : 'sending'}</h2>
+    <p class="small muted">The portal reads the whole file with your answers and shows what would be loaded. Nothing is saved yet. It can take up to a minute for big files.</p>
+    <button class="btn ${t ? 'ghost' : ''}" id="a-test" ${a.testing ? 'disabled' : ''}>${t ? 'Run the test again' : 'Run the test'}</button>
+    ${a.testing ? '<div class="inline-load" style="margin-top:12px"><span class="spin"></span> Reading the file and calculating… nothing is saved.</div>' : ''}
+    ${t ? testBox(t) : ''}
+    ${t && t.ok && t.rule ? `<details style="margin-top:10px"><summary class="small">Rule that will be saved</summary><div class="small" style="margin-top:6px">
+      Tabs <code>${esc(t.rule.tabs)}</code> · QA = <code>${esc(t.rule.numerator)}</code> ÷ <code>${esc(t.rule.denominator)}</code>${t.rule.filter ? ` · keep rows where <code>${esc(t.rule.filter)}</code>` : ''} · key <code>${esc(t.rule.keys)}</code> · LOB <code>${esc(t.rule.lob)}</code> · country <code>${esc(t.rule.country)}</code></div></details>` : ''}
+    ${cm ? `<label class="f">Does ${esc(periodLabel(cm.month))} show the same QA score as your own report (${pct(cm.kpi)}, ${N(cm.evals)} evaluations)?${isAdmin() ? ' <span class="hint">optional for the BA team</span>' : ''}</label>
+      <div class="toolbar"><button class="btn ${a.confirmed === true ? '' : 'ghost'}" id="a-yes">✓ Yes, it matches</button><button class="btn ${a.confirmed === false ? 'danger' : 'ghost'}" id="a-no">✕ No, it is different</button></div>
+      ${a.confirmed === false ? `<label class="f">What does your report show? <span class="hint">the BA team will review it with you</span></label><textarea id="a-com" placeholder="e.g. Our report shows 90.3% for September">${esc(a.comment)}</textarea>` : ''}
+      ${a.confirmed === true ? '<div class="result ok" style="margin-top:8px">✓ Your confirmation is saved with your name and the date.</div>' : ''}` : ''}`;
+}
+function bindTest(a) {
+  document.getElementById('a-test').onclick = async () => {
+    a.testing = true; a.test = null; a.confirmed = null; renderAdd();
+    await withBusy(`Testing: reading “${a.file.name}” with your answers…`, false, async () => {
+      try { a.test = await call('apiTestDraft', addDraft(a)); } catch (e) { a.test = { ok: false, error: e.message }; }
+    });
+    a.testing = false; renderAdd();
+  };
+  const y = document.getElementById('a-yes'); if (y) y.onclick = () => { a.confirmed = true; renderAdd(); };
+  const n = document.getElementById('a-no'); if (n) n.onclick = () => { a.confirmed = false; renderAdd(); };
+  const c = document.getElementById('a-com'); if (c) c.oninput = () => { a.comment = c.value; };
+  document.getElementById('a-send').onclick = async () => {
+    a.sending = true; renderAdd();
+    await withBusy(isAdmin() ? 'Saving the source and loading all its 2026 evaluations… (15–75 s)' : 'Sending to the BA team…', true, async () => {
+      try {
+        const res = await call('apiSubmitDraft', { draft: addDraft(a), fileName: a.file.name, confirmed: a.confirmed, comment: a.comment, fromRequest: a.fromRequest,
+          test: { evals: a.test.stats.loaded, months: a.test.months } });
+        a.done = res;
+        busyMsg('Refreshing the totals…');
+        await loadStatus();
+      } catch (e) { toast(e.message); }
+    });
+    a.sending = false; renderAdd();
+  };
+}
+
+function quickForm(a) {
+  const mine = myAccounts();
+  return `<p class="sub">Paste the link. The BA team maps the columns and confirms the calculation with you.</p>
+    <div class="panel form" style="max-width:760px">${linkBlock(a)}
+      <div class="cols2"><div><label class="f">Account</label>${mine ? `<select id="q-acc"><option value="">— choose —</option>${mine.map(x => `<option ${x === a.d.account ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select>`
+        : `<input type="text" id="q-acc" list="dl-qacc" value="${esc(a.d.account)}"><datalist id="dl-qacc">${S.status.known.accounts.map(x => `<option value="${esc(x)}">`).join('')}</datalist>`}</div>
+      <div><label class="f">Country</label><input type="text" id="q-cty" list="dl-qcty" value="${esc(a.d.country)}"><datalist id="dl-qcty">${S.status.known.countries.map(x => `<option value="${esc(x)}">`).join('')}</datalist></div></div>
+      <label class="f">Anything the BA team should know? <span class="hint">optional</span></label>
+      <textarea id="q-note" placeholder="e.g. The score is in column “QA Score”; there is one tab per month">${esc(a.note)}</textarea>
+      <div class="nav-row"><button class="btn ghost" id="q-back">Cancel</button><button class="btn" id="q-send" ${a.file && a.file.ok && a.d.account && !a.sending ? '' : 'disabled'}>Send to the BA team</button></div></div>`;
+}
+function bindQuick(a) {
+  bindLinkBlock(a, renderAdd);
+  const acc = document.getElementById('q-acc');
+  const upd = () => { document.getElementById('q-send').disabled = !(a.file && a.file.ok && a.d.account); };
+  acc.oninput = acc.onchange = () => { a.d.account = acc.value.trim(); upd(); };
+  document.getElementById('q-cty').oninput = e => { a.d.country = e.target.value.trim(); };
+  document.getElementById('q-note').oninput = e => { a.note = e.target.value; };
+  document.getElementById('q-back').onclick = () => { S.add = newAdd(); renderAdd(); };
+  document.getElementById('q-send').onclick = async () => {
+    a.sending = true; renderAdd();
+    await withBusy('Sending to the BA team…', true, async () => {
+      try { a.done = await call('apiQuickAdd', { url: a.url, account: a.d.account, country: a.d.country, note: a.note }); await loadStatus(); }
+      catch (e) { toast(e.message); }
+    });
+    a.sending = false; renderAdd();
+  };
+}
+function addDone(a) {
+  const r = a.done;
+  if (r.requestId) return `<div class="ok-box">✓ Sent to the BA team as request <b>${esc(r.requestId)}</b>. They got an email. Nothing is loaded until they approve it; you will get an email with the result.</div>
+    <div class="toolbar"><button class="btn" id="d-again">Add another file</button><button class="btn ghost" id="d-req">See my requests</button></div>`;
+  return `<div class="${r.status === 'OK' ? 'ok-box' : 'err-box'}">${r.status === 'OK' ? `✓ Source <b>${esc(r.sourceId)}</b> created and loaded: ${N(r.loaded)} evaluations. It now appears in Status and Results.`
+    : `Source <b>${esc(r.sourceId)}</b> was created but the load returned ${esc(r.status)}: ${esc(r.message)}`}</div>
+    <div class="toolbar"><button class="btn" id="d-again">Add another file</button><button class="btn ghost" id="d-status">Go to Status</button></div>`;
+}
+function bindAddDone() {
+  document.getElementById('d-again').onclick = () => { S.add = newAdd(); renderAdd(); };
+  const r = document.getElementById('d-req'); if (r) r.onclick = () => { S.add = null; go('requests'); };
+  const s = document.getElementById('d-status'); if (s) s.onclick = () => { S.add = null; go('status'); };
+}
+
+/* ============================================================ REQUESTS */
+const REQ_LABEL = { 'Access change': 'Access change', 'New tab': 'New tab found', 'Remove source': 'Source removed', Delete: 'Delete data', Replace: 'Reload a period', Modify: 'Change the calculation', 'New source': 'New source', 'Quick add': 'New link (Quick add)', Remap: 'Column renamed' };
+function reqPill(st) {
+  return { 'Requested': pill('run', 'Requested'), 'Waiting for approver': pill('warn', 'Waiting for approver'), 'Done': pill('ok', '✓ Done'), 'Rejected': pill('err', 'Rejected') }[st] || pill('skip', esc(st));
+}
+async function renderRequests() {
+  if (!S.status) { renderStatus(); return; }
+  const q = S.req || (S.req = { list: null, type: 'Delete', source: '', from: '', to: '', reason: '', preview: null, msg: '', msgErr: false });
+  const canAsk = ['Admin', 'User'].includes(role());
+  const srcs = S.status.sources.filter(s => s.active);
+  if (!q.source && srcs.length) q.source = srcs[0].id;
+  $main.innerHTML = `<div class="ttl"><h1>Requests</h1><button class="help-btn" data-help>? Help</button></div>
+    <p class="sub">${role() === 'User' ? 'Ask the BA team to delete or reload a period, or to change how your QA score is calculated. You get an email when it is done.'
+      : 'Files and requests sent by the users. Approved actions run immediately and the requester gets an email.'}</p>
+    ${q.msg ? `<div class="${q.msgErr ? 'err-box' : 'ok-box'}">${esc(q.msg)}</div>` : ''}
+    ${role() === 'Admin' ? '<h2>Waiting for you</h2><div id="r-pending"><div class="inline-load"><span class="spin"></span> Loading the requests…</div></div>' : ''}
+    ${canAsk ? `<div class="panel form" style="margin-top:16px"><h2>New request</h2>${requestForm(q, srcs)}</div>` : ''}
+    <h2 style="margin-top:16px">History</h2><div id="r-hist"><div class="inline-load"><span class="spin"></span> Loading the requests…</div></div>`;
+  if (canAsk) bindRequestForm(q, srcs);
+  try { const r = await call('apiRequests'); q.list = r.list; } catch (e) { q.list = []; q.msg = e.message; q.msgErr = true; }
+  if (S.view !== 'requests') return;
+  drawRequestLists(q);
+}
+function requestForm(q, srcs) {
+  if (!srcs.length) return '<p class="muted">There are no sources yet. Add a file first.</p>';
+  const types = [['Delete', 'Delete data', 'Remove a period that should not be counted (kept in a backup for 7 days).'],
+    ['Replace', 'Reload a period', 'You corrected your file: the source is read again and the period takes the values the file has today.'],
+    ['Modify', 'Change the calculation', 'A column, a tab or a rule changed and the BA team needs to update it.']];
+  return `${types.map(t => `<div class="choice ${q.type === t[0] ? 'on' : ''}" data-rt="${t[0]}"><span class="dot"></span><div><b>${t[1]}</b><span class="muted small">${t[2]}</span></div></div>`).join('')}
+    <div class="cols2"><div><label class="f">Source</label><select id="r-src">${srcs.map(s => `<option value="${esc(s.id)}" ${s.id === q.source ? 'selected' : ''}>${esc(s.account)} · ${esc(s.id)}</option>`).join('')}</select></div>
+      ${q.type !== 'Modify' ? `<div class="cols2" style="gap:0 10px"><div><label class="f">From</label><input type="date" id="r-from" value="${esc(q.from)}"></div><div><label class="f">To</label><input type="date" id="r-to" value="${esc(q.to)}"></div></div>` : '<div></div>'}</div>
+    <label class="f">Reason</label><textarea id="r-why" placeholder="${q.type === 'Modify' ? 'e.g. We added a tab for Chat from October' : 'e.g. September includes test evaluations by mistake'}">${esc(q.reason)}</textarea>
+    ${q.previewing ? '<div class="inline-load" style="margin-top:10px"><span class="spin"></span> Counting the evaluations in that period…</div>' : ''}
+    ${q.preview ? `<div class="result" style="margin-top:10px"><b>${N(q.preview.rows)}</b> evaluations of ${esc(q.source)} are loaded between ${esc(q.from)} and ${esc(q.to)}. ${q.type === 'Delete' ? 'They would be deleted (backup for 7 days).' : 'The source would be read again from the file.'} Needs the approval of the BA team.</div>` : ''}
+    <div class="toolbar" style="margin-top:12px">${q.type !== 'Modify' ? '<button class="btn ghost" id="r-prev">Preview</button>' : ''}
+      <button class="btn" id="r-send" ${(q.type === 'Modify' || q.preview) && !q.sending ? '' : 'disabled'} title="${q.type === 'Modify' ? '' : 'Preview first'}">Send request</button></div>`;
+}
+function bindRequestForm(q, srcs) {
+  if (!srcs.length) return;
+  const reset = () => { q.preview = null; };
+  document.querySelectorAll('[data-rt]').forEach(c => c.onclick = () => { q.type = c.dataset.rt; reset(); renderRequests(); });
+  document.getElementById('r-src').onchange = e => { q.source = e.target.value; reset(); renderRequests(); };
+  const f = document.getElementById('r-from'), t = document.getElementById('r-to');
+  if (f) f.onchange = () => { q.from = f.value; reset(); renderRequests(); };
+  if (t) t.onchange = () => { q.to = t.value; reset(); renderRequests(); };
+  document.getElementById('r-why').oninput = e => { q.reason = e.target.value; };
+  const p = document.getElementById('r-prev');
+  if (p) p.onclick = async () => {
+    q.msg = '';
+    if (!q.from || !q.to) { q.msg = 'Choose both dates.'; q.msgErr = true; renderRequests(); return; }
+    q.previewing = true; renderRequests();
+    await withBusy('Counting the evaluations in that period…', false, async () => {
+      try { q.preview = await call('apiRequestPreview', { type: q.type, sourceId: q.source, from: q.from, to: q.to }); } catch (e) { q.msg = e.message; q.msgErr = true; }
+    });
+    q.previewing = false; renderRequests();
+  };
+  document.getElementById('r-send').onclick = async () => {
+    if (!q.reason.trim()) { q.msg = 'Please add a reason.'; q.msgErr = true; renderRequests(); return; }
+    q.sending = true;
+    await withBusy('Sending the request and notifying the BA team…', true, async () => {
+      try {
+        const r = await call('apiCreateRequest', { type: q.type, sourceId: q.source, from: q.from, to: q.to, reason: q.reason });
+        q.msg = `✓ Request ${r.requestId} sent. The BA team got an email; you will get one when it is done.`; q.msgErr = false;
+        q.preview = null; q.reason = '';
+        await loadStatus();
+      } catch (e) { q.msg = e.message; q.msgErr = true; }
+    });
+    q.sending = false; renderRequests(); window.scrollTo(0, 0);
+  };
+}
+function reqDetails(r) {
+  const d = r.details || {};
+  if (r.type === 'Delete' || r.type === 'Replace') return `<p>Period <b>${esc(r.from)} → ${esc(r.to)}</b> · ${N(r.rows)} evaluations loaded in that period.${r.type === 'Replace' ? ' The source is read again from the file; the period takes the values the file has today.' : ' They are kept in a backup for 7 days.'}</p>`;
+  if (r.type === 'New tab') return `<p>${esc(r.reason)}. They are already loaded; confirm they are evaluations, or exclude them and the source is reloaded without them.</p>`;
+  if (r.type === 'Quick add') return `<p>File <a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.fileName)}</a>${d.country ? ` · ${esc(d.country)}` : ''}${d.note ? ` · note: “${esc(d.note)}”` : ''}</p>`;
+  if (r.type === 'New source' && d.rule) return `<p>File “${esc(d.fileName)}” · test: <b>${N(d.test && d.test.evals)}</b> evaluations ·
+      ${d.confirmed ? pill('ok', 'Requester confirmed the result') : pill('warn', 'Requester says it does not match')}${d.comment ? ` “${esc(d.comment)}”` : ''}</p>
+    <p class="small">Tabs <code>${esc(d.rule.tabs)}</code> · date <code>${esc(d.rule.date)}</code> · WDID <code>${esc(d.rule.wdid)}</code> · QA = <code>${esc(d.rule.numerator)}</code> ÷ <code>${esc(d.rule.denominator)}</code>${d.rule.filter ? ` · keep <code>${esc(d.rule.filter)}</code>` : ''} · key <code>${esc(d.rule.keys)}</code> · LOB <code>${esc(d.rule.lob)}</code> · country <code>${esc(d.rule.country)}</code></p>
+    ${d.test && d.test.months && d.test.months.length ? `<p class="small muted">${d.test.months.map(m => `${esc(periodLabel(m.month))} ${pct(m.kpi)} (${N(m.evals)})`).join(' · ')}</p>` : ''}`;
+  return '';
+}
+const ACTION_BTN = { keep: ['Yes, it has evaluations', ''], exclude: ['Not evaluations: exclude it and reload', ''], run: [null, ''], load: ['Approve and load', ''], done: ['Mark as done', ''], map: ['Map the columns', ''], reject: ['Reject', 'danger'] };
+function drawRequestLists(q) {
+  const pend = (q.list || []).filter(r => r.actions.length);
+  const box = document.getElementById('r-pending');
+  if (box) {
+    box.innerHTML = pend.length ? pend.map(r => `<div class="panel">
+        <div class="top-line"><div><b>${esc(REQ_LABEL[r.type] || r.type)} · ${esc(r.account)}</b> <span class="muted small">${esc(r.id)}${r.sourceId ? ' · ' + esc(r.sourceId) : ''}</span>
+          <div class="small muted">Requested by ${esc(r.by)} · ${esc(r.at)}${r.reviewedBy ? ` · reviewed by ${esc(r.reviewedBy)}` : ''}</div></div>${reqPill(r.status)}</div>
+        ${reqDetails(r)}${r.reason && !['Quick add', 'New tab'].includes(r.type) ? `<p class="small">Reason: “${esc(r.reason)}”</p>` : ''}
+        <div class="toolbar" style="margin:10px 0 0">${r.actions.map(a => {
+          const label = a === 'run' ? (r.type === 'Delete' ? `Approve and delete ${N(r.rows)} evaluations` : 'Approve and reload') : ACTION_BTN[a][0];
+          return `<button class="btn ${a === 'reject' || a === 'exclude' ? 'ghost' : ''}" data-act="${a}" data-id="${esc(r.id)}">${label}</button>`;
+        }).join('')}</div></div>`).join('') : '<div class="panel muted">Nothing is waiting for you.</div>';
+    box.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(q, q.list.find(r => r.id === b.dataset.id), b.dataset.act));
+  }
+  const list = q.list || [];
+  document.getElementById('r-hist').innerHTML = list.length ? `<div class="tbl-wrap"><table class="left wrap">
+    <tr><th>Request</th><th>Type</th><th>Account · source</th><th>Period</th><th>Rows</th><th>Requested</th><th>Status</th><th>Result</th></tr>
+    ${list.map(r => `<tr><td style="white-space:nowrap">${esc(r.id)}</td><td>${esc(REQ_LABEL[r.type] || r.type)}</td><td>${esc(r.account)}${r.sourceId ? `<span class="ev">${esc(r.sourceId)}</span>` : ''}</td>
+      <td>${r.from ? `${esc(r.from)} → ${esc(r.to)}` : '—'}</td><td>${r.rows === '' ? '—' : N(r.rows)}</td><td>${esc(r.at)}<span class="ev">${esc(r.by)}</span></td>
+      <td>${reqPill(r.status)}${r.decidedBy ? `<span class="ev">${esc(r.decidedBy)} · ${esc(r.decidedAt)}</span>` : r.reviewedBy ? `<span class="ev">reviewed by ${esc(r.reviewedBy)}</span>` : ''}</td>
+      <td class="small">${esc(r.result || (r.type === 'Remap' ? r.reason : '') || '—')}</td></tr>`).join('')}</table></div>` : '<div class="panel muted">No requests yet.</div>';
+}
+async function act(q, r, a) {
+  if (a === 'map') {
+    const d = r.details || {};
+    S.add = newAdd(); Object.assign(S.add, { mode: 'map', url: d.url || '', fromRequest: r.id });
+    S.add.d.account = r.account; if (d.country) { S.add.d.country = d.country; }
+    go('add');
+    document.getElementById('a-check').click();
+    return;
+  }
+  if (a === 'reject' || a === 'done') {
+    openModal(`<h2>${a === 'reject' ? 'Reject' : 'Mark as done'} · ${esc(r.id)}</h2><div class="form"><label class="f">${a === 'reject' ? 'Reason (sent to the requester)' : 'What was changed? (sent to the requester)'}</label>
+      <textarea id="m-note" placeholder="${a === 'reject' ? 'e.g. Please correct the file first and then request a reload' : 'e.g. Added the Chat tab to the rule'}"></textarea></div>
+      <div id="m-err"></div><div class="nav-row"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn ${a === 'reject' ? 'danger' : ''}" id="m-ok">${a === 'reject' ? 'Reject' : 'Mark as done'}</button></div>`);
+    document.getElementById('m-cancel').onclick = closeModal;
+    document.getElementById('m-ok').onclick = async () => {
+      const note = document.getElementById('m-note').value.trim();
+      if (a === 'reject' && !note) { document.getElementById('m-err').innerHTML = '<div class="err-box" style="margin-top:10px">Add a reason for the requester.</div>'; return; }
+      closeModal();
+      await decide(q, r, a, note);
+    };
+    return;
+  }
+  await decide(q, r, a, '');
+}
+async function decide(q, r, a, note) {
+  const msg = { keep: `Confirming ${r.id}…`, exclude: `Excluding the tab and reloading ${r.sourceId} from the file… (15–75 s)`, load: `Creating the source and loading its 2026 evaluations… (15–75 s)`, done: `Closing ${r.id}…`, reject: `Rejecting ${r.id}…`,
+    run: r.type === 'Delete' ? `Deleting ${N(r.rows)} evaluations of ${r.sourceId} and saving the 7-day backup…` : `Reloading ${r.sourceId} from the file… (15–75 s)` }[a];
+  await withBusy(msg, true, async () => {
+    try {
+      const res = await call('apiDecide', r.id, a, note);
+      q.msg = res.status === 'Rejected' ? `${r.id} rejected. The requester got an email with the reason.`
+        : `✓ ${r.id} done${res.result ? ': ' + res.result : ''}.${String(r.by).includes('@') ? ' The requester got an email.' : ''}`;
+      q.msgErr = false;
+      busyMsg('Refreshing…');
+      await loadStatus();
+    } catch (e) { q.msg = e.message; q.msgErr = true; }
+  });
+  renderRequests(); window.scrollTo(0, 0);
+}
+
+/* ============================================================ ACCESS */
+async function renderAccess() {
+  $main.innerHTML = `<div class="ttl"><h1>Access</h1><button class="help-btn" data-help>? Help</button></div>
+    <p class="sub">Who can open the portal, which accounts each person sees and who gets the request emails.</p><div id="acc-box"><div class="inline-load"><span class="spin"></span> Loading the access list…</div></div>`;
+  try { S.acc = await call('apiAccess'); } catch (e) { document.getElementById('acc-box').innerHTML = `<div class="err-box">${esc(e.message)}</div>`; return; }
+  if (S.view === 'access') drawAccess();
+}
+function drawAccess() {
+  const r = S.acc;
+  const box = document.getElementById('acc-box');
+  if (!box) return;
+  box.innerHTML = `
+    ${S.accMsg ? `<div class="${S.accMsgErr ? 'err-box' : 'ok-box'}">${esc(S.accMsg)}</div>` : ''}
+    ${r.open ? '<div class="warn-box">⚠ The list is empty, so everyone with the link is Admin (pilot mode). When you add the first person, you are added as Admin too, and from then on only the people in this list can open the portal.</div>' : ''}
+    <div class="panel"><div class="toolbar"><h2 style="margin:0">People</h2><span class="spacer"></span><button class="btn" id="acc-add">+ Add person</button></div>
+      <div class="tbl-wrap"><table class="left wrap"><tr><th>Person</th><th>Role</th><th>Accounts they see</th><th>Request emails</th><th></th></tr>
+      ${r.users.map(u => `<tr><td><b>${esc(u.name || u.email)}</b>${u.name ? `<span class="ev">${esc(u.email)}</span>` : ''}</td>
+        <td>${u.role === 'Admin' ? pill('run', 'Admin') : pill('skip', 'User')}</td>
+        <td class="small">${u.all ? 'All accounts' : u.accounts.map(esc).join(', ')}</td><td>${u.alerts ? '✓' : ''}</td>
+        <td style="white-space:nowrap"><button class="btn ghost sm" data-uedit="${esc(u.email)}">Edit</button>
+          ${u.email !== r.me ? `<button class="btn ghost sm" data-udel="${esc(u.email)}">Remove</button>` : '<span class="small muted">you</span>'}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">Nobody yet.</td></tr>'}</table></div>
+      <p class="small muted" style="margin-top:10px">Changes apply the next time the person opens or reloads the portal. People who are not in the list: <b>${esc(r.unlistedRole)}</b>. Every change is recorded in Requests (“Access change”, Admins only). The same list is the <a href="${esc(r.url)}" target="_blank" rel="noopener">Access tab of the control sheet</a>.</p></div>
+    <div class="panel"><h2>What each role can do</h2><div class="tbl-wrap"><table class="left wrap"><tr><th>Role</th><th>Sees</th><th>Can</th></tr>
+      <tr><td>User</td><td>Status and Results of their accounts only</td><td>Add files, fix renamed columns, refresh their sources, request deletions, reloads and changes</td></tr>
+      <tr><td>Admin (BA team)</td><td>Everything</td><td>Approve every request and new source, manage and remove data, edit rules, manage access</td></tr></table></div></div>`;
+  document.getElementById('acc-add').onclick = () => editUser(null);
+  box.querySelectorAll('[data-uedit]').forEach(b => b.onclick = () => editUser(r.users.find(u => u.email === b.dataset.uedit)));
+  box.querySelectorAll('[data-udel]').forEach(b => b.onclick = () => removeUser(b.dataset.udel));
+}
+/** Add (u = null) or edit a person: role, accounts (User only) and request emails. */
+function editUser(u) {
+  const r = S.acc;
+  const f = u ? { email: u.email, name: u.name, role: u.role, all: u.all, accounts: u.accounts.slice(), alerts: u.alerts }
+    : { email: '', name: '', role: 'User', all: false, accounts: [], alerts: false };
+  const known = r.allAccounts;
+  const draw = () => {
+    const extra = f.accounts.filter(a => !known.includes(a));
+    openModal(`<h2>${u ? 'Edit ' + esc(u.name || u.email) : 'Add a person'}</h2><div class="form">
+      <div class="cols2"><div><label class="f">Email</label><input type="text" id="u-email" value="${esc(f.email)}" ${u ? 'disabled' : ''} placeholder="name@example.com"></div>
+        <div><label class="f">Name <span class="hint">optional</span></label><input type="text" id="u-name" value="${esc(f.name)}"></div></div>
+      <label class="f">Role</label>
+      <span class="seg"><button data-urole="User" class="${f.role === 'User' ? 'on' : ''}">User</button><button data-urole="Admin" class="${f.role === 'Admin' ? 'on' : ''}">Admin</button></span>
+      ${f.role === 'User' ? `<label class="f">Accounts this person can see</label>
+        <label class="opt-line"><input type="checkbox" id="u-all" ${f.all ? 'checked' : ''}> <b>All accounts</b></label>
+        ${f.all ? '' : `<div class="tabpick" style="margin-top:4px">${known.map(a => `<label class="opt-line"><input type="checkbox" data-uacc="${esc(a)}" ${f.accounts.includes(a) ? 'checked' : ''}> ${esc(a)}</label>`).join('')}</div>
+          <label class="f">Other accounts <span class="hint">not loaded yet; same name as in the master list, separated by commas</span></label>
+          <input type="text" id="u-extra" value="${esc(extra.join(', '))}" placeholder="e.g. Acme">`}`
+        : '<p class="small muted" style="margin-top:8px">An Admin sees all accounts and approves every request.</p>'}
+      <label class="opt-line" style="margin-top:14px"><input type="checkbox" id="u-alerts" ${f.alerts ? 'checked' : ''}> Gets the request emails (new files, deletions, reloads, new tabs)</label></div>
+      <div id="u-err"></div>
+      <div class="nav-row"><button class="btn ghost" id="u-cancel">Cancel</button><button class="btn" id="u-save">${u ? 'Save changes' : 'Add person'}</button></div>`);
+    const keep = () => {
+      if (!u) f.email = document.getElementById('u-email').value.trim();
+      f.name = document.getElementById('u-name').value.trim();
+      f.alerts = document.getElementById('u-alerts').checked;
+      const all = document.getElementById('u-all'); if (all) f.all = all.checked;
+      if (document.querySelector('[data-uacc]') || document.getElementById('u-extra')) {
+        const ticked = Array.from(document.querySelectorAll('[data-uacc]:checked')).map(c => c.dataset.uacc);
+        const ex = document.getElementById('u-extra');
+        f.accounts = ticked.concat(ex ? ex.value.split(',').map(x => x.trim()).filter(Boolean) : []);
+      }
+    };
+    document.querySelectorAll('[data-urole]').forEach(b => b.onclick = () => { keep(); f.role = b.dataset.urole; draw(); });
+    const all = document.getElementById('u-all'); if (all) all.onchange = () => { keep(); draw(); };
+    document.getElementById('u-cancel').onclick = closeModal;
+    document.getElementById('u-save').onclick = async () => {
+      keep();
+      const err = document.getElementById('u-err');
+      if (!f.email) { err.innerHTML = '<div class="err-box" style="margin-top:10px">Write the email.</div>'; return; }
+      if (f.role === 'User' && !f.all && !f.accounts.length) { err.innerHTML = '<div class="err-box" style="margin-top:10px">Choose at least one account, or All accounts.</div>'; return; }
+      closeModal();
+      await withBusy(`${u ? 'Saving' : 'Adding'} ${f.email}…`, true, async () => {
+        try {
+          S.acc = await call('apiSaveUser', f);
+          S.accMsg = `✓ ${f.email} ${u ? 'updated' : 'added'}: ${f.role}${f.role === 'User' ? ' · ' + (f.all ? 'all accounts' : f.accounts.join(', ')) : ''}.`; S.accMsgErr = false;
+          await loadStatus();
+        } catch (e) { S.accMsg = e.message; S.accMsgErr = true; }
+      });
+      drawAccess(); window.scrollTo(0, 0);
+    };
+  };
+  draw();
+}
+function removeUser(email) {
+  openModal(`<h2>Remove ${esc(email)}?</h2><p class="small">This person will no longer be able to open the portal. Their past requests and loads stay in the history.</p>
+    <div class="nav-row"><button class="btn ghost" id="ud-cancel">Cancel</button><button class="btn danger" id="ud-ok">Remove</button></div>`);
+  document.getElementById('ud-cancel').onclick = closeModal;
+  document.getElementById('ud-ok').onclick = async () => {
+    closeModal();
+    await withBusy(`Removing ${email}…`, true, async () => {
+      try { S.acc = await call('apiRemoveUser', email); S.accMsg = `✓ ${email} removed.`; S.accMsgErr = false; }
+      catch (e) { S.accMsg = e.message; S.accMsgErr = true; }
+    });
+    drawAccess(); window.scrollTo(0, 0);
+  };
+}
+
+/* ============================================================ start */
+/** ?view=requests in the link (used by the emails) opens that page. */
+function startView() {
+  return new Promise(res => {
+    try { google.script.url.getLocation(l => res((l && l.parameter && l.parameter.view) || '')); }
+    catch (e) { res(String(location.hash || '').slice(1)); }
+  });
+}
+(async () => {
+  busyStart('Loading the portal…', false);
+  try { await loadStatus(); } finally { busyEnd(); }
+  go(await startView());
+  if (S.status) ensureDataset().catch(() => {});   // preload in the background: Results opens instantly
+})();
+</script>
+</body>
+</html>

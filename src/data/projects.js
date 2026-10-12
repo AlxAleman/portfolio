@@ -11,6 +11,16 @@ export default [
     type: "demo"
   },
   {
+    id: 14,
+    title: "QA Data Portal",
+    description: "Self-service portal that collects contact-center QA evaluations straight from each client account's spreadsheet link. Mapping wizard that tests the real file before saving, weighted QA results by month, week or range, renamed-column detection, requests and approvals, two roles with per-account data isolation, 7-day backup and an activity log. Interactive demo with fictional data; see the full case study in the Business Analyst section.",
+    image: "/assets/projects/qa-data-portal.webp",
+    tech: ["JavaScript", "Google Apps Script", "HTML/CSS", "Business Analysis"],
+    demo: "/demos/qa-portal/index.html",
+    repo: null,
+    type: "demo"
+  },
+  {
     id: 2,
     title: "Booking System",
     description: "A modern, responsive booking system for Studio management built with React + Vite frontend and Express.js backend, integrated with Google Calendar API.",

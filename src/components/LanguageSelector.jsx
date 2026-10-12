@@ -35,18 +35,17 @@ export default function LanguageSelector() {
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent
-          text-neutral-900 dark:text-white
-          hover:bg-gray-100 dark:hover:bg-gray-800
-          hover:border-gray-200 dark:hover:border-gray-700
+          text-slate-300
+          hover:bg-slate-800/60 hover:text-slate-50
           transition-all duration-200"
         title="Select Language"
       >
         <span className="text-lg">{currentLanguage.flag}</span>
         <span className="text-sm font-medium hidden sm:block">{currentLanguage.code.toUpperCase()}</span>
-        <svg 
-          className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} 
-          fill="none" 
-          stroke="currentColor" 
+        <svg
+          className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -62,8 +61,8 @@ export default function LanguageSelector() {
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeInOut" }}
             className="absolute right-0 mt-2 w-48
-              bg-white dark:bg-gray-900 shadow-xl rounded-lg z-50 
-              border border-gray-200 dark:border-gray-700 
+              bg-gray-900 shadow-xl rounded-lg z-50
+              border border-slate-800/80
               overflow-hidden origin-top-right"
           >
             {languages.map((language) => (
@@ -72,11 +71,11 @@ export default function LanguageSelector() {
                 onClick={() => changeLanguage(language.code)}
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 text-left
-                  text-gray-700 dark:text-gray-200
-                  hover:bg-gray-50 dark:hover:bg-gray-800
+                  text-slate-300
+                  hover:bg-slate-800/60
                   transition-colors duration-150
-                  ${i18n.language === language.code 
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' 
+                  ${i18n.language === language.code
+                    ? 'bg-indigo-500/10 text-indigo-400'
                     : ''
                   }
                 `}
@@ -84,20 +83,20 @@ export default function LanguageSelector() {
                 <span className="text-xl">{language.flag}</span>
                 <div className="flex flex-col">
                   <span className="font-medium">{language.name}</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-slate-500">
                     {language.code.toUpperCase()}
                   </span>
                 </div>
                 {i18n.language === language.code && (
-                  <svg 
-                    className="w-4 h-4 ml-auto text-blue-600 dark:text-blue-400" 
-                    fill="currentColor" 
+                  <svg
+                    className="w-4 h-4 ml-auto text-indigo-400"
+                    fill="currentColor"
                     viewBox="0 0 20 20"
                   >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
-                      clipRule="evenodd" 
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
                     />
                   </svg>
                 )}

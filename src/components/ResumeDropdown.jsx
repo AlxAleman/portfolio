@@ -24,13 +24,12 @@ export default function ResumeDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 uppercase px-3 pb-1 border-b-2 border-transparent
-          text-vstextsoft dark:text-gray-300
-          hover:text-gray-400 hover:border-gray-400
+        className="flex items-center gap-2 uppercase px-3.5 py-1.5 rounded-lg text-xs sm:text-sm
+          text-slate-400 hover:text-slate-100 hover:bg-slate-800/60
           transition-all duration-200"
         title={t("resume.download_cv") || "Download Resume"}
       >
-        <FiDownload className="w-5 h-5" />
+        <FiDownload className="w-4 h-4" />
         {t("navigation.resume") || "Resume"}
       </button>
       <AnimatePresence>
@@ -42,14 +41,14 @@ export default function ResumeDropdown() {
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.18, ease: "easeInOut" }}
             className="absolute left-1/2 -translate-x-1/2 mt-2 w-48
-              bg-white dark:bg-neutral-900 shadow-xl rounded-lg z-50 border border-neutral-200 dark:border-neutral-700 origin-top"
+              bg-gray-900 shadow-xl rounded-lg z-50 border border-slate-800/80 origin-top overflow-hidden"
           >
             <a
               href="/Alex Arnoldo Segura Aleman - ENG.pdf"
               download
               className="block px-4 py-2 text-sm
-                text-vstextsoft dark:text-gray-200
-                hover:bg-vscodeblue hover:text-white transition-colors rounded-t-lg"
+                text-slate-300
+                hover:bg-indigo-500 hover:text-white transition-colors"
               onClick={() => setOpen(false)}
             >
               🇺🇸 {t("resume.resume_en") || "Resume (EN)"}
@@ -58,8 +57,8 @@ export default function ResumeDropdown() {
               href="/Alex Arnoldo Segura Aleman - ESP.pdf"
               download
               className="block px-4 py-2 text-sm
-                text-vstextsoft dark:text-gray-200
-                hover:bg-vscodemagenta hover:text-white transition-colors rounded-b-lg"
+                text-slate-300
+                hover:bg-violet-500 hover:text-white transition-colors"
               onClick={() => setOpen(false)}
             >
               🇪🇸 {t("resume.resume_es") || "CV (ES)"}

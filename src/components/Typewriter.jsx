@@ -30,6 +30,6 @@ export default function Typewriter({ phrases = [], typingSpeed = 80, pause = 150
   }, [phrases, index, subIndex]);
 
   return (
-    <span className="typewriter border-r-2 border-green-400 pr-1">{displayed}</span>
+    <span className="typewriter border-r-2 border-cyan-400 pr-1">{displayed}</span>
   );
 }

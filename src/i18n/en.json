@@ -1,5 +1,8 @@
 {
   "role": "FULLSTACK DEVELOPER",
+  "hero": {
+    "subtitle": "10+ years turning business requirements into reliable, scalable software — from CRM administration and functional analysis to full-stack development and QA automation."
+  },
   "typewriter": [
     "I'm ALEX",
     "ENGINEER",
@@ -28,6 +31,7 @@
     "about": "ABOUT",
     "experience": "EXPERIENCE",
     "skills": "SKILLS",
+    "businessAnalyst": "BUSINESS ANALYST",
     "projects": "PROJECTS",
     "resume": "Resume"
   },
@@ -37,6 +41,7 @@
     "resume_es": "Resume (ES)"
   },
   "about": {
+    "eyebrow": "Foundation",
     "title": "About Me",
     "description1": "Passionate Full-Stack Developer and Quality Assurance Engineer with over a decade of experience in building scalable web applications, ensuring software quality, and driving data-driven business decisions.",
     "description2": "My expertise spans across modern web technologies, automated testing frameworks, business intelligence, and CRM management. I thrive on solving complex problems and creating innovative solutions that deliver real business value.",
@@ -61,6 +66,7 @@
     }
   },
   "experience": {
+    "eyebrow": "Career Timeline",
     "title": "Experience",
     "subtitle": "A journey through diverse roles and technologies, building expertise across the full software development lifecycle.",
     "current": "Current",
@@ -126,13 +132,315 @@
     }
   },
   "skills": {
+    "eyebrow": "Technical Arsenal",
     "title": "Skills",
     "professional": "Professional",
     "skillset": "Skillset",
     "tools": "Tools",
     "iuse": "I use"
   },
+  "businessAnalyst": {
+    "qaPortal": {
+      "tag": "Case study",
+      "productLabel": "Contact-center QA data platform",
+      "title": "From manual QA audits to a self-service data portal",
+      "intro": "Anonymized case from my work as a Business Analyst at a contact-center (BPO/CX) operator with dozens of client accounts. Every name and number shown here and in the demo is fictional.",
+      "role": "My role: Business Analyst and developer — discovery, requirements, solution design and a working pilot, aligned with the reporting and data teams.",
+      "demoCta": "Open the interactive demo",
+      "demoNote": "Fictional data · runs in your browser · try “View as → User”",
+      "problemTitle": "The problem",
+      "problem": [
+        "Each client account kept its QA evaluations in its own spreadsheet, with different columns, tabs and score scales.",
+        "A template tab had to be added to every file and the results were compiled by hand, one account at a time.",
+        "File links arrived by chat to a single person: when that person was out, the process stopped.",
+        "Some formulas averaged averages, so a quiet week weighed the same as a busy month."
+      ],
+      "discoveryTitle": "What discovery covered",
+      "discovery": [
+        "Interviews with the reporting team, account owners and the data team.",
+        "Audit of each account’s calculation against its raw data, documenting every difference.",
+        "For each report: who uses it, which decision it supports, where the data comes from, how often it refreshes and what happens when it fails."
+      ],
+      "requirementsTitle": "Key requirements",
+      "requirements": [
+        {
+          "id": "QA-01",
+          "priority": "high",
+          "priorityLabel": "High priority",
+          "title": "Never count an evaluation twice",
+          "description": "The same evaluation can appear in a copy of the file or be corrected by adding a new row.",
+          "given": "Given two copies of the same evaluation (same key columns)",
+          "when": "When the account file is loaded",
+          "then": "Then only the most recent copy counts, and the person loading the file sees which row was kept"
+        },
+        {
+          "id": "QA-02",
+          "priority": "high",
+          "priorityLabel": "High priority",
+          "title": "A renamed column must not break an account",
+          "description": "Accounts change their files without notice; a partial load would silently distort the results.",
+          "given": "Given an account renames a mapped column in its file",
+          "when": "When the next load runs",
+          "then": "Then nothing new is loaded, the previous data is kept, and the account user can map the new column and reload"
+        },
+        {
+          "id": "QA-03",
+          "priority": "medium",
+          "priorityLabel": "Medium priority",
+          "title": "Weighted QA score for any period",
+          "description": "Managers compare months, weeks and custom ranges across countries, accounts and lines of business.",
+          "given": "Given evaluations stored with a numerator and a denominator",
+          "when": "When a user selects a month, week or custom range",
+          "then": "Then the score is the sum of numerators ÷ the sum of denominators, never an average of averages"
+        }
+      ],
+      "decision": {
+        "title": "Stakeholder decision: who approves data deletions?",
+        "description": "Deleting or reloading data changes the reports of a whole account, so the approval flow had to balance control and speed.",
+        "stakeholders": [
+          {
+            "role": "Operations lead",
+            "position": "A dedicated approver should sign off every deletion and reload."
+          },
+          {
+            "role": "Reporting team",
+            "position": "Requests should not wait for one person; any admin should be able to approve."
+          }
+        ],
+        "resolution": "Resolution: two roles (Admin and User). Any admin approves and the action runs immediately, protected by a 7-day backup and a full activity log."
+      },
+      "solutionTitle": "What I designed and built",
+      "flow": [
+        "Account user shares a link",
+        "Wizard maps and tests the file",
+        "Admin approves",
+        "Engine validates and loads",
+        "Results and dashboards"
+      ],
+      "features": [
+        "Link-based intake: no template tabs",
+        "Mapping wizard that tests the real file before saving",
+        "One generic engine; each account’s rules are data, not code",
+        "Requests and approvals with email alerts",
+        "Two roles with per-account data isolation",
+        "7-day backup, restore and activity log",
+        "Swappable destination: spreadsheet in the pilot, data warehouse next"
+      ],
+      "outcomeTitle": "Outcome",
+      "outcomes": [
+        "A working pilot with several accounts and a self-service portal.",
+        "Calculation issues found and documented before they reached the dashboards.",
+        "A target architecture and migration plan proposed to the data team."
+      ],
+      "toolsTitle": "Tools",
+      "tools": [
+        "Google Apps Script",
+        "Google Sheets API",
+        "JavaScript",
+        "HTML / CSS",
+        "BigQuery (proposed)",
+        "Given / When / Then"
+      ],
+      "confidentiality": "Client, company and people names are omitted. The demo is rebuilt with fictional data and does not include the production code or data."
+    },
+    "intro": {
+      "eyebrow": "Dual Profile",
+      "title": "Full Stack Developer & Business Analyst",
+      "body": "I'm not a developer who \"also understands the business side.\" I translate business needs into clear requirements, validate them with the right stakeholders, and carry them through to implementation — the full cycle, not just the documentation."
+    },
+    "process": {
+      "title": "How I work",
+      "subtitle": "The complete functional and business analysis cycle, from idea to project closure.",
+      "entryLabel": "Typical entry point",
+      "expertiseLabel": "Daily expertise zone",
+      "stages": [
+        {
+          "key": "discovery",
+          "title": "Discovery",
+          "phases": [
+            { "name": "Business need identification", "entry": true },
+            { "name": "As-Is analysis" },
+            { "name": "To-Be design" },
+            { "name": "Gap analysis" }
+          ]
+        },
+        {
+          "key": "requirements",
+          "title": "Requirements",
+          "phases": [
+            { "name": "Elicitation" },
+            { "name": "Requirements analysis (FR/NFR)" },
+            { "name": "Prioritization", "note": "prioritization" }
+          ]
+        },
+        {
+          "key": "planning",
+          "title": "Planning",
+          "phases": [
+            { "name": "Stakeholder approval" },
+            { "name": "Backlog refinement" },
+            { "name": "Sprint planning" }
+          ]
+        },
+        {
+          "key": "execution",
+          "title": "Execution",
+          "phases": [
+            { "name": "Daily stand-ups" },
+            { "name": "Design/mockup validation" },
+            { "name": "Development (active support)" }
+          ]
+        },
+        {
+          "key": "validation",
+          "title": "Validation",
+          "phases": [
+            { "name": "UAT" },
+            { "name": "Sprint review / demo" }
+          ]
+        },
+        {
+          "key": "closure",
+          "title": "Closure",
+          "phases": [
+            { "name": "Deployment" },
+            { "name": "Post-implementation review" },
+            { "name": "Retrospective" }
+          ]
+        }
+      ],
+      "entryNote": "In my experience, the business need always arrived already validated by the client — it's not a phase I originate, but the point where I start working.",
+      "prioritizationNote": "I prioritize by real business urgency rather than applying a formal framework like MoSCoW on every case — though I know it and use it when the context calls for it."
+    },
+    "caseStudy": {
+      "tag": "Case study",
+      "productLabel": "AI-powered quality evaluation platform",
+      "title": "Evaluation metrics dashboard",
+      "intro": "Anonymized requirements documentation from a real case: a dashboard showing quality evaluation metrics for a customer support team.",
+      "requirements": [
+        {
+          "id": "RF-01",
+          "priority": "high",
+          "priorityLabel": "High priority",
+          "title": "Fix the denominator on the evaluation percentage widget",
+          "description": "The widget calculated the evaluation percentage using the wrong denominator, inflating the number shown to supervisors.",
+          "given": "Given an agent has gradable interactions in the selected period",
+          "when": "When the dashboard calculates the evaluation percentage",
+          "then": "Then the denominator must be the total gradable interactions, not the total evaluated interactions"
+        },
+        {
+          "id": "RF-02",
+          "priority": "medium",
+          "priorityLabel": "Medium priority",
+          "title": "Add a gradable interactions count widget",
+          "description": "Supervisors need to see, at a glance, how many interactions were eligible for evaluation in the period, without manually cross-referencing another report.",
+          "given": "Given a supervisor opens the dashboard for a given period",
+          "when": "When they review the general metrics section",
+          "then": "Then they should see a widget with the total gradable interactions for that period"
+        }
+      ],
+      "openQuestion": {
+        "title": "Pending validation",
+        "description": "I found that two stakeholders interpreted the same KPI differently. Instead of deciding for them, I documented both interpretations as an open validation point, which avoided building on a wrong assumption.",
+        "stakeholders": [
+          {
+            "role": "Product Owner",
+            "interpretation": "The quality percentage should be the average of the scores obtained across all evaluations."
+          },
+          {
+            "role": "Tech Lead",
+            "interpretation": "The quality percentage should be the percentage of evaluations that passed (pass/fail), without averaging scores."
+          }
+        ]
+      }
+    },
+    "beforeAfter": {
+      "tag": "Before / After",
+      "title": "Multilingual video call experience",
+      "context": "As Functional Analyst I planned how the multilingual experience should behave, and as a developer I implemented the frontend for that logic, working alongside another developer who covered the backend.",
+      "before": {
+        "label": "Before",
+        "description": "Generic video call tool, no multilingual support",
+        "items": [
+          "Generic video grid, no language differentiation",
+          "Chat available in a single language",
+          "No subtitles"
+        ]
+      },
+      "after": {
+        "label": "After",
+        "description": "Each user selects their language and the whole experience adapts to it",
+        "items": [
+          "Chat synced to each user's language",
+          "Real-time subtitles per language",
+          "Camera layout and avatars adapted per language"
+        ]
+      },
+      "role": "Alex's role: functional planning of the logic + frontend implementation"
+    },
+    "kpiDashboard": {
+      "tag": "KPI dashboard",
+      "title": "Lead scoring and sales prioritization",
+      "context": "I designed the lead prioritization logic, combining multiple buying-intent signals into a single score delivered in real time via Slack and HubSpot.",
+      "note": "Illustrative metrics — not real data from any client.",
+      "metrics": [
+        { "label": "Qualified leads", "value": "128" },
+        { "label": "Average score", "value": "72/100" },
+        { "label": "Meeting conversion rate", "value": "34%" },
+        { "label": "Slack alerts sent", "value": "56" }
+      ],
+      "channelsTitle": "Buying signals by channel",
+      "channels": [
+        { "label": "LinkedIn engagement", "value": 78 },
+        { "label": "Web traffic spikes", "value": 64 },
+        { "label": "Hiring signals", "value": 45 },
+        { "label": "Funding rounds", "value": 30 }
+      ]
+    },
+    "stakeholderMap": {
+      "tag": "Stakeholder map",
+      "title": "Stakeholder management — quality evaluation platform case",
+      "context": "Based on the evaluation metrics dashboard case: roles anonymized, same real decision-making dynamic.",
+      "quadrantLabel": "High influence / High interest",
+      "stakeholders": [
+        {
+          "role": "Product Owner",
+          "description": "Defines business priorities and approves final scope."
+        },
+        {
+          "role": "Tech Lead",
+          "description": "Validates technical feasibility and defines how each requirement is implemented."
+        },
+        {
+          "role": "Alex — Functional/Business Analyst",
+          "description": "Connects both perspectives, documents requirements, and mediates discrepancies."
+        }
+      ]
+    },
+    "skillsCerts": {
+      "skillsTitle": "Skills",
+      "skills": [
+        "Requirements gathering & documentation",
+        "Process analysis (As-Is / To-Be)",
+        "Stakeholder management",
+        "Agile methodologies (Scrum)",
+        "Six Sigma / process improvement",
+        "SQL & data analysis"
+      ],
+      "certsTitle": "Certifications",
+      "certs": [
+        "ISTQB — Foundations",
+        "Six Sigma — Yellow Belt",
+        "SCRUM Fundamentals"
+      ]
+    },
+    "cta": {
+      "title": "One profile, two connected disciplines",
+      "body": "I don't translate business into code in two separate steps — I think in both at once. That means less rework, fewer wrong assumptions, and solutions that solve the real business problem."
+    }
+  },
   "projects": {
+    "eyebrow": "Selected Work",
     "title": "Projects",
     "my": "My",
     "cta_description": "Want to see more projects or collaborate on something new?",

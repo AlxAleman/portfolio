@@ -1,5 +1,8 @@
 {
   "role": "DESARROLLADOR FULLSTACK",
+  "hero": {
+    "subtitle": "Más de 10 años convirtiendo necesidades de negocio en software confiable y escalable — desde administración de CRM y análisis funcional hasta desarrollo full-stack y automatización de QA."
+  },
   "typewriter": [
     "SOY ALEX",
     "INGENIERO DE SISTEMAS",
@@ -28,6 +31,7 @@
     "about": "ACERCA",
     "experience": "EXPERIENCIA",
     "skills": "HABILIDADES",
+    "businessAnalyst": "BUSINESS ANALYST",
     "projects": "PROYECTOS",
     "resume": "Currículum"
   },
@@ -37,6 +41,7 @@
     "resume_es": "Currículum (ES)"
   },
   "about": {
+    "eyebrow": "Fundamentos",
     "title": "Acerca de Mí",
     "description1": "Desarrollador Full-Stack apasionado e Ingeniero de Aseguramiento de Calidad con más de una década de experiencia construyendo aplicaciones web escalables, garantizando la calidad del software e impulsando decisiones empresariales basadas en datos.",
     "description2": "Mi experiencia abarca tecnologías web modernas, frameworks de testing automatizado, inteligencia de negocios y gestión de CRM. Me apasiona resolver problemas complejos y crear soluciones innovadoras que generen valor empresarial real.",
@@ -61,6 +66,7 @@
     }
   },
   "experience": {
+    "eyebrow": "Trayectoria Profesional",
     "title": "Experiencia",
     "subtitle": "Un recorrido a través de diversos roles y tecnologías, construyendo experiencia en todo el ciclo de vida del desarrollo de software.",
     "current": "Actual",
@@ -126,13 +132,315 @@
     }
   },
   "skills": {
+    "eyebrow": "Arsenal Técnico",
     "title": "Habilidades",
     "professional": "Profesional",
     "skillset": "Conjunto de Habilidades",
     "tools": "Herramientas",
     "iuse": "Yo uso"
   },
+  "businessAnalyst": {
+    "qaPortal": {
+      "tag": "Caso de estudio",
+      "productLabel": "Plataforma de datos de QA para contact center",
+      "title": "De auditorías manuales de QA a un portal de datos de autoservicio",
+      "intro": "Caso anonimizado de mi trabajo como Business Analyst en un operador de contact center (BPO/CX) con decenas de cuentas cliente. Todos los nombres y cifras que se muestran aquí y en la demo son ficticios.",
+      "role": "Mi rol: Business Analyst y desarrollador — descubrimiento, requisitos, diseño de la solución y un piloto funcional, en coordinación con los equipos de reportes y de datos.",
+      "demoCta": "Abrir la demo interactiva",
+      "demoNote": "Datos ficticios · funciona en tu navegador · prueba “View as → User”",
+      "problemTitle": "El problema",
+      "problem": [
+        "Cada cuenta cliente llevaba sus evaluaciones de QA en su propia hoja de cálculo, con columnas, pestañas y escalas distintas.",
+        "Había que agregar una pestaña de plantilla a cada archivo y compilar los resultados a mano, cuenta por cuenta.",
+        "Los links llegaban por chat a una sola persona: si no estaba, el proceso se detenía.",
+        "Algunas fórmulas promediaban promedios, así que una semana tranquila pesaba lo mismo que un mes con mucho volumen."
+      ],
+      "discoveryTitle": "Qué cubrió el descubrimiento",
+      "discovery": [
+        "Entrevistas con el equipo de reportes, los responsables de las cuentas y el equipo de datos.",
+        "Auditoría del cálculo de cada cuenta contra su data cruda, documentando cada diferencia.",
+        "Para cada reporte: quién lo usa, qué decisión apoya, de dónde vienen los datos, cada cuánto se actualiza y qué pasa si falla."
+      ],
+      "requirementsTitle": "Requisitos clave",
+      "requirements": [
+        {
+          "id": "QA-01",
+          "priority": "high",
+          "priorityLabel": "Prioridad alta",
+          "title": "Nunca contar una evaluación dos veces",
+          "description": "La misma evaluación puede aparecer en una copia del archivo o corregirse agregando una fila nueva.",
+          "given": "Dado que hay dos copias de la misma evaluación (mismas columnas clave)",
+          "when": "Cuando se carga el archivo de la cuenta",
+          "then": "Entonces solo cuenta la copia más reciente, y quien carga el archivo ve qué fila se tomó"
+        },
+        {
+          "id": "QA-02",
+          "priority": "high",
+          "priorityLabel": "Prioridad alta",
+          "title": "Una columna renombrada no debe romper una cuenta",
+          "description": "Las cuentas cambian sus archivos sin avisar; una carga parcial distorsionaría los resultados sin que nadie lo note.",
+          "given": "Dado que una cuenta renombra una columna mapeada en su archivo",
+          "when": "Cuando corre la siguiente carga",
+          "then": "Entonces no se carga nada nuevo, se conserva la data anterior y el usuario de la cuenta puede mapear la columna nueva y recargar"
+        },
+        {
+          "id": "QA-03",
+          "priority": "medium",
+          "priorityLabel": "Prioridad media",
+          "title": "QA ponderado para cualquier periodo",
+          "description": "Los managers comparan meses, semanas y rangos libres entre países, cuentas y líneas de negocio.",
+          "given": "Dado que cada evaluación se guarda con numerador y denominador",
+          "when": "Cuando un usuario elige un mes, una semana o un rango",
+          "then": "Entonces el score es la suma de numeradores ÷ la suma de denominadores, nunca un promedio de promedios"
+        }
+      ],
+      "decision": {
+        "title": "Decisión con stakeholders: ¿quién aprueba los borrados de data?",
+        "description": "Borrar o recargar data cambia los reportes de toda una cuenta, así que el flujo de aprobación tenía que equilibrar control y rapidez.",
+        "stakeholders": [
+          {
+            "role": "Líder de operaciones",
+            "position": "Un aprobador dedicado debería autorizar cada borrado y recarga."
+          },
+          {
+            "role": "Equipo de reportes",
+            "position": "Las solicitudes no deberían esperar a una sola persona; cualquier admin debería poder aprobar."
+          }
+        ],
+        "resolution": "Resolución: dos roles (Admin y User). Cualquier admin aprueba y la acción se ejecuta al momento, protegida por un respaldo de 7 días y un registro completo de actividad."
+      },
+      "solutionTitle": "Qué diseñé y construí",
+      "flow": [
+        "El usuario de la cuenta comparte un link",
+        "El asistente mapea y prueba el archivo",
+        "Un admin aprueba",
+        "El motor valida y carga",
+        "Resultados y dashboards"
+      ],
+      "features": [
+        "Ingreso por link: sin pestañas de plantilla",
+        "Asistente de mapeo que prueba el archivo real antes de guardar",
+        "Un motor genérico; las reglas de cada cuenta son datos, no código",
+        "Solicitudes y aprobaciones con alertas por correo",
+        "Dos roles con aislamiento de datos por cuenta",
+        "Respaldo de 7 días, restauración y registro de actividad",
+        "Destino intercambiable: hoja de cálculo en el piloto, data warehouse después"
+      ],
+      "outcomeTitle": "Resultado",
+      "outcomes": [
+        "Un piloto funcional con varias cuentas y un portal de autoservicio.",
+        "Problemas de cálculo detectados y documentados antes de llegar a los dashboards.",
+        "Una arquitectura objetivo y un plan de migración propuestos al equipo de datos."
+      ],
+      "toolsTitle": "Herramientas",
+      "tools": [
+        "Google Apps Script",
+        "Google Sheets API",
+        "JavaScript",
+        "HTML / CSS",
+        "BigQuery (propuesto)",
+        "Given / When / Then"
+      ],
+      "confidentiality": "Se omiten los nombres de clientes, empresas y personas. La demo está reconstruida con datos ficticios y no incluye el código ni la data de producción."
+    },
+    "intro": {
+      "eyebrow": "Doble Perfil",
+      "title": "Full Stack Developer & Business Analyst",
+      "body": "No soy un developer que \"también sabe de negocio\". Traduzco necesidades de negocio en requerimientos claros, los valido con los stakeholders correctos y los llevo hasta la implementación — el ciclo completo, no solo la documentación."
+    },
+    "process": {
+      "title": "Cómo trabajo",
+      "subtitle": "El ciclo completo de análisis funcional y de negocio, de la idea al cierre del proyecto.",
+      "entryLabel": "Punto de entrada típico",
+      "expertiseLabel": "Zona de expertise diaria",
+      "stages": [
+        {
+          "key": "discovery",
+          "title": "Descubrimiento",
+          "phases": [
+            { "name": "Identificación de la necesidad de negocio", "entry": true },
+            { "name": "Análisis As-Is" },
+            { "name": "Diseño To-Be" },
+            { "name": "Análisis de brechas (Gap analysis)" }
+          ]
+        },
+        {
+          "key": "requirements",
+          "title": "Requerimientos",
+          "phases": [
+            { "name": "Elicitación" },
+            { "name": "Análisis de requerimientos (RF/RNF)" },
+            { "name": "Priorización", "note": "prioritization" }
+          ]
+        },
+        {
+          "key": "planning",
+          "title": "Planeación",
+          "phases": [
+            { "name": "Aprobación de stakeholders" },
+            { "name": "Refinamiento de backlog" },
+            { "name": "Sprint planning" }
+          ]
+        },
+        {
+          "key": "execution",
+          "title": "Ejecución",
+          "phases": [
+            { "name": "Daily stand-ups" },
+            { "name": "Validación de diseños / mockups" },
+            { "name": "Desarrollo (soporte activo)" }
+          ]
+        },
+        {
+          "key": "validation",
+          "title": "Validación",
+          "phases": [
+            { "name": "UAT" },
+            { "name": "Sprint review / demo" }
+          ]
+        },
+        {
+          "key": "closure",
+          "title": "Cierre",
+          "phases": [
+            { "name": "Despliegue" },
+            { "name": "Revisión post-implementación" },
+            { "name": "Retrospectiva" }
+          ]
+        }
+      ],
+      "entryNote": "En mi experiencia, la necesidad de negocio siempre llegó ya validada por el cliente — no es una fase que yo origine, sino el punto donde empiezo a trabajar.",
+      "prioritizationNote": "Priorizo por urgencia de negocio real, no aplicando un framework formal como MoSCoW en cada caso — aunque lo conozco y lo uso cuando el contexto lo pide."
+    },
+    "caseStudy": {
+      "tag": "Caso de estudio",
+      "productLabel": "Plataforma de evaluación de calidad con IA",
+      "title": "Dashboard de métricas de evaluación",
+      "intro": "Documento de requerimientos anonimizado de un caso real: un dashboard que muestra métricas de evaluación de calidad para un equipo de atención al cliente.",
+      "requirements": [
+        {
+          "id": "RF-01",
+          "priority": "high",
+          "priorityLabel": "Alta prioridad",
+          "title": "Corregir el denominador del widget de porcentaje de evaluación",
+          "description": "El widget calculaba el porcentaje de evaluación usando el denominador incorrecto, inflando el número mostrado a los supervisores.",
+          "given": "Dado que un agente tiene interacciones calificables en el período seleccionado",
+          "when": "Cuando el dashboard calcula el porcentaje de evaluación",
+          "then": "Entonces el denominador debe ser el total de interacciones calificables, no el total de interacciones evaluadas"
+        },
+        {
+          "id": "RF-02",
+          "priority": "medium",
+          "priorityLabel": "Prioridad media",
+          "title": "Agregar widget de conteo de interacciones calificables",
+          "description": "Los supervisores necesitan ver, de un vistazo, cuántas interacciones eran elegibles para evaluación en el período, sin tener que cruzarlo manualmente con otro reporte.",
+          "given": "Dado que un supervisor abre el dashboard para un período determinado",
+          "when": "Cuando revisa la sección de métricas generales",
+          "then": "Entonces debe ver un widget con el total de interacciones calificables de ese período"
+        }
+      ],
+      "openQuestion": {
+        "title": "Pendiente de validación",
+        "description": "Detecté que dos stakeholders interpretaban el mismo KPI de forma distinta. En vez de decidir por ellos, documenté ambas interpretaciones como un punto abierto de validación, lo cual evitó construir sobre un supuesto equivocado.",
+        "stakeholders": [
+          {
+            "role": "Product Owner",
+            "interpretation": "El porcentaje de calidad debe ser el promedio de los puntajes obtenidos en todas las evaluaciones."
+          },
+          {
+            "role": "Tech Lead",
+            "interpretation": "El porcentaje de calidad debe ser el porcentaje de evaluaciones que fueron aprobadas (pass/fail), sin promediar puntajes."
+          }
+        ]
+      }
+    },
+    "beforeAfter": {
+      "tag": "Antes / Después",
+      "title": "Experiencia de videollamadas multilingüe",
+      "context": "Como Functional Analyst planifiqué cómo debía comportarse la experiencia multilingüe, y como developer implementé el frontend de esa lógica, trabajando junto a otro developer que cubrió el backend.",
+      "before": {
+        "label": "Antes",
+        "description": "Herramienta de videollamadas genérica, sin soporte multilingüe",
+        "items": [
+          "Grid de video genérico, sin diferenciación de idioma",
+          "Chat disponible en un único idioma",
+          "Sin subtítulos"
+        ]
+      },
+      "after": {
+        "label": "Después",
+        "description": "Cada usuario selecciona su idioma y toda la experiencia se adapta a él",
+        "items": [
+          "Chat sincronizado en el idioma de cada usuario",
+          "Subtítulos en tiempo real por idioma",
+          "Layout de cámaras y avatars adaptado por idioma"
+        ]
+      },
+      "role": "Rol de Alex: planificación funcional de la lógica + implementación del frontend"
+    },
+    "kpiDashboard": {
+      "tag": "Dashboard de KPIs",
+      "title": "Lead scoring y priorización comercial",
+      "context": "Diseñé la lógica de priorización de leads combinando múltiples señales de intención de compra en un score único, entregado en tiempo real vía Slack y HubSpot.",
+      "note": "Métricas ilustrativas, no corresponden a datos reales de ningún cliente.",
+      "metrics": [
+        { "label": "Leads calificados", "value": "128" },
+        { "label": "Score promedio", "value": "72/100" },
+        { "label": "Tasa de conversión a reunión", "value": "34%" },
+        { "label": "Alertas enviadas a Slack", "value": "56" }
+      ],
+      "channelsTitle": "Señales de compra por canal",
+      "channels": [
+        { "label": "Engagement en LinkedIn", "value": 78 },
+        { "label": "Picos de tráfico web", "value": 64 },
+        { "label": "Señales de contratación", "value": 45 },
+        { "label": "Rondas de financiamiento", "value": 30 }
+      ]
+    },
+    "stakeholderMap": {
+      "tag": "Mapa de stakeholders",
+      "title": "Gestión de stakeholders — caso plataforma de evaluación de calidad",
+      "context": "Basado en el caso del dashboard de métricas: roles anonimizados, misma dinámica real de decisiones.",
+      "quadrantLabel": "Alta influencia / Alto interés",
+      "stakeholders": [
+        {
+          "role": "Product Owner",
+          "description": "Define prioridades de negocio y aprueba el alcance final."
+        },
+        {
+          "role": "Tech Lead",
+          "description": "Valida factibilidad técnica y define cómo se implementa cada requerimiento."
+        },
+        {
+          "role": "Alex — Functional/Business Analyst",
+          "description": "Conecta ambas perspectivas, documenta requerimientos y media discrepancias."
+        }
+      ]
+    },
+    "skillsCerts": {
+      "skillsTitle": "Habilidades",
+      "skills": [
+        "Levantamiento y documentación de requerimientos",
+        "Análisis de procesos (As-Is / To-Be)",
+        "Gestión de stakeholders",
+        "Metodologías ágiles (Scrum)",
+        "Six Sigma / mejora de procesos",
+        "SQL y análisis de datos"
+      ],
+      "certsTitle": "Certificaciones",
+      "certs": [
+        "ISTQB — Foundations",
+        "Six Sigma — Yellow Belt",
+        "SCRUM Fundamentals"
+      ]
+    },
+    "cta": {
+      "title": "Un solo perfil, dos disciplinas conectadas",
+      "body": "No traduzco negocio a código en dos pasos separados — pienso en ambos a la vez. Eso significa menos retrabajo, menos supuestos equivocados, y soluciones que resuelven el problema real del negocio."
+    }
+  },
   "projects": {
+    "eyebrow": "Trabajo Seleccionado",
     "title": "Proyectos",
     "my": "Mis",
     "cta_description": "¿Quieres ver más proyectos o colaborar en algo nuevo?",

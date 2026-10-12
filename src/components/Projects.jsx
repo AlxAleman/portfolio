@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import projectsData from "../data/projects";
 import { FaReact, FaNodeJs } from "react-icons/fa";
 import { SiJavascript, SiTailwindcss, SiWordpress, SiMongodb, SiD3Dotjs } from "react-icons/si";
+import { FiEye, FiGithub } from "react-icons/fi";
 import ContactModal from "./ContactModal";
 
 const TECH_ICONS = {
@@ -86,145 +87,141 @@ export default function Projects() {
     <>
       <section
         id="projects"
-        className="min-h-screen flex items-center py-20"
+        className="py-16"
       >
         <div className="w-full max-w-7xl mx-auto px-6">
 
-          {/* Header */}
+          {/* Header estilo Stitch: eyebrow + título a la izquierda, meta a la derecha */}
           <motion.div
-            className="text-center mb-16"
+            className="flex flex-col md:flex-row md:items-end justify-between gap-2 mb-8"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl md:text-3xl font-light tracking-wider mb-4">
-              <span className="text-black/80 dark:text-white/80">{t('projects.my')}</span>{" "}
-              <span className="text-vscodeyellow font-semibold">{t('projects.title')}</span>
-            </h2>
-            <motion.div
-              className="w-24 h-1 bg-vscodeyellow mx-auto mb-8"
-              initial={{ width: 0 }}
-              whileInView={{ width: 96 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-
-            {/* Filtros con estilo coherente */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {FILTERS.map((f) => (
-                <motion.button
-                  key={f.value}
-                  onClick={() => handleFilterChange(f.value)}
-                  className={`
-                    px-6 py-2 rounded-full text-sm font-medium transition-all duration-300
-                    border backdrop-blur-sm
-                    ${filter === f.value
-                      ? 'bg-vscodemagenta text-white border-vscodemagenta shadow-lg'
-                      : 'bg-white/10 dark:bg-black/20 text-black/70 dark:text-white/70 border-white/20 dark:border-black/20 hover:border-vscodemagenta/50 hover:bg-vscodemagenta/10'
-                    }
-                  `}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {f.label}
-                </motion.button>
-              ))}
+            <div>
+              <span className="label-badge text-indigo-400">{t('projects.eyebrow')}</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-50 mt-1">
+                {t('projects.title')}
+              </h2>
             </div>
           </motion.div>
 
-          {/* Grid de Proyectos */}
+          {/* Filtros con estilo coherente */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            {FILTERS.map((f) => (
+              <motion.button
+                key={f.value}
+                onClick={() => handleFilterChange(f.value)}
+                className={`
+                  px-5 py-2 rounded-full text-sm font-medium transition-all duration-300
+                  border backdrop-blur-sm
+                  ${filter === f.value
+                    ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
+                    : 'bg-slate-900/60 text-slate-300 border-slate-800 hover:border-indigo-500/50 hover:bg-indigo-500/10'
+                  }
+                `}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {f.label}
+              </motion.button>
+            ))}
+          </div>
+
+          {/* Grid de Proyectos - mosaico bento: el primero de cada página es el "featured" */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             key={`${filter}-${page}`} // Re-animar cuando cambie filtro o página
           >
-            {paginated.map((project) => (
-              <motion.div
-                key={project.id}
-                variants={itemVariants}
-                className="group relative"
-                whileHover={{ y: -8 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                {/* Card del Proyecto - Mejorada para light mode */}
-                <div className="bg-white/90 dark:bg-black/40 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-white/20 hover:border-vscodeblue/50 hover:shadow-xl hover:shadow-vscodeblue/10 dark:hover:shadow-vscodeblue/20 transition-all duration-500 overflow-hidden h-full flex flex-col">
+            {paginated.map((project, i) => {
+              const isHero = i === 0;
+              const tag = project.tech.slice(0, 2).join(" • ").toUpperCase();
+              return (
+                <motion.div
+                  key={project.id}
+                  variants={itemVariants}
+                  className={`group relative ${isHero ? "sm:col-span-2 lg:col-span-8" : "lg:col-span-4"}`}
+                  whileHover={{ y: -6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  {/* Card del Proyecto */}
+                  <div className="bento-card rounded-2xl hover:border-indigo-500/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-500 overflow-hidden h-full flex flex-col">
 
-                  {/* Imagen del Proyecto */}
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-
-                    {/* Overlay con efectos */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-
-                  {/* Contenido */}
-                  <div className="p-5 flex flex-col flex-1">
-                    {/* Título con color consistente para ambos modos */}
-                    <h3 className="text-base font-bold text-vscodeblue mb-3 group-hover:text-vscodeblue/80 transition-colors duration-300 uppercase tracking-wide">
-                      {project.title}
-                    </h3>
-
-                    {/* Descripción */}
-                    <p className="text-xs text-gray-600 dark:text-white/70 mb-4 leading-relaxed line-clamp-3 flex-1">
-                      {project.description}
-                    </p>
-
-                    {/* Tecnologías con iconos */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="flex items-center gap-1 px-2 py-1 bg-vscodeblue/15 text-vscodeblue rounded-full text-[10px] font-medium border border-vscodeblue/25"
-                        >
-                          {TECH_ICONS[tech]}
-                          <span>{tech}</span>
+                    {/* Imagen del Proyecto */}
+                    <div className={`relative overflow-hidden ${isHero ? "h-56 sm:h-64 lg:h-72" : "h-40 lg:h-44"}`}>
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      {tag && (
+                        <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md label-badge text-cyan-400">
+                          {tag}
                         </span>
-                      ))}
+                      )}
                     </div>
 
-                    {/* Botones de Acción */}
-                    <div className="flex gap-2 mt-auto">
-                      {project.demo && (
-                        <motion.a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 bg-vscodeblue text-white py-2 px-3 rounded-xl text-xs font-medium text-center hover:bg-vscodeblue/90 transition-colors duration-200"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          {project.type === "live" ? "LIVE SITE" : "DEMO"}
-                        </motion.a>
-                      )}
+                    {/* Contenido */}
+                    <div className="p-5 flex flex-col flex-1">
+                      {/* Título + botones de acción (icon-only, como Stitch) */}
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <h3 className={`font-bold text-slate-50 ${isHero ? "text-xl" : "text-base"}`}>
+                          {project.title}
+                        </h3>
+                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                          {project.demo && (
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={project.type === "live" ? "Live Site" : "Demo"}
+                              className="p-1.5 rounded-md bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-indigo-400 transition-colors"
+                            >
+                              <FiEye size={14} />
+                            </a>
+                          )}
+                          {project.repo && (
+                            <a
+                              href={project.repo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Repository"
+                              className="p-1.5 rounded-md bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-indigo-400 transition-colors"
+                            >
+                              <FiGithub size={14} />
+                            </a>
+                          )}
+                        </div>
+                      </div>
 
-                      {project.repo && (
-                        <motion.a
-                          href={project.repo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 bg-gray-100 dark:bg-black/20 backdrop-blur-sm text-gray-700 dark:text-white py-2 px-3 rounded-xl text-xs font-medium text-center border border-gray-200 dark:border-black/20 hover:border-vscodeblue/50 hover:bg-vscodeblue/10 transition-all duration-200"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          Repo
-                        </motion.a>
-                      )}
+                      {/* Descripción */}
+                      <p className={`text-slate-400 leading-relaxed flex-1 ${isHero ? "text-sm line-clamp-3 mb-4" : "text-xs line-clamp-2 mb-3"}`}>
+                        {project.description}
+                      </p>
+
+                      {/* Tecnologías con iconos */}
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="flex items-center gap-1 px-2 py-1 bg-slate-800/60 text-slate-300 rounded text-[10px] font-medium border border-slate-700"
+                          >
+                            {TECH_ICONS[tech]}
+                            <span>{tech}</span>
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-
-                  {/* Efecto de brillo en hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-vscodeblue/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 pointer-events-none"></div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
 
           {/* Mensaje cuando no hay proyectos */}
@@ -236,10 +233,10 @@ export default function Projects() {
               transition={{ duration: 0.5 }}
             >
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-black dark:text-white mb-2">
+              <h3 className="text-xl font-semibold text-slate-50 mb-2">
                 {t('projects.no_results')}
               </h3>
-              <p className="text-black/60 dark:text-white/60">
+              <p className="text-slate-500">
                 {t('projects.no_results_hint')}
               </p>
             </motion.div>
@@ -261,8 +258,8 @@ export default function Projects() {
                 className={`
                   p-2 rounded-xl transition-all duration-200
                   ${page === 0
-                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed'
-                    : 'text-vscodeblue hover:bg-vscodeblue/10 border border-vscodeblue/30'
+                    ? 'text-slate-700 cursor-not-allowed'
+                    : 'text-indigo-400 hover:bg-indigo-500/10 border border-indigo-500/30'
                   }
                 `}
                 whileHover={page > 0 ? { scale: 1.1 } : {}}
@@ -282,8 +279,8 @@ export default function Projects() {
                     className={`
                       w-3 h-3 rounded-full border-2 transition-all duration-200
                       ${page === i
-                        ? "bg-vscodeblue border-vscodeblue scale-125"
-                        : "bg-transparent border-vscodeblue/50 hover:bg-vscodeblue/30"
+                        ? "bg-indigo-500 border-indigo-500 scale-125"
+                        : "bg-transparent border-indigo-500/50 hover:bg-indigo-500/30"
                       }
                     `}
                     whileHover={{ scale: page === i ? 1.25 : 1.1 }}
@@ -299,8 +296,8 @@ export default function Projects() {
                 className={`
                   p-2 rounded-xl transition-all duration-200
                   ${page === totalPages - 1
-                    ? 'text-black/30 dark:text-white/30 cursor-not-allowed'
-                    : 'text-vscodeblue hover:bg-vscodeblue/10 border border-vscodeblue/30'
+                    ? 'text-slate-700 cursor-not-allowed'
+                    : 'text-indigo-400 hover:bg-indigo-500/10 border border-indigo-500/30'
                   }
                 `}
                 whileHover={page < totalPages - 1 ? { scale: 1.1 } : {}}
@@ -321,12 +318,12 @@ export default function Projects() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <p className="text-black/70 dark:text-white/70 mb-6">
+            <p className="text-slate-400 mb-6">
               {t('projects.cta_description')}
             </p>
             <motion.button
               onClick={openContactModal}
-              className="inline-flex items-center gap-2 bg-vscodeblue text-white px-8 py-4 rounded-xl font-medium hover:bg-vscodeblue/90 transition-colors duration-200 shadow-lg hover:shadow-xl hover:shadow-vscodeblue/20"
+              className="inline-flex items-center gap-2 bg-indigo-500 text-white px-8 py-4 rounded-xl font-medium hover:bg-indigo-600 transition-colors duration-200 shadow-lg hover:shadow-xl hover:shadow-indigo-500/20"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
