@@ -7,9 +7,11 @@ import {
   FiCalendar as FiCalendarIcon,
   FiClock,
   FiMapPin,
+  FiBarChart2,
 } from 'react-icons/fi';
 
 const iconMap = {
+  ba: FiBarChart2,
   crm: FiCode,
   webdev: FiMonitor,
   qa: FiClipboard,
@@ -28,6 +30,25 @@ const Experience = () => {
 
   const experiences = [
     {
+      id: 5,
+      job: 'ba',
+      title: t('experience.jobs.ba.title'),
+      company: 'Telus Digital',
+      period: t('experience.jobs.ba.period'),
+      location: 'El Salvador',
+      type: 'Remote',
+      description: t('experience.jobs.ba.description'),
+      responsibilities: [
+        t('experience.jobs.ba.responsibilities.0'),
+        t('experience.jobs.ba.responsibilities.1'),
+        t('experience.jobs.ba.responsibilities.2'),
+        t('experience.jobs.ba.responsibilities.3'),
+        t('experience.jobs.ba.responsibilities.4')
+      ],
+      technologies: ['Business Analysis', 'Google Apps Script', 'Google Sheets', 'BigQuery', 'Looker Studio', 'SQL'],
+      current: true
+    },
+    {
       id: 1,
       job: 'crm',
       title: t('experience.jobs.crm.title'),
@@ -44,7 +65,7 @@ const Experience = () => {
         t('experience.jobs.crm.responsibilities.4')
       ],
       technologies: ['MSQL', 'ClientSpace', 'API Integration', 'Business Intelligence', 'CRM'],
-      current: true
+      current: false
     },
     {
       id: 2,

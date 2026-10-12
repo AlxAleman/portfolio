@@ -73,9 +73,21 @@
     "keyResponsibilities": "Responsabilidades Clave",
     "technologies": "Tecnologías",
     "jobs": {
+      "ba": {
+        "title": "Senior Business Analyst",
+        "period": "Septiembre 2026 - Presente",
+        "description": "Análisis de negocio para los reportes de calidad y de la voz del cliente (VOC) de múltiples cuentas cliente, convirtiendo procesos manuales en hojas de cálculo en flujos de datos confiables y automatizados.",
+        "responsibilities": [
+          "Auditar y documentar las métricas de QA y VOC de cada cuenta cliente, alineando cada cálculo con su data cruda",
+          "Diseñé y puse en piloto un portal de autoservicio que recolecta las evaluaciones de QA directamente del archivo de cada cuenta, reemplazando las pestañas de plantilla manuales",
+          "Definir requisitos, modelos de datos y flujos de aprobación con los equipos de reportes y de datos",
+          "Propuse una arquitectura objetivo y un plan de migración a un data warehouse en la nube (BigQuery)",
+          "Dar soporte a dashboards de desempeño y capacitación de agentes"
+        ]
+      },
       "crm": {
-        "title": "Ingeniero de Software",
-        "period": "2024 - Presente",
+        "title": "Analista Funcional y Desarrollador",
+        "period": "2024 - Junio 2026",
         "description": "Liderando iniciativas de gestión CRM e inteligencia de negocios, especializándome en automatización de flujos de trabajo y soluciones de reporting basadas en datos.",
         "responsibilities": [
           "Diseñar y desarrollar soluciones de software escalables para cumplir con los requisitos del negocio",

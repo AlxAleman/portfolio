@@ -73,9 +73,21 @@
     "keyResponsibilities": "Key Responsibilities",
     "technologies": "Technologies",
     "jobs": {
+      "ba": {
+        "title": "Senior Business Analyst",
+        "period": "September 2026 - Present",
+        "description": "Business analysis for quality and voice-of-the-customer (VOC) reporting across multiple client accounts, turning manual, spreadsheet-based processes into reliable, automated data flows.",
+        "responsibilities": [
+          "Audit and document QA and VOC metrics for each client account, aligning every calculation with its raw data",
+          "Designed and piloted a self-service portal that collects QA evaluations directly from each account's file, replacing manual template tabs",
+          "Define requirements, data models and approval workflows with the reporting and data teams",
+          "Proposed a target architecture and migration plan to a cloud data warehouse (BigQuery)",
+          "Support reporting dashboards for agent performance and training programs"
+        ]
+      },
       "crm": {
-        "title": "Software Engineer",
-        "period": "2024 - Present",
+        "title": "Functional Analyst & Developer",
+        "period": "2024 - June 2026",
         "description": "Leading CRM management and business intelligence initiatives, specializing in workflow automation and data-driven reporting solutions.",
         "responsibilities": [
           "Design and develop scalable software solutions to meet business requirements",
