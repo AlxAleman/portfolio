@@ -34,6 +34,7 @@ const Experience = () => {
       job: 'ba',
       title: t('experience.jobs.ba.title'),
       company: 'Telus Digital',
+      logo: '/assets/companies/telus.webp',
       period: t('experience.jobs.ba.period'),
       location: 'El Salvador',
       type: 'Remote',
@@ -53,6 +54,7 @@ const Experience = () => {
       job: 'crm',
       title: t('experience.jobs.crm.title'),
       company: 'AlliedGlobal',
+      logo: '/assets/companies/allied-global.webp',
       period: t('experience.jobs.crm.period'),
       location: 'El Salvador',
       type: 'Remote',
@@ -72,6 +74,7 @@ const Experience = () => {
       job: 'webdev',
       title: t('experience.jobs.webdev.title'),
       company: 'Pointerpro',
+      logo: '/assets/companies/pointerpro.webp',
       period: t('experience.jobs.webdev.period'),
       location: 'Belgium',
       type: 'Remote',
@@ -91,6 +94,7 @@ const Experience = () => {
       job: 'qa',
       title: t('experience.jobs.qa.title'),
       company: 'Telus International (Verint)',
+      logo: '/assets/companies/telus.webp',
       period: t('experience.jobs.qa.period'),
       location: 'El Salvador',
       type: 'On-site',
@@ -110,6 +114,7 @@ const Experience = () => {
       job: 'scheduler',
       title: t('experience.jobs.scheduler.title'),
       company: 'Telus International',
+      logo: '/assets/companies/telus.webp',
       period: t('experience.jobs.scheduler.period'),
       location: 'El Salvador',
       type: 'On-site',
@@ -152,9 +157,15 @@ const Experience = () => {
                 {/* Header: icono + título/empresa a la izquierda, fecha/tipo a la derecha */}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-lg ${accent.bg} border ${accent.border} flex items-center justify-center flex-shrink-0`}>
-                      <Icon className={accent.text} size={20} />
-                    </div>
+                    {exp.logo ? (
+                      <div className="w-12 h-12 rounded-lg bg-white border border-slate-700 p-2 flex items-center justify-center flex-shrink-0">
+                        <img src={exp.logo} alt={`${exp.company} logo`} className="w-full h-full object-contain" loading="lazy" />
+                      </div>
+                    ) : (
+                      <div className={`w-12 h-12 rounded-lg ${accent.bg} border ${accent.border} flex items-center justify-center flex-shrink-0`}>
+                        <Icon className={accent.text} size={20} />
+                      </div>
+                    )}
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg font-bold text-slate-50">{exp.title}</h3>
